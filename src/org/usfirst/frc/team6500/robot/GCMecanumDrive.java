@@ -15,20 +15,27 @@ public class GCMecanumDrive {
 		
 		double m_previous = 0.0;
 		boolean m_boost = false;
+		double m_throttle = 0.0;
 
 		static final double BOOST_RATE = 0.5;
 		
 
-		double adjustedSpeed(double new_speed) {
-			double speed = new_speed;
+		double adjustedSpeed(double vect, double throttle) {
+			
+			m_throttle = throttle;
+			
+			if (m_boost) {
+				m_throttle = throttle * BOOST_RATE;
+			}
+			
+			double speed = vect * throttle;
+			
+			// Limit the incremental change to prevent accidents
 			if (Math.abs(m_previous - speed) > GUARD)
 			{
 				speed = (speed + m_previous) / 2;
 			}
 			
-			if (m_boost) {
-				speed = speed * BOOST_RATE;
-			}
 						
 			m_previous = speed;
 			
@@ -40,7 +47,7 @@ public class GCMecanumDrive {
 		}
 		
 		double getSpeed() {
-			return m_previous; 
+			return m_throttle; 
 		}
 				
 	}
@@ -97,9 +104,9 @@ public class GCMecanumDrive {
 	public void move(double throttle, double x, double y , double z, double angle) {
 		m_throttle = throttle;
 		
-		drive.driveCartesian(	m_xspeed.adjustedSpeed(x), 
-								m_yspeed.adjustedSpeed(y), 
-								m_zspeed.adjustedSpeed(z),
+		drive.driveCartesian(	m_xspeed.adjustedSpeed(x, throttle), 
+								m_yspeed.adjustedSpeed(y, throttle), 
+								m_zspeed.adjustedSpeed(z, throttle),
 								angle);
 	
 	}
