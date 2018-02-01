@@ -73,6 +73,12 @@ public class GCMecanumDrive {
 	MecanumDrive drive;
 	
 	public GCMecanumDrive () {
+		
+		m_xspeed = new Speed();
+		m_yspeed = new Speed();
+		m_zspeed = new Speed();
+		
+		
 		//Initializing the motor controllers on the correct ports
 				fleft = new Spark(0);
 				bleft = new Spark(1);
