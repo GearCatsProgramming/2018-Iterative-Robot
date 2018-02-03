@@ -95,7 +95,7 @@ public class GCMecanumDrive {
 				
 				for (int i = 0; i < encoderinputs.length; i++) { encoderinputs[i] = new DigitalInput(i); }
 				
-				//Setting up a DifferentialDrive object to control the wheels easier
+				//Setting up a MecanumDrive object
 				m_drive = new MecanumDrive(fleft, bleft, fright, bright);
 				
 				//This is important?
@@ -121,7 +121,6 @@ public class GCMecanumDrive {
 		
 		m_xspeed.setBoost(m_rightboost);
 		m_yspeed.setBoost(m_rightboost);
-		m_zspeed.setBoost(m_rightboost);
 	}
 	
 

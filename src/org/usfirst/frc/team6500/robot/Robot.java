@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 	GCMecanumDrive drive;
 	
 	//Create an object for the controller based on the Joystick class (or XboxController)
-	Joystick controllerR, controllerL;
+	GCJoystick controllerR, controllerL;
 	
 	//Our gyroscope is a model ADXRS450, and there is a class for that so we make a gyro object with it
 	//ADXRS450_Gyro gyro;
