@@ -1,4 +1,4 @@
-package org.usfirst.frc.team6500.robot;
+package src.org.usfirst.frc.team6500.robot;
 
 public class Speed {
 	public static double previousSpeed = 0.0;

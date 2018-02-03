@@ -1,4 +1,4 @@
-package org.usfirst.frc.team6500.robot;
+package src.org.usfirst.frc.team6500.robot;
 
 public final class Ports {
 	public final static int DRIVE_FRONTLEFT = 0;
