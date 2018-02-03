@@ -26,15 +26,12 @@ public class Robot extends IterativeRobot {
 	//Our gyroscope is a model ADXRS450, and there is a class for that so we make a gyro object with it
 	//ADXRS450_Gyro gyro;
 	
-	Gyro gyro;
+	ADXRS450_Gyro gyro;
 	
 	//A variable that makes sure the robot doesn't try and run the autonomous portion of code more than once
 	boolean autonomous = true;
 	
 	
-	//If a control delay variable is not created, the joystick's input is read too fast
-	//and the driver cycles through options way too fast to control it.
-	int controldelay = 0;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -87,12 +84,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		
 		
-		//The if statement checks if button #12 on the controller is pressed and activates turbo
-		//if (controllerR.getRawButton(12)) {
-			//drive.driveCartesian(0.0, 1.0, 0.0);
-		//}else{
-			
-			drive.setBoost(controllerL.getTrigger(), controllerR.getTrigger());
+			//drive.setBoost(controllerL.getTrigger(), controllerR.getTrigger());
 			
 			drive.move(controllerR.getThrottle(), 
 					 	controllerR.getX(), 
@@ -103,8 +95,6 @@ public class Robot extends IterativeRobot {
 		
 		
 		SmartDashboard.putNumber("Speed Multiplier", drive.getMultiplier());
-		
-    //Decrement the controldelay
-		if (controldelay > 0) { controldelay = controldelay - 1; }
 	}
+		
 }

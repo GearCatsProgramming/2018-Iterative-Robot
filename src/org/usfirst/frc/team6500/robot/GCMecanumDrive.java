@@ -17,7 +17,7 @@ public class GCMecanumDrive {
 		boolean m_boost = false;
 		double m_throttle = 0.0;
 
-		static final double BOOST_RATE = 0.5;
+		static final double BOOST_RATE = 0.0;
 		
 
 		double adjustedSpeed(double vect, double throttle) {
@@ -59,9 +59,7 @@ public class GCMecanumDrive {
 	
 	Encoder flenc, blenc, frenc, brenc;
 	
-	Speed m_xspeed, m_yspeed, m_zspeed;
-	
-	double m_xspeedprevious, m_yspeedprevious, m_zspeedprevious;
+	Speed m_xspeed, m_yspeed;
 	
 	boolean m_nitro = false;
 	
@@ -70,13 +68,12 @@ public class GCMecanumDrive {
 	boolean m_leftboost, m_rightboost = false;
 
 	//Creating a RobotDrive object called drive so we can control the motors as a whole, not individually
-	MecanumDrive drive;
+	MecanumDrive m_drive;
 	
 	public GCMecanumDrive () {
 		
 		m_xspeed = new Speed();
-		m_yspeed = new Speed();
-		m_zspeed = new Speed();
+		m_yspeed = new Speed();		
 		
 		
 		//Initializing the motor controllers on the correct ports
@@ -99,10 +96,10 @@ public class GCMecanumDrive {
 				for (int i = 0; i < encoderinputs.length; i++) { encoderinputs[i] = new DigitalInput(i); }
 				
 				//Setting up a DifferentialDrive object to control the wheels easier
-				drive = new MecanumDrive(fleft, bleft, fright, bright);
+				m_drive = new MecanumDrive(fleft, bleft, fright, bright);
 				
 				//This is important?
-				drive.setSafetyEnabled(false);
+				m_drive.setSafetyEnabled(true);
 
 
 	}
@@ -110,9 +107,9 @@ public class GCMecanumDrive {
 	public void move(double throttle, double x, double y , double z, double angle) {
 		m_throttle = throttle;
 		
-		drive.driveCartesian(	m_xspeed.adjustedSpeed(x, throttle), 
+		m_drive.driveCartesian(	m_xspeed.adjustedSpeed(x, throttle), 
 								m_yspeed.adjustedSpeed(y, throttle), 
-								m_zspeed.adjustedSpeed(z, throttle),
+								z,
 								angle);
 	
 	}
@@ -138,6 +135,15 @@ public class GCMecanumDrive {
 	}
 	
 
+	public void testMotors() 
+	{
+		
+		
+		
+		
+		
+	}
+	
 	
 	
 }
