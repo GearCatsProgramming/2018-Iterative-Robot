@@ -21,7 +21,7 @@ public class Encoders {
 		flenc.setDistancePerPulse(1.25);
 		blenc.setDistancePerPulse(1.25);
 		frenc.setDistancePerPulse(1.25);
-		brenc.setDistancePerPulse(1.25);
+		brenc.setDistancePerPulse(1.25);//
 	}
 	
 	public double getAverageDistance()
