@@ -89,6 +89,8 @@ public class Robot extends IterativeRobot {
 			boost = 0.0;
 		}
 		
+		boost += multiplier;
+		
 		xspeed = Speed.calculateSpeed(DriveInput.getAxis(Ports.INPUT_AXIS_X), boost);
 		yspeed = Speed.calculateSpeed(DriveInput.getAxis(Ports.INPUT_AXIS_Y), boost);
 		zspeed = Speed.calculateSpeed(DriveInput.getAxis(Ports.INPUT_AXIS_Z), boost);
