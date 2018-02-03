@@ -18,10 +18,10 @@ public class Encoders {
 		frenc = new Encoder(encoderinputs[Ports.ENCODER_INPUT_FR_A], encoderinputs[Ports.ENCODER_INPUT_FR_A]);
 		brenc = new Encoder(encoderinputs[Ports.ENCODER_INPUT_RR_A], encoderinputs[Ports.ENCODER_INPUT_RR_A]);
 		
-		flenc.setDistancePerPulse(0.0);
-		blenc.setDistancePerPulse(0.0);
-		frenc.setDistancePerPulse(0.0);
-		brenc.setDistancePerPulse(0.0);
+		flenc.setDistancePerPulse(1.25);
+		blenc.setDistancePerPulse(1.25);
+		frenc.setDistancePerPulse(1.25);
+		brenc.setDistancePerPulse(1.25);
 	}
 	
 	public double getAverageDistance()
