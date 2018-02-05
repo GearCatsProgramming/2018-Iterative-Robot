@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 		DriveInput.initializeInput();
 		Gyro.intializeGyro();
 		
-		//CameraServer.getInstance().startAutomaticCapture();
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**
