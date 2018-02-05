@@ -1,4 +1,4 @@
-package src.org.usfirst.frc.team6500.robot;
+package org.usfirst.frc.team6500.robot;
 
 public class Speed {
 	public static double previousSpeed = 0.0;
@@ -7,8 +7,8 @@ public class Speed {
 	{
 		double calculated = raw;
 		
-		calculated *= Ports.SPEED_BASE;
-		calculated += transferNegation(calculated, boost);
+		calculated *= boost;
+		//calculated += transferNegation(calculated, boost);
 		
 		if (Math.abs(calculated - previousSpeed) > Ports.SPEED_DEADBAND)
 		{

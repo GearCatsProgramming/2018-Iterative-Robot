@@ -1,4 +1,4 @@
-package src.org.usfirst.frc.team6500.robot.systems;
+package org.usfirst.frc.team6500.robot.systems;
 
 import org.usfirst.frc.team6500.robot.Ports;
 
@@ -18,18 +18,18 @@ public class Encoders {
 		frenc = new Encoder(encoderinputs[Ports.ENCODER_INPUT_FR_A], encoderinputs[Ports.ENCODER_INPUT_FR_A]);
 		brenc = new Encoder(encoderinputs[Ports.ENCODER_INPUT_RR_A], encoderinputs[Ports.ENCODER_INPUT_RR_A]);
 		
-		flenc.setDistancePerPulse(1.25);
-		blenc.setDistancePerPulse(1.25);
-		frenc.setDistancePerPulse(1.25);
-		brenc.setDistancePerPulse(1.25);//
+		flenc.setDistancePerPulse(Ports.ENCODER_DISTANCE_PER_PULSE);
+		blenc.setDistancePerPulse(Ports.ENCODER_DISTANCE_PER_PULSE);
+		frenc.setDistancePerPulse(Ports.ENCODER_DISTANCE_PER_PULSE);
+		brenc.setDistancePerPulse(Ports.ENCODER_DISTANCE_PER_PULSE);
 	}
 	
-	public double getAverageDistance()
+	public static double getAverageDistance()
 	{
 		return (flenc.getDistance() + blenc.getDistance() + frenc.getDistance() + brenc.getDistance()) / 4.0;
 	}
 	
-	public double getDistance(int encoderId)
+	public static double getDistance(int encoderId)
 	{
 		switch (encoderId) {
 		case Ports.ENCODER_FRONTLEFT:

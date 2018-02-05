@@ -5,12 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package src.org.usfirst.frc.team6500.robot;
+package org.usfirst.frc.team6500.robot;
 
+import org.usfirst.frc.team6500.robot.auto.MyAutoClass;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
+import org.usfirst.frc.team6500.robot.systems.Vision;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -32,7 +34,7 @@ public class Robot extends IterativeRobot {
 		DriveInput.initializeInput();
 		Gyro.intializeGyro();
 		
-		CameraServer.getInstance().startAutomaticCapture();
+		//CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**
@@ -48,7 +50,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		
+		MyAutoClass.goForward();
 	}
 
 	/**
@@ -81,22 +83,33 @@ public class Robot extends IterativeRobot {
 			Mecanum.driveWheel(Ports.DRIVE_REARRIGHT);
 		}
 		
-		double multiplier = DriveInput.getThrottle();
+		if (DriveInput.getButton(2))
+		{
+			System.out.println(Vision.getContourCoordiantes());
+			System.out.println(Vision.getContourSize());
+		}
 		
-		if (DriveInput.getTrigger()) {
+		double multiplier = DriveInput.getThrottle() * Ports.SPEED_BASE;
+		
+		if (DriveInput.getTrigger())
+		{
 			boost = Ports.SPEED_BOOST_A;
 		}else{
 			boost = 0.0;
 		}
 		
-		boost += multiplier;
+		multiplier += boost;
 		
-		xspeed = Speed.calculateSpeed(DriveInput.getAxis(Ports.INPUT_AXIS_X), boost);
-		yspeed = Speed.calculateSpeed(DriveInput.getAxis(Ports.INPUT_AXIS_Y), boost);
-		zspeed = Speed.calculateSpeed(DriveInput.getAxis(Ports.INPUT_AXIS_Z), boost);
+		xspeed = DriveInput.getAxis(Ports.INPUT_AXIS_X);
+		yspeed = -DriveInput.getAxis(Ports.INPUT_AXIS_Y);
+		zspeed = DriveInput.getAxis(Ports.INPUT_AXIS_Z);
 		
-		Mecanum.driveRobot(xspeed, yspeed, zspeed, Gyro.getAngle());
+		Mecanum.driveRobot(yspeed, xspeed, zspeed, Gyro.getAngle());
 		
 		SmartDashboard.putNumber("Speed Multiplier", multiplier);
+		SmartDashboard.putNumber("y", DriveInput.getAxis(Ports.INPUT_AXIS_Y));
+		SmartDashboard.putNumber("x", DriveInput.getAxis(Ports.INPUT_AXIS_X));
+		SmartDashboard.putNumber("z", DriveInput.getAxis(Ports.INPUT_AXIS_Z));
+		SmartDashboard.putNumber("distance", Encoders.getDistance(Ports.ENCODER_FRONTLEFT));
 	}
 }

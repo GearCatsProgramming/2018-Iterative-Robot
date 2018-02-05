@@ -1,49 +1,54 @@
-package src.org.usfirst.frc.team6500.robot.systems;
+package org.usfirst.frc.team6500.robot.systems;
 
 import org.usfirst.frc.team6500.robot.Ports;
 
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 public class Mecanum {
-	static Spark fleft, bleft, fright, bright;
+	static Talon fleft, bleft, fright, bright;
 	
 	static MecanumDrive drive;
 	
 	public static void initializeMecanum()
 	{
-		fleft = new Spark(0);
-		bleft = new Spark(1);
-		fright = new Spark(2);
-		bright = new Spark(3);
+		fleft = new Talon(Ports.DRIVE_FRONTLEFT);
+		bleft = new Talon(Ports.DRIVE_REARLEFT);
+		fright = new Talon(Ports.DRIVE_FRONTRIGHT);
+		bright = new Talon(Ports.DRIVE_REARRIGHT);
 		
 		drive = new MecanumDrive(fleft, bleft, fright, bright);
 		
 		drive.setSafetyEnabled(false);
 	}
 	
-	public static void driveRobot(double xspeed, double yspeed, double zspeed, double gyroAngle)
+	public static void driveRobot(double yspeed, double xspeed, double zspeed, double gyroAngle)
 	{
-		drive.driveCartesian(xspeed, yspeed, zspeed, gyroAngle);
+		drive.driveCartesian(yspeed, xspeed, zspeed, gyroAngle);
 	}
 	
 	public static void driveWheel(int wheel)
 	{
 		if (wheel == Ports.DRIVE_FRONTLEFT)
 		{
-			fleft.set(0.75);
+			fleft.set(DriveInput.getThrottle());
 		}
 		else if (wheel == Ports.DRIVE_FRONTRIGHT)
 		{
-			fright.set(0.75);
+			fright.set(DriveInput.getThrottle());
 		}
 		else if (wheel == Ports.DRIVE_REARLEFT)
 		{
-			bleft.set(0.75);
+			bleft.set(DriveInput.getThrottle());
 		}
 		else if (wheel == Ports.DRIVE_REARRIGHT)
 		{
-			bright.set(0.75);
+			bright.set(DriveInput.getThrottle());
 		}
+	}
+	
+	public static void killMotors()
+	{
+		driveRobot(0, 0, 0, Gyro.getAngle());
 	}
 }
