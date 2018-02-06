@@ -1,6 +1,6 @@
 package org.usfirst.frc.team6500.robot.systems;
 
-import org.usfirst.frc.team6500.robot.Ports;
+import org.usfirst.frc.team6500.robot.Constants;
 
 import edu.wpi.first.wpilibj.Joystick;
 
@@ -30,7 +30,7 @@ public class DriveInput {
 		//1 minus our previous value.
 		multiplier = 1 - multiplier;
 		//Base speed multiplier
-		multiplier = multiplier * Ports.SPEED_BASE;
+		multiplier = multiplier * Constants.SPEED_BASE;
 		
 		return multiplier;
 	}
@@ -42,15 +42,15 @@ public class DriveInput {
 	
 	public static double getAxis(int axis)
 	{
-		if (axis == Ports.INPUT_AXIS_X)
+		if (axis == Constants.INPUT_AXIS_X)
 		{
 			return controllerR.getX();
 		}
-		else if (axis == Ports.INPUT_AXIS_Y)
+		else if (axis == Constants.INPUT_AXIS_Y)
 		{
 			return controllerR.getY();
 		}
-		else if (axis == Ports.INPUT_AXIS_Z)
+		else if (axis == Constants.INPUT_AXIS_Z)
 		{
 			return controllerR.getZ();
 		}

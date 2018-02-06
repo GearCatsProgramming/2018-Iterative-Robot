@@ -13,22 +13,35 @@ public class Vision {
 		tableServer = NetworkTableInstance.getDefault();
 		tableServer.startServer();
 		
+		//System.out.println(tableServer.isValid());
 		table = tableServer.getTable("/vision");
 	}
 	
-	public static int[] getContourCoordiantes()
+	public static int getContourX()
 	{
 		NetworkTableEntry xEntry = table.getEntry("x");
-		NetworkTableEntry yEntry = table.getEntry("y");
 		
-		return new int[] {(int) xEntry.getNumber(0), (int) yEntry.getNumber(0)};
+		return xEntry.getNumber(0).intValue();
 	}
 	
-	public static int[] getContourSize()
+	public static int getContourY()
+	{
+		NetworkTableEntry yEntry = table.getEntry("y");
+		
+		return yEntry.getNumber(0).intValue();
+	}
+	
+	public static int getContourWidth()
 	{
 		NetworkTableEntry widthEntry = table.getEntry("width");
+		
+		return widthEntry.getNumber(0).intValue();
+	}
+	
+	public static int getContourHeight()
+	{
 		NetworkTableEntry heightEntry = table.getEntry("height");
 		
-		return new int[] {(int) widthEntry.getNumber(0), (int) heightEntry.getNumber(0)};
+		return heightEntry.getNumber(0).intValue();
 	}
 }
