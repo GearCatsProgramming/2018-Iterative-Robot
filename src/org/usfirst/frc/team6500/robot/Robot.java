@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team6500.robot;
 
-import org.usfirst.frc.team6500.robot.auto.MyAutoClass;
+import org.usfirst.frc.team6500.robot.auto.PracticeAuto;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Gyro;
@@ -50,7 +50,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		MyAutoClass.goForward();
+		PracticeAuto.goForward();
 	}
 
 	/**
