@@ -1,5 +1,10 @@
 package org.usfirst.frc.team6500.robot;
 
+/**A collection of constants for the robot to use
+ * 
+ * @author Thomas Dearth
+ *
+ */
 public final class Ports {
 	public final static int DRIVE_FRONTLEFT = 2;
 	public final static int DRIVE_FRONTRIGHT = 3;
@@ -39,6 +44,6 @@ public final class Ports {
 	public final static int INPUT_AXIS_Y = 1;
 	public final static int INPUT_AXIS_Z = 2;
 	
-	public final static int Climbing_Motor1 = 0;
-	public final static int Climbing_Motor2 = 0;
+	public final static int CLIMBING_MOTOR1 = 0;
+	public final static int CLIMBING_MOTOR2 = 0;
 }

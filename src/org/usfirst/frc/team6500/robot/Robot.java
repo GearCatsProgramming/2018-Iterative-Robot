@@ -7,14 +7,13 @@
 
 package org.usfirst.frc.team6500.robot;
 
-import org.usfirst.frc.team6500.robot.auto.MyAutoClass;
+import org.usfirst.frc.team6500.robot.auto.PracticeAuto;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import org.usfirst.frc.team6500.robot.systems.Vision;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -50,7 +49,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		MyAutoClass.goForward();
+		PracticeAuto.goForward();
 	}
 
 	/**
