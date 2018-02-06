@@ -38,4 +38,7 @@ public final class Constants {
 	public final static int INPUT_AXIS_X = 0;
 	public final static int INPUT_AXIS_Y = 1;
 	public final static int INPUT_AXIS_Z = 2;
+	
+	public final static int Climbing_Motor1 = 0;
+	public final static int Climbing_Motor2 = 0;
 }
