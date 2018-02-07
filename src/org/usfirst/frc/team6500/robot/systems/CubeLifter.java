@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Spark;
  * @author Thomas Dearth
  */
 //FIXME: Has yet to be tested. Be cautious.
-public class Climber {
+public class CubeLifter {
 	private static Spark left, right;
 	/**
 	 * Is null until the robot has been initialized. Once it is, it's safe for usage.
