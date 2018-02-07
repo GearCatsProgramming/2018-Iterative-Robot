@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team6500.robot;
 
-import org.usfirst.frc.team6500.robot.auto.MyAutoClass;
+import org.usfirst.frc.team6500.robot.auto.PracticeAuto;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Gyro;
@@ -53,7 +53,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+<<<<<<< HEAD
 		MyAutoClass.testEncoders();
+=======
+		PracticeAuto.goForward();
+>>>>>>> 268c52646fc53c7cfa685ab1090fa225b2419acd
 	}
 
 	/**

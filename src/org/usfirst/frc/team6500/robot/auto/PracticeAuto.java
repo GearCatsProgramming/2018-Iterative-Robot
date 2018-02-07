@@ -4,11 +4,11 @@ import org.usfirst.frc.team6500.robot.systems.Mecanum;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class MyAutoClass {
+public class PracticeAuto {
 	public static void goForward()
 	{
-		Mecanum.driveRobot(-0.5, 0.0, 0.0);
-		Timer.delay(1.0);
+		Mecanum.driveRobot(0.5, 0.0, 0.0);
+		Timer.delay(3.0);
 		Mecanum.killMotors();
 	}
 	
