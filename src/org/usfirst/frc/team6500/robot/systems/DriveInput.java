@@ -42,20 +42,22 @@ public class DriveInput {
 	
 	public static double getAxis(int axis)
 	{
+		double retval = 0;
 		if (axis == Constants.INPUT_AXIS_X)
 		{
-			return controllerR.getX();
+			retval = controllerR.getX();
 		}
 		else if (axis == Constants.INPUT_AXIS_Y)
 		{
-			return controllerR.getY();
+			retval = controllerR.getY();
 		}
 		else if (axis == Constants.INPUT_AXIS_Z)
 		{
-			return controllerR.getZ();
+			retval = controllerR.getZ();
 		}
 		
-		return 0.0;
+		if (Math.abs(retval) < Constants.SPEED_DEADBAND) { return 0.0; }
+		else { return retval; }
 	}
 	
 	public static boolean getButton(int buttonid)

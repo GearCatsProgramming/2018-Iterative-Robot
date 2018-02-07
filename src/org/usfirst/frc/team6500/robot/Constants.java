@@ -27,7 +27,7 @@ public final class Constants {
 	public final static double SPEED_BOOST_A = 0.05;
 	public final static double SPEED_BOOST_B = 0.10;
 	public final static double SPEED_BOOST_C = 0.15;
-	public final static double SPEED_DEADBAND = 0.1;
+	public final static double SPEED_DEADBAND = 0.2;
 	
 	
 	public final static int ENCODER_FRONTLEFT = 0;

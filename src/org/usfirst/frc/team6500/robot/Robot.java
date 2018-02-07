@@ -13,7 +13,9 @@ import org.usfirst.frc.team6500.robot.systems.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import org.usfirst.frc.team6500.robot.systems.Vision;
+import org.usfirst.frc.team6500.robot.tasks.Rotate180;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,12 +31,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		Encoders.initializeEncoders();
-		Mecanum.initializeMecanum();
 		DriveInput.initializeInput();
 		Gyro.intializeGyro();
 		Vision.initializeVision();
 		
-		//CameraServer.getInstance().startAutomaticCapture();
+		Mecanum.initializeMecanum();
+		
+		CameraServer.getInstance().startAutomaticCapture();
 	}
 
 	/**
@@ -50,7 +53,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		MyAutoClass.goForward();
+		MyAutoClass.testEncoders();
 	}
 
 	/**
@@ -58,7 +61,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		
 	}
 
 	/**
@@ -66,21 +68,26 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		boolean testing = false;
 		if (DriveInput.getButton(7))
 		{
-			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT);
+			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT, DriveInput.getThrottle());
+			testing = true;
 		}
 		if (DriveInput.getButton(8))
 		{
-			Mecanum.driveWheel(Constants.DRIVE_FRONTRIGHT);
+			Mecanum.driveWheel(Constants.DRIVE_FRONTRIGHT, DriveInput.getThrottle());
+			testing = true;
 		}
 		if (DriveInput.getButton(9))
 		{
-			Mecanum.driveWheel(Constants.DRIVE_REARLEFT);
+			Mecanum.driveWheel(Constants.DRIVE_REARLEFT, DriveInput.getThrottle());
+			testing = true;
 		}
 		if (DriveInput.getButton(10))
 		{
-			Mecanum.driveWheel(Constants.DRIVE_REARRIGHT);
+			Mecanum.driveWheel(Constants.DRIVE_REARRIGHT, DriveInput.getThrottle());
+			testing = true;
 		}
 		
 		if (DriveInput.getButton(2))
@@ -93,7 +100,7 @@ public class Robot extends IterativeRobot {
 		
 		if (DriveInput.getButton(3))
 		{
-			
+			(new Rotate180()).start();
 		}
 		
 		
@@ -109,12 +116,12 @@ public class Robot extends IterativeRobot {
 		yspeed = -DriveInput.getAxis(Constants.INPUT_AXIS_Y) * multiplier;
 		zspeed = DriveInput.getAxis(Constants.INPUT_AXIS_Z) * multiplier;
 		
-		Mecanum.driveRobot(xspeed, yspeed, zspeed);
+		if (!testing) { Mecanum.driveRobot(xspeed, yspeed, zspeed); }
 		
 		SmartDashboard.putNumber("Speed Multiplier", multiplier);
-		SmartDashboard.putNumber("y", DriveInput.getAxis(Constants.INPUT_AXIS_Y));
-		SmartDashboard.putNumber("x", DriveInput.getAxis(Constants.INPUT_AXIS_X));
-		SmartDashboard.putNumber("z", DriveInput.getAxis(Constants.INPUT_AXIS_Z));
-		SmartDashboard.putNumber("distance", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
+		SmartDashboard.putNumber("FL-Encoder", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
+		SmartDashboard.putNumber("FR-Encoder", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
+		SmartDashboard.putNumber("RL-Encoder", Encoders.getDistance(Constants.ENCODER_REARLEFT));
+		SmartDashboard.putNumber("RR-Encoder", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
 	}
 }

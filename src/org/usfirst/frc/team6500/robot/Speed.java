@@ -18,9 +18,4 @@ public class Speed {
 		previousSpeed = calculated;
 		return calculated;
 	}
-
-	private static double transferNegation(double original, double target) {
-		if (original != Math.abs(original)) { return -target; }
-		return target;
-	}
 }

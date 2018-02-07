@@ -11,4 +11,8 @@ public class MyAutoClass {
 		Timer.delay(1.0);
 		Mecanum.killMotors();
 	}
+	
+	public static void testEncoders() {
+		EncoderDistance.getSideRight(30, .5);
+	}
 }

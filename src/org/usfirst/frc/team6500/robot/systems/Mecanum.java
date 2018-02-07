@@ -18,7 +18,7 @@ public class Mecanum {
 		bright = new Talon(Constants.DRIVE_REARRIGHT);
 		
 		drive = new MecanumDrive(fleft, bleft, fright, bright);
-		
+		 
 		drive.setSafetyEnabled(false);
 	}
 	
@@ -27,23 +27,23 @@ public class Mecanum {
 		drive.driveCartesian(yspeed, xspeed, zspeed);
 	}
 	
-	public static void driveWheel(int wheel)
+	public static void driveWheel(int wheel, double speed)
 	{
 		if (wheel == Constants.DRIVE_FRONTLEFT)
 		{
-			fleft.set(DriveInput.getThrottle());
+			fleft.set(speed);
 		}
 		else if (wheel == Constants.DRIVE_FRONTRIGHT)
 		{
-			fright.set(DriveInput.getThrottle());
+			fright.set(speed);
 		}
 		else if (wheel == Constants.DRIVE_REARLEFT)
 		{
-			bleft.set(DriveInput.getThrottle());
+			bleft.set(speed);
 		}
 		else if (wheel == Constants.DRIVE_REARRIGHT)
 		{
-			bright.set(DriveInput.getThrottle());
+			bright.set(speed);
 		}
 	}
 	
