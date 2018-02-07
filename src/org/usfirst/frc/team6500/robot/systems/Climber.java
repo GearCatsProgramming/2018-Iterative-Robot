@@ -1,6 +1,6 @@
 package org.usfirst.frc.team6500.robot.systems;
 
-import org.usfirst.frc.team6500.robot.Ports;
+import org.usfirst.frc.team6500.robot.Constants;
 
 import edu.wpi.first.wpilibj.Spark;
 /**The motors used for climbing.
@@ -14,8 +14,8 @@ public class Climber {
 	 * @author Thomas Dearth
 	 */
 	public static void initializeClimbMotor(){
-		left = new Spark(Ports.CLIMBING_MOTOR1);
-		right = new Spark(Ports.CLIMBING_MOTOR2);
+		left = new Spark(Constants.CLIMBING_MOTOR1);
+		right = new Spark(Constants.CLIMBING_MOTOR2);
 		right.setInverted(true);
 		
 		//IDK

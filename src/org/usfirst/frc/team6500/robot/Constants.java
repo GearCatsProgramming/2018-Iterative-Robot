@@ -1,15 +1,10 @@
 package org.usfirst.frc.team6500.robot;
 
-/**A collection of constants for the robot to use
- * 
- * @author Thomas Dearth
- *
- */
-public final class Ports {
-	public final static int DRIVE_FRONTLEFT = 2;
-	public final static int DRIVE_FRONTRIGHT = 3;
+public final class Constants {
+	public final static int DRIVE_FRONTLEFT = 3;
+	public final static int DRIVE_FRONTRIGHT = 1;
 	public final static int DRIVE_REARLEFT = 0;
-	public final static int DRIVE_REARRIGHT = 1;
+	public final static int DRIVE_REARRIGHT = 2;
 	
 	
 	public final static int ENCODER_INPUT_FL_A = 0;

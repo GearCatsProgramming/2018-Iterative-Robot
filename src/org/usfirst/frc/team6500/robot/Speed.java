@@ -10,7 +10,7 @@ public class Speed {
 		calculated *= boost;
 		//calculated += transferNegation(calculated, boost);
 		
-		if (Math.abs(calculated - previousSpeed) > Ports.SPEED_DEADBAND)
+		if (Math.abs(calculated - previousSpeed) > Constants.SPEED_DEADBAND)
 		{
 			calculated = (calculated + previousSpeed) / 2;
 		}

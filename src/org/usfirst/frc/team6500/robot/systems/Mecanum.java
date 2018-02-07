@@ -1,6 +1,6 @@
 package org.usfirst.frc.team6500.robot.systems;
 
-import org.usfirst.frc.team6500.robot.Ports;
+import org.usfirst.frc.team6500.robot.Constants;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -17,36 +17,36 @@ public class Mecanum {
 	
 	public static void initializeMecanum()
 	{
-		fleft = new Talon(Ports.DRIVE_FRONTLEFT);
-		bleft = new Talon(Ports.DRIVE_REARLEFT);
-		fright = new Talon(Ports.DRIVE_FRONTRIGHT);
-		bright = new Talon(Ports.DRIVE_REARRIGHT);
+		fleft = new Talon(Constants.DRIVE_FRONTLEFT);
+		bleft = new Talon(Constants.DRIVE_REARLEFT);
+		fright = new Talon(Constants.DRIVE_FRONTRIGHT);
+		bright = new Talon(Constants.DRIVE_REARRIGHT);
 		
 		drive = new MecanumDrive(fleft, bleft, fright, bright);
 		
 		drive.setSafetyEnabled(false);
 	}
 	
-	public static void driveRobot(double yspeed, double xspeed, double zspeed, double gyroAngle)
+	public static void driveRobot(double yspeed, double xspeed, double zspeed)
 	{
-		drive.driveCartesian(yspeed, xspeed, zspeed, gyroAngle);
+		drive.driveCartesian(yspeed, xspeed, zspeed);
 	}
 	
 	public static void driveWheel(int wheel)
 	{
-		if (wheel == Ports.DRIVE_FRONTLEFT)
+		if (wheel == Constants.DRIVE_FRONTLEFT)
 		{
 			fleft.set(DriveInput.getThrottle());
 		}
-		else if (wheel == Ports.DRIVE_FRONTRIGHT)
+		else if (wheel == Constants.DRIVE_FRONTRIGHT)
 		{
 			fright.set(DriveInput.getThrottle());
 		}
-		else if (wheel == Ports.DRIVE_REARLEFT)
+		else if (wheel == Constants.DRIVE_REARLEFT)
 		{
 			bleft.set(DriveInput.getThrottle());
 		}
-		else if (wheel == Ports.DRIVE_REARRIGHT)
+		else if (wheel == Constants.DRIVE_REARRIGHT)
 		{
 			bright.set(DriveInput.getThrottle());
 		}
@@ -54,6 +54,6 @@ public class Mecanum {
 	
 	public static void killMotors()
 	{
-		driveRobot(0, 0, 0, Gyro.getAngle());
+		driveRobot(0, 0, 0);
 	}
 }
