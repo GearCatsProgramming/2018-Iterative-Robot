@@ -41,4 +41,8 @@ public final class Constants {
 	
 	public final static int CLIMBING_MOTOR1 = 0;
 	public final static int CLIMBING_MOTOR2 = 0;
+	
+	public final static int GRABBER_LEFT = 0;
+	public final static int GRABBER_RIGHT = 0;
+	
 }

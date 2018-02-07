@@ -10,6 +10,7 @@ package org.usfirst.frc.team6500.robot;
 import org.usfirst.frc.team6500.robot.auto.PracticeAuto;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Encoders;
+import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import org.usfirst.frc.team6500.robot.systems.Vision;
@@ -33,6 +34,7 @@ public class Robot extends IterativeRobot {
 		DriveInput.initializeInput();
 		Gyro.intializeGyro();
 		Vision.initializeVision();
+		Grabber.initializeGrabber();
 		
 		//CameraServer.getInstance().startAutomaticCapture();
 	}
