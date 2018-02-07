@@ -11,7 +11,7 @@ public class DriveInput {
 	public static void initializeInput()
 	{
 		controllerR = new Joystick(0);
-		//controllerL = new Joystick(1);
+		controllerL = new Joystick(1);
 	}
 	
 	public static double getThrottle()
