@@ -1,5 +1,8 @@
 package org.usfirst.frc.team6500.robot;
 
+/**Contains constants which are used across classes, designed to be configurable.
+ *
+ */
 public final class Constants {
 	public final static int DRIVE_FRONTLEFT = 3;
 	public final static int DRIVE_FRONTRIGHT = 1;
@@ -7,17 +10,17 @@ public final class Constants {
 	public final static int DRIVE_REARRIGHT = 2;
 	
 	
-	public final static int ENCODER_INPUT_FL_A = 0;
-	public final static int ENCODER_INPUT_FL_B = 1;
+	public final static int ENCODER_INPUT_FL_A = 6;
+	public final static int ENCODER_INPUT_FL_B = 7;
 	
-	public final static int ENCODER_INPUT_FR_A = 2;
-	public final static int ENCODER_INPUT_FR_B = 3;
+	public final static int ENCODER_INPUT_FR_A = 4;
+	public final static int ENCODER_INPUT_FR_B = 5;
 	
-	public final static int ENCODER_INPUT_RL_A = 4;
-	public final static int ENCODER_INPUT_RL_B = 5;
+	public final static int ENCODER_INPUT_RL_A = 0;
+	public final static int ENCODER_INPUT_RL_B = 1;
 	
-	public final static int ENCODER_INPUT_RR_A = 6;
-	public final static int ENCODER_INPUT_RR_B = 7;
+	public final static int ENCODER_INPUT_RR_A = 2;
+	public final static int ENCODER_INPUT_RR_B = 3;
 	
 	
 	public final static double ENCODER_DISTANCE_PER_PULSE = 1.25;
@@ -27,7 +30,7 @@ public final class Constants {
 	public final static double SPEED_BOOST_A = 0.05;
 	public final static double SPEED_BOOST_B = 0.10;
 	public final static double SPEED_BOOST_C = 0.15;
-	public final static double SPEED_DEADBAND = 0.2;
+	public final static double SPEED_DEADBAND = 0.1;
 	
 	
 	public final static int ENCODER_FRONTLEFT = 0;

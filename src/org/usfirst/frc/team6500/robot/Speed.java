@@ -13,9 +13,17 @@ public class Speed {
 		if (Math.abs(calculated - previousSpeed) > Constants.SPEED_DEADBAND)
 		{
 			calculated = (calculated + previousSpeed) / 2;
+		} else {
+			calculated = 0;
 		}
 		
+		System.out.println("The previousSpeed is " + previousSpeed);
 		previousSpeed = calculated;
 		return calculated;
+	}
+
+	private static double transferNegation(double original, double target) {
+		if (original != Math.abs(original)) { return -target; }
+		return target;
 	}
 }

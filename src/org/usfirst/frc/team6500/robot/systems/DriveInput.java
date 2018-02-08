@@ -4,23 +4,35 @@ import org.usfirst.frc.team6500.robot.Constants;
 
 import edu.wpi.first.wpilibj.Joystick;
 
+/**A class used for controlling the joysticks and receiving input. Used initializeInput() before anything else is done.
+ *@author Kyle Miller
+ */
 public class DriveInput {
 	//Create an object for the controller based on the Joystick class (or XboxController)
-	static Joystick controllerR, controllerL;
+	 public static Joystick controllerR, controllerL;
 	
+	 /**Call this method to initalize the controllers. Must be called before anything else in this class is used.
+	  * @author Kyle Miller
+	  * @author Thomas Dearth
+	  */
 	public static void initializeInput()
 	{
 		controllerR = new Joystick(0);
-		//controllerL = new Joystick(1);
+		controllerL = new Joystick(1);
 	}
 	
-	public static double getThrottle()
+	/**Calculates the multiplier for the wheel by the position of the throttle
+	 * @author Kyle Miller
+	 * @param joystick The joystick to detect from
+	 * @return The throttle of the wheel
+	 */
+	public static double getThrottle(Joystick joystick)
 	{
 		//Calculate the speed multiplier by the position of the throttle
 		//However, the value returned by the getThrottle function ranges
 		//from -1 to 1, and we need a range of 0 to 1, so we add 1 to
 		//make the range 0 to 2
-		double multiplier = controllerR.getThrottle() + 1;
+		double multiplier = joystick.getThrottle() + 1;
 		//Then we divide by 2 to get the correct range of 0 to 1
 		multiplier = multiplier / 2;
 		//The thing is, the value returned by getThrottle conflicts with
@@ -35,33 +47,48 @@ public class DriveInput {
 		return multiplier;
 	}
 
-	public static boolean getTrigger()
+	/**Detects whether the trigger on joystick is pressed or not
+	 * @author Kyle Miller
+	 * @param joystick The joystick used
+	 * @return True if the trigger is pressed; false otherwise
+	 */
+	public static boolean getTrigger(Joystick joystick)
 	{
-		return controllerR.getTrigger();
+		return joystick.getTrigger();
 	}
 	
-	public static double getAxis(int axis)
+	/**Gets the direction the joystick is pushed in on axis
+	 * @author Kyle Miller
+	 * @param axis The axis being measured; use Constants.INPUT_AXIS variables
+	 * @param joystick The joystick being used
+	 * @return A value from -1 to 1 on the requested axis
+	 */
+	public static double getAxis(int axis, Joystick joystick)
 	{
-		double retval = 0;
 		if (axis == Constants.INPUT_AXIS_X)
 		{
-			retval = controllerR.getX();
+			return joystick.getX();
 		}
 		else if (axis == Constants.INPUT_AXIS_Y)
 		{
-			retval = controllerR.getY();
+			return joystick.getY();
 		}
 		else if (axis == Constants.INPUT_AXIS_Z)
 		{
-			retval = controllerR.getZ();
+			return joystick.getZ();
 		}
 		
-		if (Math.abs(retval) < Constants.SPEED_DEADBAND) { return 0.0; }
-		else { return retval; }
+		return 0.0;
 	}
 	
-	public static boolean getButton(int buttonid)
+	/**Returns whether the button is pressed or not
+	 * @author Kyle Miller
+	 * @param buttonid The button being pressed; check the joystick for the ID
+	 * @param joystick The joystick being checked
+	 * @return True if the button is pressed
+	 */
+	public static boolean getButton(int buttonid, Joystick joystick)
 	{
-		return controllerR.getRawButton(buttonid);
+		return joystick.getRawButton(buttonid);
 	}
 }

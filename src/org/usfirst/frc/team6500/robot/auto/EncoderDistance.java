@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6500.robot.auto;
 import org.usfirst.frc.team6500.robot.Constants;
 import org.usfirst.frc.team6500.robot.systems.Encoders;
+import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 //The code is base off as soon as ONE of the encoders reaching the intended distant inputted. However, if this proves inconsistent
 //then one wheel can be made the leading wheel to base the distance off of which will prove more consistent.
@@ -41,7 +42,7 @@ public class EncoderDistance {
 			Mecanum.driveWheel(Constants.DRIVE_REARRIGHT, speed);
 		}
 	}
-	
+
 	public static void rotateRight02(double distance, double speed){
 		while((Encoders.getDistance(Constants.DRIVE_FRONTRIGHT) <= distance) && (Encoders.getDistance(Constants.DRIVE_REARLEFT) <= distance)){
 			Mecanum.driveWheel(Constants.DRIVE_FRONTRIGHT, speed);
@@ -62,7 +63,5 @@ public class EncoderDistance {
 			Mecanum.driveWheel(Constants.DRIVE_REARLEFT, speed);
 		}
 	}
-	
-
 }
 
