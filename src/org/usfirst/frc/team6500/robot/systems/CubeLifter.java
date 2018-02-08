@@ -3,7 +3,7 @@ package org.usfirst.frc.team6500.robot.systems;
 import org.usfirst.frc.team6500.robot.Constants;
 
 import edu.wpi.first.wpilibj.Spark;
-/**The motors used for climbing.
+/**The motors used for climbing. Used initializeClimbMotor() before anything else.
  * @author Thomas Dearth
  */
 //FIXME: Has yet to be tested. Be cautious.

@@ -1,5 +1,8 @@
 package org.usfirst.frc.team6500.robot;
 
+/**Contains constants which are used across classes, designed to be configurable.
+ *
+ */
 public final class Constants {
 	public final static int DRIVE_FRONTLEFT = 3;
 	public final static int DRIVE_FRONTRIGHT = 1;

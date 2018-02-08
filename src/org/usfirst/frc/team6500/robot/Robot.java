@@ -103,7 +103,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		
-		double multiplier = DriveInput.getThrottle(DriveInput.controllerL);
+		double multiplier = DriveInput.getThrottle(DriveInput.controllerR);
 		if (!DriveInput.getTrigger(DriveInput.controllerR))
 		{
 			multiplier *= Constants.SPEED_BASE;
@@ -121,6 +121,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("y", DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR));
 		SmartDashboard.putNumber("x", DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR));
 		SmartDashboard.putNumber("z", DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR));
-		SmartDashboard.putNumber("distance", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
+		SmartDashboard.putNumber("distance A", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
+		SmartDashboard.putNumber("distance B", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
 	}
 }
