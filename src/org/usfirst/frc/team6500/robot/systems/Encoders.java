@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Encoder;
  */
 public class Encoders {
 	static DigitalInput[] encoderinputs = new DigitalInput[8];
-	static Encoder flenc, blenc, frenc, brenc;
+	public static Encoder flenc, blenc, frenc, brenc;
 	
 	/**Prepares encoders for use. Use this before any other methods from this class.
 	 * @author Kyle Miller
@@ -28,6 +28,9 @@ public class Encoders {
 		blenc.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
 		frenc.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
 		brenc.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
+		
+		frenc.setReverseDirection(true);
+		brenc.setReverseDirection(true);
 	}
 	
 	/**Gets the average distance from each encoder
@@ -49,12 +52,17 @@ public class Encoders {
 		case Constants.ENCODER_FRONTLEFT:
 			return flenc.getDistance();
 		case Constants.ENCODER_FRONTRIGHT:
-			return blenc.getDistance();
-		case Constants.ENCODER_REARLEFT:
 			return frenc.getDistance();
+		case Constants.ENCODER_REARLEFT:
+			return blenc.getDistance();
 		case Constants.ENCODER_REARRIGHT:
 			return brenc.getDistance();
 		}
 		return 0.0;
+	}
+	
+	//TODO: Add Javadoc
+	public static void resetEncoder(Encoder encoder) {
+		 encoder.reset();
 	}
 }

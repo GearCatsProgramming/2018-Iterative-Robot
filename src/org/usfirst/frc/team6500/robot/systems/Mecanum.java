@@ -36,9 +36,9 @@ public class Mecanum {
 	
 	/**Sets the robot's speed to match the parameters. When called periodically, controls speed accurately
 	 * @author Kyle Miller
-	 * @param yspeed
-	 * @param xspeed
-	 * @param zspeed
+	 * @param yspeed The speed side to side (right is positive)
+	 * @param xspeed The speed forward and backward (forward is positive)
+	 * @param zspeed The rotation of the robot (clockwise is positive)
 	 */
 	public static void driveRobot(double yspeed, double xspeed, double zspeed)
 	{
@@ -48,24 +48,25 @@ public class Mecanum {
 	/**Causes an individual wheel to move
 	 * @author Kyle Miller? May be Michael Navia
 	 * @param wheel The wheel to be rotated. Found in Constants.DRIVE_
+	 * @param speed 
 	 */
-	public static void driveWheel(int wheel)
+	public static void driveWheel(int wheel, double speed)
 	{
 		if (wheel == Constants.DRIVE_FRONTLEFT)
 		{
-			fleft.set(DriveInput.getThrottle(DriveInput.controllerR));
+			fleft.set(speed);
 		}
 		else if (wheel == Constants.DRIVE_FRONTRIGHT)
 		{
-			fright.set(DriveInput.getThrottle(DriveInput.controllerR));
+			fright.set(speed);
 		}
 		else if (wheel == Constants.DRIVE_REARLEFT)
 		{
-			bleft.set(DriveInput.getThrottle(DriveInput.controllerR));
+			bleft.set(speed);
 		}
 		else if (wheel == Constants.DRIVE_REARRIGHT)
 		{
-			bright.set(DriveInput.getThrottle(DriveInput.controllerR));
+			bright.set(speed);
 		}
 	}
 	
