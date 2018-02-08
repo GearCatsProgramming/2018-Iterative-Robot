@@ -36,19 +36,19 @@ public class Mecanum {
 	{
 		if (wheel == Constants.DRIVE_FRONTLEFT)
 		{
-			fleft.set(DriveInput.getThrottle());
+			fleft.set(DriveInput.getThrottle(DriveInput.controllerR));
 		}
 		else if (wheel == Constants.DRIVE_FRONTRIGHT)
 		{
-			fright.set(DriveInput.getThrottle());
+			fright.set(DriveInput.getThrottle(DriveInput.controllerR));
 		}
 		else if (wheel == Constants.DRIVE_REARLEFT)
 		{
-			bleft.set(DriveInput.getThrottle());
+			bleft.set(DriveInput.getThrottle(DriveInput.controllerR));
 		}
 		else if (wheel == Constants.DRIVE_REARRIGHT)
 		{
-			bright.set(DriveInput.getThrottle());
+			bright.set(DriveInput.getThrottle(DriveInput.controllerR));
 		}
 	}
 	
