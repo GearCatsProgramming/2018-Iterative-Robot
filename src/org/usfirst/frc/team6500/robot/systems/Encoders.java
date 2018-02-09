@@ -20,9 +20,9 @@ public class Encoders {
 		for (int i = 0; i < encoderinputs.length; i++) { encoderinputs[i] = new DigitalInput(i); }
 		
 		flenc = new Encoder(encoderinputs[Constants.ENCODER_INPUT_FL_A], encoderinputs[Constants.ENCODER_INPUT_FL_B]);
-		blenc = new Encoder(encoderinputs[Constants.ENCODER_INPUT_RL_A], encoderinputs[Constants.ENCODER_INPUT_RL_A]);
-		frenc = new Encoder(encoderinputs[Constants.ENCODER_INPUT_FR_A], encoderinputs[Constants.ENCODER_INPUT_FR_A]);
-		brenc = new Encoder(encoderinputs[Constants.ENCODER_INPUT_RR_A], encoderinputs[Constants.ENCODER_INPUT_RR_A]);
+		blenc = new Encoder(encoderinputs[Constants.ENCODER_INPUT_RL_A], encoderinputs[Constants.ENCODER_INPUT_RL_B]);
+		frenc = new Encoder(encoderinputs[Constants.ENCODER_INPUT_FR_A], encoderinputs[Constants.ENCODER_INPUT_FR_B]);
+		brenc = new Encoder(encoderinputs[Constants.ENCODER_INPUT_RR_A], encoderinputs[Constants.ENCODER_INPUT_RR_B]);
 		
 		flenc.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
 		blenc.setDistancePerPulse(Constants.ENCODER_DISTANCE_PER_PULSE);
@@ -31,6 +31,7 @@ public class Encoders {
 		
 		frenc.setReverseDirection(true);
 		brenc.setReverseDirection(true);
+		blenc.setReverseDirection(true);
 	}
 	
 	/**Gets the average distance from each encoder
@@ -65,7 +66,27 @@ public class Encoders {
 	 * @author Thomas Dearth
 	 * @param encoder The encoder to reset
 	 */
-	public static void resetEncoder(Encoder encoder) {
-		 encoder.reset();
+	public static void resetEncoder(int encoderId) {
+		 switch (encoderId) {
+		case Constants.ENCODER_FRONTLEFT:
+			return flenc.reset();
+		case Constants.ENCODER_FRONTRIGHT:
+			return frenc.reset();
+		case Constants.ENCODER_REARLEFT:
+			return blenc.reset();
+		case Constants.ENCODER_REARRIGHT:
+			return brenc.reset();
+		}
+		return 0.0;
+	}
+	
+	/** Resets all of the distances traveled by the encoders
+	 * 
+	 */
+	public static void resetAllEncoders() {
+		resetEncoder(Constants.ENCODER_FRONTLEFT);
+		resetEncoder(Constants.ENCODER_FRONTRIGHT);
+		resetEncoder(Constants.ENCODER_REARLEFT);
+		resetEncoder(Constants.ENCODER_REARRIGHT);
 	}
 }
