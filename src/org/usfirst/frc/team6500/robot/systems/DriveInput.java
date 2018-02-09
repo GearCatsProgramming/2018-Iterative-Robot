@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class DriveInput {
 	//Create an object for the controller based on the Joystick class (or XboxController)
-	 public static Joystick controllerR, controllerL;
+	 public static Joystick controllerR;
+	public static Joystick controllerL;
 	
 	 /**Call this method to initalize the controllers. Must be called before anything else in this class is used.
 	  * @author Kyle Miller

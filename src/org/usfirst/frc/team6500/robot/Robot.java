@@ -73,27 +73,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		if (DriveInput.getButton(7, DriveInput.controllerR))
-		{
-			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT, DriveInput.getThrottle(DriveInput.controllerR));
-		}
-		if (DriveInput.getButton(8, DriveInput.controllerR))
-		{
-			Mecanum.driveWheel(Constants.DRIVE_FRONTRIGHT, DriveInput.getThrottle(DriveInput.controllerR));
-		}
-		if (DriveInput.getButton(9, DriveInput.controllerR))
-		{
-			Mecanum.driveWheel(Constants.DRIVE_REARLEFT, DriveInput.getThrottle(DriveInput.controllerR));
-		}
-		if (DriveInput.getButton(10, DriveInput.controllerR))
-		{
-			Mecanum.driveWheel(Constants.DRIVE_REARRIGHT, DriveInput.getThrottle(DriveInput.controllerR));
-		}
 		if(DriveInput.getButton(11, DriveInput.controllerR)) {
-			Encoders.resetEncoder(Encoders.flenc);
-			Encoders.resetEncoder(Encoders.frenc);
+			Encoders.resetEncoder(Constants.ENCODER_FRONTLEFT);
+			Encoders.resetEncoder(Constants.ENCODER_FRONTRIGHT);
 		}
-		
 		if (DriveInput.getButton(2, DriveInput.controllerR))
 		{
 			System.out.println(Vision.getContourX());
@@ -119,6 +102,10 @@ public class Robot extends IterativeRobot {
 		xspeed = DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR);
 		yspeed = -DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR);
 		zspeed = DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR);
+		
+		xspeed = Speed.calculateSpeed(xspeed, multiplier);
+		yspeed = Speed.calculateSpeed(yspeed, multiplier);
+		zspeed = Speed.calculateSpeed(zspeed, multiplier);
 		
 		Mecanum.driveRobot(yspeed, xspeed, zspeed);
 		

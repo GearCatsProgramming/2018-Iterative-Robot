@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Encoder;
  */
 public class Encoders {
 	static DigitalInput[] encoderinputs = new DigitalInput[8];
-	public static Encoder flenc, blenc, frenc, brenc;
+	static Encoder flenc, blenc, frenc, brenc;
 	
 	/**Prepares encoders for use. Use this before any other methods from this class.
 	 * @author Kyle Miller
@@ -65,7 +65,16 @@ public class Encoders {
 	 * @author Thomas Dearth
 	 * @param encoder The encoder to reset
 	 */
-	public static void resetEncoder(Encoder encoder) {
-		 encoder.reset();
+	public static void resetEncoder(int encoderId) {
+		switch (encoderId) {
+		case Constants.ENCODER_FRONTLEFT:
+			flenc.reset();
+		case Constants.ENCODER_FRONTRIGHT:
+			frenc.reset();
+		case Constants.ENCODER_REARLEFT:
+			blenc.reset();
+		case Constants.ENCODER_REARRIGHT:
+			brenc.reset();
+		}
 	}
 }
