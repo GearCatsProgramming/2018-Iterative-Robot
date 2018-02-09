@@ -41,10 +41,10 @@ public class Encoders {
 		return (flenc.getDistance() + blenc.getDistance() + frenc.getDistance() + brenc.getDistance()) / 4.0;
 	}
 	
-	/**Gets the individual distance //TODO: FINISH THIS DOC
-	 * 
-	 * @param encoderId
-	 * @return
+	/**Gets the distance traveled by the robot
+	 * @author Kyle Miller
+	 * @param encoderId The ID of the encoder to check
+	 * @return The distance travelled by the encoder
 	 */
 	public static double getDistance(int encoderId)
 	{
@@ -61,7 +61,10 @@ public class Encoders {
 		return 0.0;
 	}
 	
-	//TODO: Add Javadoc
+	/**Resets the distance an encoder has gone.
+	 * @author Thomas Dearth
+	 * @param encoder The encoder to reset
+	 */
 	public static void resetEncoder(Encoder encoder) {
 		 encoder.reset();
 	}
