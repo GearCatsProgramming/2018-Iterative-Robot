@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 public class Mecanum {
 	/**Motors used in the drive train
 	 */
-	static Talon fleft, bleft, fright, bright;
+	public static Talon fleft, bleft, fright, bright;
 	
 	/**The drive train.
 	 * Don't call it directly, since Mecanum contains most methods
