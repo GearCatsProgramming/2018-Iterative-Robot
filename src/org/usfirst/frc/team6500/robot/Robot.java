@@ -9,7 +9,6 @@ package org.usfirst.frc.team6500.robot;
 
 import org.usfirst.frc.team6500.robot.auto.PracticeAuto;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
-import org.usfirst.frc.team6500.robot.systems.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import org.usfirst.frc.team6500.robot.systems.Vision;
@@ -36,6 +35,7 @@ public class Robot extends IterativeRobot {
 		DriveInput.initializeInput();
 		Gyro.intializeGyro();
 		Vision.initializeVision();
+		Grabber.intializeGrabber();
 		
 
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -45,18 +45,11 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional comparisons to
-	 * the switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
+	 * This function runs once at the very beginning of autonomous
 	 */
 	@Override
 	public void autonomousInit() {
+		Encoders.resetAllEncoders();
 		PracticeAuto.goForward();
 	}
 
@@ -89,11 +82,14 @@ public class Robot extends IterativeRobot {
 		{
 			Mecanum.driveWheel(Constants.DRIVE_REARRIGHT, DriveInput.getThrottle(DriveInput.controllerR));
 		}
-		if(DriveInput.getButton(11, DriveInput.controllerR)) {
-			Encoders.resetEncoder(Encoders.flenc);
-			Encoders.resetEncoder(Encoders.frenc);
+		
+		//Resets all of the encoders
+		if(DriveInput.getButton(11, DriveInput.controllerR))
+		{
+			Encoders.resetAllEncoders();
 		}
 		
+		//Vision Testing
 		if (DriveInput.getButton(2, DriveInput.controllerR))
 		{
 			System.out.println(Vision.getContourX());
@@ -102,17 +98,30 @@ public class Robot extends IterativeRobot {
 			System.out.println(Vision.getContourHeight());
 		}
 		
+		//Code to grab/eject cubes
 		if (DriveInput.getButton(3, DriveInput.controllerR))
 		{
-			
+			Grabber.grabCube();
+		}
+		else if (DriveInput.getButton(5, DriveInput.controllerR))
+		{
+			Grabber.ejectCube();
+		}
+		else
+		{
+			Grabber.killGrab();
 		}
 		
+		
+		//Deprecated, limited speed to the base speed but isn't very effective with mecanum
+		/**
+		 * if (!DriveInput.getTrigger(DriveInput.controllerR))
+		 * {
+		 * 	multiplier *= Constants.SPEED_BASE;
+		 * }
+		**/
 		
 		double multiplier = DriveInput.getThrottle(DriveInput.controllerR);
-		if (!DriveInput.getTrigger(DriveInput.controllerR))
-		{
-			multiplier *= Constants.SPEED_BASE;
-		}
 		
 		multiplier += boost;
 		
@@ -120,14 +129,13 @@ public class Robot extends IterativeRobot {
 		yspeed = -DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR);
 		zspeed = DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR);
 		
-		Mecanum.driveRobot(yspeed, xspeed, zspeed);
+		Mecanum.driveRobot(xspeed, yspeed, zspeed);
 		
 		SmartDashboard.putNumber("Speed Multiplier", multiplier);
-		SmartDashboard.putNumber("y", yspeed);
-		SmartDashboard.putNumber("x", xspeed);
-		SmartDashboard.putNumber("z", zspeed);
-		SmartDashboard.putNumber("distance A", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
-		SmartDashboard.putNumber("distance B", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
+		SmartDashboard.putNumber("FL", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
+		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
+		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
+		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
 		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistance());
 	}
 }
