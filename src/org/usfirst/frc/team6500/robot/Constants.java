@@ -42,6 +42,11 @@ public final class Constants {
 	public final static int INPUT_AXIS_Y = 0;
 	public final static int INPUT_AXIS_Z = 2;
 	
+	//TODO: Set climbing motor ports
 	public final static int CLIMBING_MOTOR1 = 0;
 	public final static int CLIMBING_MOTOR2 = 0;
+	
+	//TODO: Set winch motor ports
+	public final static int WINCH_MOTOR1 = 0;
+	public final static int WINCH_MOTOR2 = 0;
 }
