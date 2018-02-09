@@ -49,4 +49,8 @@ public final class Constants {
 	//TODO: Set winch motor ports
 	public final static int WINCH_MOTOR1 = 0;
 	public final static int WINCH_MOTOR2 = 0;
+	
+	//TODO: Set grabber motor ports
+	public final static int GRABBER_LEFT = 0;
+	public final static int GRABBER_RIGHT = 0;
 }
