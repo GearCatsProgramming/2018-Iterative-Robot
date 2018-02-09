@@ -15,7 +15,6 @@ public class EncoderDistance {
 		}
 	}
 	//MOVE ROBOT SIDE RIGHT
-	//aa
 	public static void getSideRight(double distance, double speed){
 		while((Encoders.getDistance(Constants.DRIVE_FRONTLEFT) <= distance) && (Encoders.getDistance(Constants.DRIVE_REARRIGHT) <= distance)){
 			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT, speed);
