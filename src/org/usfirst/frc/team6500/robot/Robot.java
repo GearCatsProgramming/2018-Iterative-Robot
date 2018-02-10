@@ -123,13 +123,13 @@ public class Robot extends IterativeRobot {
 		
 		multiplier += boost;
 		
-		xspeed = DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR);
-		yspeed = -DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR);
-		zspeed = DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR);
+		xspeed = DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR) * multiplier;
+		yspeed = -DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR) * multiplier;
+		zspeed = DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR) * multiplier;
 		
-		xspeed = Speed.calculateSpeed(xspeed, multiplier);
-		yspeed = Speed.calculateSpeed(yspeed, multiplier);
-		zspeed = Speed.calculateSpeed(zspeed, multiplier);
+//		xspeed = Speed.calculateSpeed(xspeed, multiplier);
+//		yspeed = Speed.calculateSpeed(yspeed, multiplier);
+//		zspeed = Speed.calculateSpeed(zspeed, multiplier);
 		
 		Mecanum.driveRobot(yspeed, xspeed, zspeed);
 		
@@ -137,8 +137,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("y", yspeed);
 		SmartDashboard.putNumber("x", xspeed);
 		SmartDashboard.putNumber("z", zspeed);
-		SmartDashboard.putNumber("distance A", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
-		SmartDashboard.putNumber("distance B", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
-		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistance());
+		SmartDashboard.putNumber("Encoder: Front Left", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
+		SmartDashboard.putNumber("Encoder: Front Right", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
+		SmartDashboard.putNumber("Encoder: Back Left", Encoders.getDistance(Constants.ENCODER_REARLEFT));
+		SmartDashboard.putNumber("Encoder: Back Right", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
+		SmartDashboard.putNumber("Encoders: Average", Encoders.getAverageDistance());
 	}
 }
