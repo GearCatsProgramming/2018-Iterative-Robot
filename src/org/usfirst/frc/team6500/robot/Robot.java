@@ -9,9 +9,9 @@ package org.usfirst.frc.team6500.robot;
 
 import org.usfirst.frc.team6500.robot.auto.PracticeAuto;
 import org.usfirst.frc.team6500.robot.pid.PidMotor;
+import org.usfirst.frc.team6500.robot.sensors.Encoders;
+import org.usfirst.frc.team6500.robot.sensors.Gyro;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
-import org.usfirst.frc.team6500.robot.systems.Encoders;
-import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import org.usfirst.frc.team6500.robot.systems.Vision;
 
@@ -22,8 +22,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
-	double boost = 0.0;
-	double xspeed, yspeed, zspeed;
+	public static double boost = 0.0;
+	public static double xspeed, yspeed, zspeed, multiplier;
 	
 	PidMotor flpid, frpid, blpid, brpid;
 	
@@ -115,7 +115,7 @@ public class Robot extends IterativeRobot {
 		}
 		
 		
-		double multiplier = DriveInput.getThrottle(DriveInput.controllerR);
+		multiplier = DriveInput.getThrottle(DriveInput.controllerR);
 		if (!DriveInput.getTrigger(DriveInput.controllerR))
 		{
 			multiplier *= Constants.SPEED_BASE;
@@ -133,15 +133,6 @@ public class Robot extends IterativeRobot {
 		
 		Mecanum.driveRobot(yspeed, xspeed, zspeed);
 		
-		SmartDashboard.putNumber("Speed Multiplier", multiplier);
-		SmartDashboard.putNumber("y", yspeed);
-		SmartDashboard.putNumber("x", xspeed);
-		SmartDashboard.putNumber("z", zspeed);
-		SmartDashboard.putNumber("Encoder: Front Left", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
-		SmartDashboard.putNumber("Encoder: Front Right", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
-		SmartDashboard.putNumber("Encoder: Back Left", Encoders.getDistance(Constants.ENCODER_REARLEFT));
-		SmartDashboard.putNumber("Encoder: Back Right", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
-		SmartDashboard.putNumber("Gyroscope reading", Gyro.getAngle());
-		SmartDashboard.putNumber("Encoders: Average", Encoders.getAverageDistance());
+		Dashboard.updateDashboard();
 	}
 }

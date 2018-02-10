@@ -1,4 +1,4 @@
-package org.usfirst.frc.team6500.robot.systems;
+package org.usfirst.frc.team6500.robot.sensors;
 
 import org.usfirst.frc.team6500.robot.Constants;
 
