@@ -8,6 +8,7 @@
 package org.usfirst.frc.team6500.robot;
 
 import org.usfirst.frc.team6500.robot.auto.PracticeAuto;
+import org.usfirst.frc.team6500.robot.pid.PidMotor;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Gyro;
@@ -16,7 +17,6 @@ import org.usfirst.frc.team6500.robot.systems.Vision;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,6 +24,8 @@ public class Robot extends IterativeRobot {
 	
 	double boost = 0.0;
 	double xspeed, yspeed, zspeed;
+	
+	PidMotor flpid, frpid, blpid, brpid;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -36,6 +38,10 @@ public class Robot extends IterativeRobot {
 		DriveInput.initializeInput();
 		Gyro.intializeGyro();
 		Vision.initializeVision();
+		flpid = new PidMotor(Mecanum.fleft);
+		frpid = new PidMotor(Mecanum.fright);
+		blpid = new PidMotor(Mecanum.bleft);
+		brpid = new PidMotor(Mecanum.bright);
 		
 
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -58,6 +64,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		PracticeAuto.goForward();
+		//TODO: Test to see if this works
+		//flpid.setTarget(100);
 	}
 
 	/**
@@ -85,9 +93,25 @@ public class Robot extends IterativeRobot {
 			System.out.println(Vision.getContourHeight());
 		}
 		
-		if (DriveInput.getButton(3, DriveInput.controllerR))
+		if (DriveInput.getButton(7, DriveInput.controllerR))
 		{
-			
+			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT, .5);
+			return;
+		}
+		if (DriveInput.getButton(8, DriveInput.controllerR))
+		{
+			Mecanum.driveWheel(Constants.DRIVE_FRONTRIGHT, .5);
+			return;
+		}
+		if (DriveInput.getButton(9, DriveInput.controllerR))
+		{
+			Mecanum.driveWheel(Constants.DRIVE_REARLEFT, .5);
+			return;
+		}
+		if (DriveInput.getButton(10, DriveInput.controllerR))
+		{
+			Mecanum.driveWheel(Constants.DRIVE_REARRIGHT, .5);
+			return;
 		}
 		
 		

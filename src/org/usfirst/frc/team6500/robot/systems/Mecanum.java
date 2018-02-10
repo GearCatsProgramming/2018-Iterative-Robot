@@ -31,7 +31,10 @@ public class Mecanum {
 		
 		drive = new MecanumDrive(fleft, bleft, fright, bright);
 		
-		drive.setSafetyEnabled(false);
+		fright.setInverted(true);
+		bleft.setInverted(true);
+		
+		//drive.setSafetyEnabled(false);
 	}
 	
 	/**Sets the robot's speed to match the parameters. When called periodically, controls speed accurately
@@ -45,10 +48,22 @@ public class Mecanum {
 		drive.driveCartesian(yspeed, xspeed, zspeed);
 	}
 	
+	/**Sets the robot's speed to match the parameters. When called periodically, controls speed accurately
+	 * @author Kyle Miller
+	 * @param yspeed The speed side to side (right is positive)
+	 * @param xspeed The speed forward and backward (forward is positive)
+	 * @param zspeed The rotation of the robot (clockwise is positive)
+	 * @param gyro The angle the gyroscope is recording. use Gyro.getAngle()
+	 */
+	public static void driveRobot(double yspeed, double xspeed, double zspeed, double gyro)
+	{
+		drive.driveCartesian(yspeed, xspeed, zspeed, gyro);
+	}	
+	
 	/**Causes an individual wheel to move
 	 * @author Kyle Miller? May be Michael Navia
 	 * @param wheel The wheel to be rotated. Found in Constants.DRIVE_
-	 * @param speed 
+	 * @param speed The speed the talon will move at.
 	 */
 	public static void driveWheel(int wheel, double speed)
 	{
@@ -68,6 +83,15 @@ public class Mecanum {
 		{
 			bright.set(speed);
 		}
+	}
+	
+	/**Causes an individual wheel to move
+	 * @author Thomas Dearth
+	 * @param talon The wheel to be rotated.
+	 * @param speed The speed the wheel will move at.
+	 */
+	public static void driveWheel(Talon talon, double speed) {
+		talon.set(speed);
 	}
 	
 	public static void killMotors()
