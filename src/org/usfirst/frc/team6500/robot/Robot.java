@@ -141,6 +141,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Encoder: Front Right", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
 		SmartDashboard.putNumber("Encoder: Back Left", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		SmartDashboard.putNumber("Encoder: Back Right", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
+		SmartDashboard.putNumber("Gyroscope reading", Gyro.getAngle());
 		SmartDashboard.putNumber("Encoders: Average", Encoders.getAverageDistance());
 	}
 }
