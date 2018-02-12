@@ -8,9 +8,10 @@
 package org.usfirst.frc.team6500.robot;
 
 import org.usfirst.frc.team6500.robot.auto.PracticeAuto;
-import org.usfirst.frc.team6500.robot.pid.PidMotor;
+import org.usfirst.frc.team6500.robot.auto.Timer;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
+import org.usfirst.frc.team6500.robot.systems.CubeLifter;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import org.usfirst.frc.team6500.robot.systems.Vision;
@@ -18,14 +19,13 @@ import org.usfirst.frc.team6500.robot.systems.Vision;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
 	public static double boost = 0.0;
-	public static double xspeed, yspeed, zspeed, multiplier;
+	public static double xspeed, yspeed, zspeed, multiplier, liftspeed, liftMultiplier;
 	
-	PidMotor flpid, frpid, blpid, brpid;
+	//PidMotor flpid, frpid, blpid, brpid;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -38,10 +38,11 @@ public class Robot extends IterativeRobot {
 		DriveInput.initializeInput();
 		Gyro.intializeGyro();
 		Vision.initializeVision();
-		flpid = new PidMotor(Mecanum.fleft);
-		frpid = new PidMotor(Mecanum.fright);
-		blpid = new PidMotor(Mecanum.bleft);
-		brpid = new PidMotor(Mecanum.bright);
+		CubeLifter.initializeClimbMotor();
+//		flpid = new PidMotor(Mecanum.fleft);
+//		frpid = new PidMotor(Mecanum.fright);
+//		blpid = new PidMotor(Mecanum.bleft);
+//		brpid = new PidMotor(Mecanum.bright);
 		
 
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -63,9 +64,9 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		Timer autoTimer = new Timer(15);
+		autoTimer.startTimer(15);
 		PracticeAuto.goForward();
-		//TODO: Test to see if this works
-		//flpid.setTarget(100);
 	}
 
 	/**
@@ -85,14 +86,13 @@ public class Robot extends IterativeRobot {
 			Encoders.resetEncoder(Constants.ENCODER_FRONTLEFT);
 			Encoders.resetEncoder(Constants.ENCODER_FRONTRIGHT);
 		}
-		if (DriveInput.getButton(2, DriveInput.controllerR))
-		{
-			System.out.println(Vision.getContourX());
-			System.out.println(Vision.getContourY());
-			System.out.println(Vision.getContourWidth());
-			System.out.println(Vision.getContourHeight());
-		}
-		
+//		if (DriveInput.getButton(2, DriveInput.controllerR))
+//		{
+//			System.out.println(Vision.getContourX());
+//			System.out.println(Vision.getContourY());
+//			System.out.println(Vision.getContourWidth());
+//			System.out.println(Vision.getContourHeight());
+//		}
 		if (DriveInput.getButton(7, DriveInput.controllerR))
 		{
 			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT, .5);
@@ -123,15 +123,30 @@ public class Robot extends IterativeRobot {
 		
 		multiplier += boost;
 		
-		xspeed = DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR) * multiplier;
-		yspeed = -DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR) * multiplier;
-		zspeed = DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR) * multiplier;
+		xspeed = DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR);
+		yspeed = -DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR);
+		zspeed = DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR);
 		
-//		xspeed = Speed.calculateSpeed(xspeed, multiplier);
-//		yspeed = Speed.calculateSpeed(yspeed, multiplier);
-//		zspeed = Speed.calculateSpeed(zspeed, multiplier);
+		xspeed = Speed.calculateSpeed(xspeed, multiplier);
+		yspeed = Speed.calculateSpeed(yspeed, multiplier);
+		zspeed = Speed.calculateSpeed(zspeed, multiplier);
 		
-		Mecanum.driveRobot(yspeed, xspeed, zspeed);
+		Mecanum.driveRobot(xspeed, yspeed, zspeed);
+		
+		if(DriveInput.getButton(2, DriveInput.controllerL)){
+			//TODO: Add grabber mechanism
+			//Turn on the sucking
+		} else if(DriveInput.getButton(5, DriveInput.controllerL)) {
+			//Dispense the cube at speed
+		} else if(DriveInput.getButton(3, DriveInput.controllerL)) {
+			//Dispense the cube slowly (almost dropping)
+		} else {
+			//Set the speed to 0 (Is this necessary?)
+		}
+		
+		liftspeed = DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerL);
+		liftMultiplier = DriveInput.getThrottle(DriveInput.controllerL);
+		CubeLifter.liftArm(liftspeed * multiplier);
 		
 		Dashboard.updateDashboard();
 	}

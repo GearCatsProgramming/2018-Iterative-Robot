@@ -10,7 +10,6 @@ public class Speed {
 		calculated *= boost;
 		//calculated += transferNegation(calculated, boost);
 		
-		//TODO: Move deadband to the drive itself; it has a deadband of its own
 		if (Math.abs(calculated - previousSpeed) > Constants.SPEED_DEADBAND)
 		{
 			calculated = (calculated + previousSpeed) / 2;

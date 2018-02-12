@@ -8,7 +8,7 @@ public class PracticeAuto {
 	public static void goForward()
 	{
 		Mecanum.driveRobot(0.0, 0.5, 0.0);
-		Timer.delay(3.0);
+		Timer.delay(2.5);
 		Mecanum.killMotors();
 	}
 }

@@ -31,10 +31,7 @@ public class Mecanum {
 		
 		drive = new MecanumDrive(fleft, bleft, fright, bright);
 		
-		fright.setInverted(true);
-		bleft.setInverted(true);
-		
-		//drive.setSafetyEnabled(false);
+		drive.setSafetyEnabled(false);
 	}
 	
 	/**Sets the robot's speed to match the parameters. When called periodically, controls speed accurately

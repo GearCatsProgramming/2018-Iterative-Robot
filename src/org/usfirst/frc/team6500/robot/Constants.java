@@ -4,10 +4,10 @@ package org.usfirst.frc.team6500.robot;
  *
  */
 public final class Constants {
-	public final static int DRIVE_FRONTLEFT = 0;
-	public final static int DRIVE_FRONTRIGHT = 1;
-	public final static int DRIVE_REARLEFT = 2;
-	public final static int DRIVE_REARRIGHT = 3;
+	public final static int DRIVE_FRONTLEFT = 2;
+	public final static int DRIVE_FRONTRIGHT = 3;
+	public final static int DRIVE_REARLEFT = 0;
+	public final static int DRIVE_REARRIGHT = 1;
 	
 	
 	public final static int ENCODER_INPUT_FL_A = 6;
