@@ -49,4 +49,9 @@ public final class Constants {
 	//TODO: Set winch motor ports
 	public final static int WINCH_MOTOR1 = 0;
 	public final static int WINCH_MOTOR2 = 0;
+	
+	//TODO: Find proper PID setups
+	public final static double PID_P = 1;
+	public final static double PID_I = 1;
+	public final static double PID_D = 1;
 }
