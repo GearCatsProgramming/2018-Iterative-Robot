@@ -13,6 +13,7 @@ import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
 import org.usfirst.frc.team6500.robot.systems.CubeLifter;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
+import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import org.usfirst.frc.team6500.robot.systems.Vision;
 
@@ -135,13 +136,14 @@ public class Robot extends IterativeRobot {
 		
 		if(DriveInput.getButton(2, DriveInput.controllerL)){
 			//TODO: Add grabber mechanism
-			//Turn on the sucking
+			Grabber.suckCube();
 		} else if(DriveInput.getButton(5, DriveInput.controllerL)) {
-			//Dispense the cube at speed
+			Grabber.FULL_REVERSE();
 		} else if(DriveInput.getButton(3, DriveInput.controllerL)) {
-			//Dispense the cube slowly (almost dropping)
+			Grabber.depositLightly();
 		} else {
 			//Set the speed to 0 (Is this necessary?)
+			Grabber.spin(0);
 		}
 		
 		liftspeed = DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerL);

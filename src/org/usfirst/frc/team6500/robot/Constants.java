@@ -51,7 +51,11 @@ public final class Constants {
 	public final static int WINCH_MOTOR2 = 0;
 	
 	//TODO: Find proper PID setups
-	public final static double PID_P = 1;
-	public final static double PID_I = 1;
-	public final static double PID_D = 1;
+	public final static double PID_P = .1;		//Increase until oscillation, then use Zeigler-Nichols tuning method
+	public final static double PID_I = 0;
+	public final static double PID_D = 0;
+	
+	//TODO: Set grabber ports
+	public static final int GRABBER_MOTOR1 = 0;
+	public static final int GRABBER_MOTOR2 = 0;
 }

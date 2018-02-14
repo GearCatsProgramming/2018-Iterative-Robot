@@ -24,7 +24,6 @@ public class CubeLifter {
 		right = new Spark(Constants.CLIMBING_MOTOR2);
 		right.setInverted(true);
 		
-		//IDK
 		left.setSafetyEnabled(false);
 		right.setSafetyEnabled(false);
 		
