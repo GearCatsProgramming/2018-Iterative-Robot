@@ -4,10 +4,10 @@ package org.usfirst.frc.team6500.robot;
  *
  */
 public final class Constants {
-	public final static int DRIVE_FRONTLEFT = 0;
-	public final static int DRIVE_FRONTRIGHT = 1;
-	public final static int DRIVE_REARLEFT = 2;
-	public final static int DRIVE_REARRIGHT = 3;
+	public final static int DRIVE_FRONTLEFT = 2;
+	public final static int DRIVE_FRONTRIGHT = 3;
+	public final static int DRIVE_REARLEFT = 0;
+	public final static int DRIVE_REARRIGHT = 1;
 	
 	
 	public final static int ENCODER_INPUT_FL_A = 6;
@@ -23,7 +23,7 @@ public final class Constants {
 	public final static int ENCODER_INPUT_RR_B = 3;
 	
 	
-	public final static double ENCODER_DISTANCE_PER_PULSE = 1.25;
+	public final static double ENCODER_DISTANCE_PER_PULSE = 0.11;
 	
 	
 	public final static double SPEED_BASE = 0.85;
@@ -53,4 +53,9 @@ public final class Constants {
 	//TODO: Set grabber motor ports
 	public final static int GRABBER_LEFT = 0;
 	public final static int GRABBER_RIGHT = 0;
+	
+	public final static int DIRECTION_FORWARD = 0;
+	public final static int DIRECTION_BACKWARDS = 1;
+	public final static int DIRECTION_RIGHT = 2;
+	public final static int DIRECTION_LEFT = 3;
 }

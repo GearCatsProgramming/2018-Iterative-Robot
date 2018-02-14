@@ -36,7 +36,8 @@ public class CubeLifter {
 	 * @param speed The speed the robot travels at. 
 	 */
 	//FIXME: Does not have a way to stop once input stops; must be implemented with controls.
-	public static void climb(double speed) {
+	public static void climb(double speed)
+	{
 		if(!isReady) {
 			return;
 		}

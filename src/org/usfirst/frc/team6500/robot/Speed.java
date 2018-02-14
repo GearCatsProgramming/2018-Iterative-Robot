@@ -3,12 +3,11 @@ package org.usfirst.frc.team6500.robot;
 public class Speed {
 	public static double previousSpeed = 0.0;
 	
-	public static double calculateSpeed(double raw, double boost)
+	public static double calculateSpeed(double raw, double multiplier)
 	{
 		double calculated = raw;
 		
-		calculated *= boost;
-		//calculated += transferNegation(calculated, boost);
+		calculated *= multiplier;
 		
 		if (Math.abs(calculated - previousSpeed) > Constants.SPEED_DEADBAND)
 		{
@@ -20,10 +19,5 @@ public class Speed {
 		System.out.println("The previousSpeed is " + previousSpeed);
 		previousSpeed = calculated;
 		return calculated;
-	}
-
-	private static double transferNegation(double original, double target) {
-		if (original != Math.abs(original)) { return -target; }
-		return target;
 	}
 }

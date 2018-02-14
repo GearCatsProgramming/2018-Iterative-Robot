@@ -7,16 +7,21 @@
 
 package org.usfirst.frc.team6500.robot;
 
-import org.usfirst.frc.team6500.robot.auto.PracticeAuto;
+import org.usfirst.frc.team6500.robot.auto.AutoRoute;
+import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
+import org.usfirst.frc.team6500.robot.auto.routes.*;
+import org.usfirst.frc.team6500.robot.systems.Climber;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
+import org.usfirst.frc.team6500.robot.systems.Encoders;
+import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import org.usfirst.frc.team6500.robot.systems.Vision;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
@@ -24,12 +29,18 @@ public class Robot extends IterativeRobot {
 	double boost = 0.0;
 	double xspeed, yspeed, zspeed;
 	
+	int autoMode = 0;
+	SendableChooser<Integer> autoSelector;
+	
+	boolean fieldOriented = false;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
-	public void robotInit() {
+	public void robotInit()
+	{
 		Encoders.initializeEncoders();
 		Mecanum.initializeMecanum();
 		DriveInput.initializeInput();
@@ -39,25 +50,47 @@ public class Robot extends IterativeRobot {
 		
 
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setFPS(15);
-		camera.setResolution(320, 240); //320 = width, 240 = height
+		camera.setFPS(30);
+		camera.setResolution(640, 480); //320 = width, 240 = height
 		
+		autoSelector = new SendableChooser<Integer>();
+		
+		autoSelector.addDefault("Forward/Backward", 1);
+		autoSelector.addObject("Left/Right", 2);
+		autoSelector.addObject("Rotate", 3);
+		autoSelector.addObject("All", 4);
+		
+		SmartDashboard.putData("Autonomous Tester Selector", autoSelector);
 	}
 
 	/**
 	 * This function runs once at the very beginning of autonomous
 	 */
 	@Override
-	public void autonomousInit() {
-		Encoders.resetAllEncoders();
-		PracticeAuto.goForward();
+	public void autonomousInit()
+	{
+		autoMode = autoSelector.getSelected();
+		
+		switch (autoMode)
+		{
+		case 1:
+			AutoWrapper.goForward(20.0, 0.5);
+		case 2:
+			AutoWrapper.leftRight(20.0, 0.5);
+		case 3:
+			AutoWrapper.rotate(50.0, 0.5);
+		case 4:
+			AutoRoute testRT = new TestRoute();
+			testRT.run();
+		}
 	}
 
 	/**
 	 * This function is called periodically during autonomous.
 	 */
 	@Override
-	public void autonomousPeriodic() {
+	public void autonomousPeriodic()
+	{
 		
 	}
 
@@ -65,7 +98,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control.
 	 */
 	@Override
-	public void teleopPeriodic() {
+	public void teleopPeriodic()
+	{
 		if (DriveInput.getButton(7, DriveInput.controllerR))
 		{
 			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT, DriveInput.getThrottle(DriveInput.controllerR));
@@ -98,18 +132,34 @@ public class Robot extends IterativeRobot {
 			System.out.println(Vision.getContourHeight());
 		}
 		
+		
 		//Code to grab/eject cubes
 		if (DriveInput.getButton(3, DriveInput.controllerR))
 		{
 			Grabber.grabCube();
 		}
-		else if (DriveInput.getButton(5, DriveInput.controllerR))
+		else if (DriveInput.getButton(4, DriveInput.controllerR))
 		{
 			Grabber.ejectCube();
 		}
 		else
 		{
 			Grabber.killGrab();
+		}
+		
+		
+		//Code to drive climber
+		if (DriveInput.getButton(4, DriveInput.controllerL))
+		{
+			Climber.climb();
+		}
+		if (DriveInput.getButton(6, DriveInput.controllerL))
+		{
+			Climber.descend();
+		}
+		else
+		{
+			Climber.stopClimb();
 		}
 		
 		
@@ -125,11 +175,12 @@ public class Robot extends IterativeRobot {
 		
 		multiplier += boost;
 		
-		xspeed = DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR);
-		yspeed = -DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR);
-		zspeed = DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR);
+		xspeed = Speed.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR), multiplier);
+		yspeed = Speed.calculateSpeed(-DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR), multiplier);
+		zspeed = Speed.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR), multiplier);
 		
-		Mecanum.driveRobot(xspeed, yspeed, zspeed);
+		if (!fieldOriented) { Mecanum.driveRobot(xspeed, yspeed, zspeed); }
+		else { Mecanum.driveRobotField(xspeed, yspeed, zspeed); }
 		
 		SmartDashboard.putNumber("Speed Multiplier", multiplier);
 		SmartDashboard.putNumber("FL", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));

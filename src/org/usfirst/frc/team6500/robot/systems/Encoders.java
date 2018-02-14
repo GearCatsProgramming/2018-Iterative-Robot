@@ -10,7 +10,8 @@ import edu.wpi.first.wpilibj.Encoder;
  */
 public class Encoders {
 	static DigitalInput[] encoderinputs = new DigitalInput[8];
-	public static Encoder flenc, blenc, frenc, brenc;
+	static Encoder flenc, blenc, frenc, brenc;
+	static int direction;
 	
 	/**Prepares encoders for use. Use this before any other methods from this class.
 	 * @author Kyle Miller
@@ -42,6 +43,31 @@ public class Encoders {
 		return (flenc.getDistance() + blenc.getDistance() + frenc.getDistance() + brenc.getDistance()) / 4.0;
 	}
 	
+	public static void setDirection(int directionId)
+	{
+		direction = directionId;
+	}
+	
+	public static double getDirection()
+	{
+		return direction;
+	}
+	
+	public static double getDistanceRelativeDirection()
+	{
+		switch (direction) {
+			case Constants.DIRECTION_BACKWARDS:
+				return -getAverageDistance();
+			case Constants.DIRECTION_FORWARD:
+				return getAverageDistance();
+			case Constants.DIRECTION_LEFT:
+				return ((-flenc.getDistance()) + frenc.getDistance() + blenc.getDistance() + (-brenc.getDistance())) / 4.0;
+			case Constants.DIRECTION_RIGHT:
+				return (flenc.getDistance() + (-frenc.getDistance()) + (-blenc.getDistance()) + brenc.getDistance()) / 4.0;
+		}
+		return 0.0;
+	}
+	
 	/**Gets the distance traveled by the robot
 	 * @author Kyle Miller
 	 * @param encoderId The ID of the encoder to check
@@ -69,15 +95,14 @@ public class Encoders {
 	public static void resetEncoder(int encoderId) {
 		 switch (encoderId) {
 		case Constants.ENCODER_FRONTLEFT:
-			return flenc.reset();
+			flenc.reset();
 		case Constants.ENCODER_FRONTRIGHT:
-			return frenc.reset();
+			frenc.reset();
 		case Constants.ENCODER_REARLEFT:
-			return blenc.reset();
+			blenc.reset();
 		case Constants.ENCODER_REARRIGHT:
-			return brenc.reset();
+			brenc.reset();
 		}
-		return 0.0;
 	}
 	
 	/** Resets all of the distances traveled by the encoders

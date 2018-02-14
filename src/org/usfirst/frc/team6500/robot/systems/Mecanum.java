@@ -45,6 +45,17 @@ public class Mecanum {
 		drive.driveCartesian(yspeed, xspeed, zspeed);
 	}
 	
+	/**Sets the robot's speed to match the parameters. When called periodically, controls speed accurately.  This version is field-oriented
+	 * @author Kyle Miller
+	 * @param yspeed The speed side to side (right is positive)
+	 * @param xspeed The speed forward and backward (forward is positive)
+	 * @param zspeed The rotation of the robot (clockwise is positive)
+	 */
+	public static void driveRobotField(double yspeed, double xspeed, double zspeed)
+	{
+		drive.driveCartesian(yspeed, xspeed, zspeed, Gyro.getAngle());
+	}
+	
 	/**Causes an individual wheel to move
 	 * @author Kyle Miller? May be Michael Navia
 	 * @param wheel The wheel to be rotated. Found in Constants.DRIVE_

@@ -1,14 +1,13 @@
 package org.usfirst.frc.team6500.robot.systems;
 
 import org.usfirst.frc.team6500.robot.Constants;
+import edu.wpi.first.wpilibj.Spark;
 
 /**
  * The grabber.
  * 
  * @author Kyle Miller
  */
-import edu.wpi.first.wpilibj.Spark;
-
 public class Grabber {
 	static Spark leftGrabMotor, rightGrabMotor;
 	
