@@ -3,6 +3,10 @@ package org.usfirst.frc.team6500.robot.manualpid;
 import org.usfirst.frc.team6500.robot.Constants;
 import edu.wpi.first.wpilibj.PIDSource;
 
+/**A class created to be a PID system all on its own. It's a thread; create it with ManualPID testPID = new ManualPID(testSource);
+ * @author Thomas Dearth
+ * @see Thread
+ */
 public class ManualPID extends Thread{
 	private double integral, previous_error, setpoint;
 	private double pidCalc = 0;
@@ -15,10 +19,15 @@ public class ManualPID extends Thread{
 		pidCalc = 0;
 	}
 	
+	/**Sets the target value for the system to approach.
+	 * @author Thomas Dearth
+	 * @param d The target value to reach
+	 */
 	public void setSetpoint(double d) {
 		this.setpoint = d;
 	}
 	
+	/**Makes the PID system adjust values. The core of the system.*/
 	public void PID() {
 		double error = setpoint - source.pidGet();
 		this.integral += (error*0.02);
@@ -30,11 +39,17 @@ public class ManualPID extends Thread{
 //		}
 		this.previous_error = error;
 	}
-	
+	/**Gets the distance the system has gone since it was reset.
+	 * @author Thomas Dearth
+	 * @return The distance the PIDSource has traveled
+	 */
 	public double getDistance() {
 		return pidCalc;
 	}
 	
+	/**@author Thomas Dearth
+	 * @return True if the robot is in bounds, or False otherwise
+	 */
 	public boolean isInBounds() {
 		return pidCalc > setpoint - acceptableError && pidCalc < setpoint + acceptableError;
 	}

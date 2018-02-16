@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 /**Really bad practice PID source.
  * Takes an input through pidAdd() and outputs from pidGet().
  * @author Thomas Dearth. Explains a lot.
- *
  */
 public class ManualTestSource implements PIDSource{
 	private double currentValue;
