@@ -135,7 +135,6 @@ public class Robot extends IterativeRobot {
 		Mecanum.driveRobot(xspeed, yspeed, zspeed);
 		
 		if(DriveInput.getButton(2, DriveInput.controllerL)){
-			//TODO: Add grabber mechanism
 			Grabber.suckCube();
 		} else if(DriveInput.getButton(5, DriveInput.controllerL)) {
 			Grabber.FULL_REVERSE();

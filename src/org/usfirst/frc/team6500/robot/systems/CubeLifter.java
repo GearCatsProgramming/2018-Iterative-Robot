@@ -9,12 +9,6 @@ import edu.wpi.first.wpilibj.Spark;
 //FIXME: Has yet to be tested. Be cautious.
 public class CubeLifter {
 	private static Spark left, right;
-	/**
-	 * Is null until the robot has been initialized. Once it is, it's safe for usage.
-	 * Check for this to be true before doing other things.
-	 */
-	private static boolean isReady;
-	
 	
 	/**Prepares the Sparks for usage. Must be called before any other function
 	 * @author Thomas Dearth
@@ -26,8 +20,6 @@ public class CubeLifter {
 		
 		left.setSafetyEnabled(false);
 		right.setSafetyEnabled(false);
-		
-		isReady = true;
 	}
 	
 	/**Causes the robot to climb upwards
@@ -35,9 +27,6 @@ public class CubeLifter {
 	 * @param speed The speed the robot travels at. 
 	 */
 	public static void liftArm(double speed) {
-		if(!isReady) {
-			return;
-		}
 		if(speed > 1) {
 			speed = 1.0;
 		} else if(speed > -1) {
