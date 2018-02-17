@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.Encoder;
  */
 public class Encoders {
 	static DigitalInput[] encoderinputs = new DigitalInput[8];
-	static Encoder flenc, blenc, frenc, brenc;
+	public static Encoder flenc, blenc, frenc, brenc;
 	static int direction;
 	
 	/**Prepares encoders for use. Use this before any other methods from this class.
