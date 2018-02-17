@@ -1,6 +1,6 @@
 package org.usfirst.frc.team6500.robot.auto;
 
-import org.usfirst.frc.team6500.robot.systems.Encoders;
+import org.usfirst.frc.team6500.robot.sensors.Encoders;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;

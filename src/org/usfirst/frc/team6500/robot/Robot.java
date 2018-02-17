@@ -10,13 +10,13 @@ package org.usfirst.frc.team6500.robot;
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
+import org.usfirst.frc.team6500.robot.sensors.Encoders;
+import org.usfirst.frc.team6500.robot.sensors.Gyro;
+import org.usfirst.frc.team6500.robot.sensors.Vision;
 import org.usfirst.frc.team6500.robot.systems.Climber;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
-import org.usfirst.frc.team6500.robot.systems.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
-import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
-import org.usfirst.frc.team6500.robot.systems.Vision;
 
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;

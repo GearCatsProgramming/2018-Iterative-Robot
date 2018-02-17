@@ -1,8 +1,8 @@
 package org.usfirst.frc.team6500.robot.auto;
 
 import org.usfirst.frc.team6500.robot.Constants;
-import org.usfirst.frc.team6500.robot.systems.Encoders;
-import org.usfirst.frc.team6500.robot.systems.Gyro;
+import org.usfirst.frc.team6500.robot.sensors.Encoders;
+import org.usfirst.frc.team6500.robot.sensors.Gyro;
 
 public class AutoWrapper
 {

@@ -58,4 +58,9 @@ public final class Constants {
 	public final static int DIRECTION_BACKWARDS = 1;
 	public final static int DIRECTION_RIGHT = 2;
 	public final static int DIRECTION_LEFT = 3;
+	
+	//TODO: Configure PID values
+	public static final double PID_P = 1;
+	public static final double PID_I = 0;
+	public static final double PID_D = 0;
 }
