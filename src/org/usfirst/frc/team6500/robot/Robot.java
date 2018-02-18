@@ -13,11 +13,10 @@ import org.usfirst.frc.team6500.robot.auto.routes.*;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
 import org.usfirst.frc.team6500.robot.sensors.Vision;
-import org.usfirst.frc.team6500.robot.systems.Climber;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
+import org.usfirst.frc.team6500.robot.systems.Lift;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -28,6 +27,7 @@ public class Robot extends IterativeRobot {
 	
 	double boost = 0.0;
 	double xspeed, yspeed, zspeed;
+	Speed speedX, speedY, speedZ;
 	
 	int autoMode = 0;
 	SendableChooser<Integer> autoSelector;
@@ -59,6 +59,10 @@ public class Robot extends IterativeRobot {
 		autoSelector.addObject("Left/Right", 2);
 		autoSelector.addObject("Rotate", 3);
 		autoSelector.addObject("All", 4);
+		
+		speedX = new Speed();
+		speedY = new Speed();
+		speedZ = new Speed();
 		
 		SmartDashboard.putData("Autonomous Tester Selector", autoSelector);
 	}
@@ -151,15 +155,15 @@ public class Robot extends IterativeRobot {
 		//Code to drive climber
 		if (DriveInput.getButton(4, DriveInput.controllerL))
 		{
-			Climber.climb();
+			Lift.raiseLift();
 		}
 		if (DriveInput.getButton(6, DriveInput.controllerL))
 		{
-			Climber.descend();
+			Lift.descend();
 		}
 		else
 		{
-			Climber.stopClimb();
+			Lift.stopLift();
 		}
 		
 		
@@ -175,9 +179,9 @@ public class Robot extends IterativeRobot {
 		
 		multiplier += boost;
 		
-		xspeed = Speed.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR), multiplier);
-		yspeed = Speed.calculateSpeed(-DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR), multiplier);
-		zspeed = Speed.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR), multiplier);
+		xspeed = speedX.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR), multiplier);
+		yspeed = speedY.calculateSpeed(-DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR), multiplier);
+		zspeed = speedZ.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR), multiplier);
 		
 		if (!fieldOriented) { Mecanum.driveRobot(xspeed, yspeed, zspeed); }
 		else { Mecanum.driveRobotField(xspeed, yspeed, zspeed); }

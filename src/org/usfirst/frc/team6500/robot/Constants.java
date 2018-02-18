@@ -38,21 +38,22 @@ public final class Constants {
 	public final static int ENCODER_REARLEFT = 2;
 	public final static int ENCODER_REARRIGHT = 3;
 	
-	public final static int INPUT_AXIS_X = 1;
-	public final static int INPUT_AXIS_Y = 0;
+	
+	public final static int INPUT_AXIS_X = 0;
+	public final static int INPUT_AXIS_Y = 1;
 	public final static int INPUT_AXIS_Z = 2;
 	
-	//TODO: Set climbing motor ports
-	public final static int CLIMBING_MOTOR1 = 0;
-	public final static int CLIMBING_MOTOR2 = 0;
 	
-	//TODO: Set winch motor ports
-	public final static int WINCH_MOTOR1 = 0;
-	public final static int WINCH_MOTOR2 = 0;
+	public final static int LIFT_MOTOR_LEFT = 6;
+	public final static int LIFT_MOTOR_RIGHT = 8;
 	
-	//TODO: Set grabber motor ports
-	public final static int GRABBER_LEFT = 0;
-	public final static int GRABBER_RIGHT = 0;
+	
+	public final static int WINCH_MOTOR = 7;
+	
+	
+	public final static int GRABBER_LEFT = 4;
+	public final static int GRABBER_RIGHT = 5;
+	
 	
 	public final static int DIRECTION_FORWARD = 0;
 	public final static int DIRECTION_BACKWARDS = 1;

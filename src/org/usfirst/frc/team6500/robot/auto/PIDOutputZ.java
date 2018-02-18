@@ -4,6 +4,12 @@ import org.usfirst.frc.team6500.robot.systems.Mecanum;
 
 import edu.wpi.first.wpilibj.PIDOutput;
 
+/**
+ * PIDOutput for rotational movement of drivetrain
+ * 
+ * @author Kyle
+ *
+ */
 public class PIDOutputZ implements PIDOutput {
 
 	@Override
