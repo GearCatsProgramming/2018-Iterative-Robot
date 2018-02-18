@@ -17,6 +17,8 @@ import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Lift;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
+import org.usfirst.frc.team6500.robot.testsystems.ConfigureGyro;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -59,6 +61,7 @@ public class Robot extends IterativeRobot {
 		autoSelector.addObject("Left/Right", 2);
 		autoSelector.addObject("Rotate", 3);
 		autoSelector.addObject("All", 4);
+		autoSelector.addObject("Gyroscope Tester", 5);
 		
 		speedX = new Speed();
 		speedY = new Speed();
@@ -86,6 +89,8 @@ public class Robot extends IterativeRobot {
 		case 4:
 			AutoRoute testRT = new TestRoute();
 			testRT.run();
+		case 5:
+			ConfigureGyro.getGyroSpin();
 		}
 	}
 

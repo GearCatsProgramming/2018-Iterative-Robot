@@ -90,4 +90,12 @@ public class Mecanum {
 	{
 		driveRobot(0, 0, 0);
 	}
+	
+	/**Makes the robot not revert to 0 speed
+	 * @author Thomas Dearth
+	 * @param continuous Whether the robot should keep going at a speed or not
+	 */
+	public static void maintainSpeed(boolean continuous) {
+		drive.setSafetyEnabled(continuous);
+	}
 }

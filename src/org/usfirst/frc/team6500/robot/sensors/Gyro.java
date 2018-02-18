@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6500.robot.sensors;
 
 import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class Gyro {
