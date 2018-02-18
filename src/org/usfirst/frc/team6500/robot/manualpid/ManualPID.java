@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.PIDSource;
  * @author Thomas Dearth
  * @see Thread
  */
-public class ManualPID extends Thread{
+public class ManualPID {
 	private double integral, previous_error, setpoint;
 	private double pidCalc = 0;
-	private double acceptableError = 0;
+	private double acceptableError = 3;
 	private PIDSource source;
 	
 	public ManualPID(PIDSource source) {
@@ -33,18 +33,18 @@ public class ManualPID extends Thread{
 		this.integral += (error*0.02);
 		double derivative = (error - this.previous_error) / 0.02;
 //		if(P*error + I*this.integral + D*derivative < maxChange) {
-			this.pidCalc += Constants.PID_P*error + Constants.PID_I*this.integral + Constants.PID_D*derivative;
+			this.pidCalc = Constants.PID_P*error + Constants.PID_I*this.integral + Constants.PID_D*derivative;
 //		} else {
 //			this.pidCalc += maxChange;
 //		}
 		this.previous_error = error;
 	}
-	/**Gets the distance the system has gone since it was reset.
+	/**Gets the speed the robot is going at.
 	 * @author Thomas Dearth
 	 * @return The distance the PIDSource has traveled
 	 */
-	public double getDistance() {
-		return pidCalc;
+	public double getSpeed() {
+		return pidCalc * Constants.INCHES_TO_SPEED;
 	}
 	
 	/**@author Thomas Dearth
@@ -54,18 +54,17 @@ public class ManualPID extends Thread{
 		return pidCalc > setpoint - acceptableError && pidCalc < setpoint + acceptableError;
 	}
 	
-//	public static void main(String[] args) {
-//		System.out.println("Initiating test sequence.");
-//		ManualTestSource testSource = new ManualTestSource();
-//		ManualPID testPID = new ManualPID(testSource);
-//		testPID.setSetpoint(120);
-//		while(!testPID.isInBounds()) {
-//			testPID.execute();
-//			try {
-//				TimeUnit.SECONDS.sleep((long) 1);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	public boolean isInBounds(boolean circular) {
+		if(!circular) {
+			return isInBounds();
+		} else {
+			double location = pidCalc;
+			while(location > 360) {
+				location -= 360;
+			} while(location < -360) {
+				location += 360;
+			}
+			return location > setpoint - acceptableError && location < setpoint + acceptableError; 
+		}
+	}
 }

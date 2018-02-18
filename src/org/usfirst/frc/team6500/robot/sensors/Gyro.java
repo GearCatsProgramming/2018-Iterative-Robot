@@ -4,7 +4,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class Gyro {
-	static AHRS ahrs;
+	public static AHRS ahrs;
 	
 	public static void intializeGyro()
 	{

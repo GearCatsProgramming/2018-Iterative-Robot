@@ -63,4 +63,10 @@ public final class Constants {
 	public static final double PID_P = 1;
 	public static final double PID_I = 0;
 	public static final double PID_D = 0;
+	
+
+	/**The number of inches travelled per angle. TODO: Configure number of units per degree*/
+	public static final double ANGLE_TO_DISTANCE = 0;
+	/**The speed of the robot converted to the speed. TODO: Configure distance-to-speed ratio*/
+	public static final double INCHES_TO_SPEED = 0;
 }
