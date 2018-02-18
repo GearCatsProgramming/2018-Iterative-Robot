@@ -3,50 +3,45 @@ package org.usfirst.frc.team6500.robot.systems;
 import org.usfirst.frc.team6500.robot.Constants;
 
 import edu.wpi.first.wpilibj.Spark;
-/**The motors used for climbing.
- * @author Thomas Dearth
+
+/**
+ * The winch of the robot. Use initializeWinch() before use.
+ * 
+ * @author Thomas Dearth. Gods spare us all.
+ * 
  */
 public class Climber {
-	static Spark left, right;
-	private static boolean isReady;
+	static Spark winch;
 	
-	/**Prepares the Sparks for usage. Must be called before any other function
+	/**
+	 * Prepares the winch. Use this method before any others.
+	 * 
 	 * @author Thomas Dearth
+	 * 
 	 */
-	public static void initializeClimbMotor()
-	{
-		left = new Spark(Constants.CLIMBING_MOTOR1);
-		right = new Spark(Constants.CLIMBING_MOTOR2);
-		right.setInverted(true);
-		
-		//IDK
-		left.setSafetyEnabled(false);
-		right.setSafetyEnabled(false);
-		
-		isReady = true;
+	public static void initializeWinch() {
+		winch = new Spark(Constants.WINCH_MOTOR);
 	}
 	
-	public static void climb()
-	{
-		if (isReady)
-		{
-			left.set(1.0);
-			right.set(1.0);
-		}
+	/**
+	 * Sets the speed of the winch
+	 * 
+	 * @author Thomas Dearth
+	 * 
+	 * @param speed The speed the winch will move. Positive is up, negative is down.
+	 * 
+	 */
+	public static void moveWinch(double speed) {
+		winch.setSpeed(speed);
 	}
 	
-	public static void stopClimb()
-	{
-		left.set(0.0);
-		right.set(0.0);
+	/**
+	 * Stops the winch's movement
+	 * 
+	 * @author Kyle Miller. They didn't spare us.
+	 * 
+	 */
+	public static void stopWinch() {
+		winch.setSpeed(0.0);
 	}
-
-	public static void descend() {
-		if (isReady)
-		{
-			left.set(1.0);
-			right.set(1.0);
-		}
-	}
-	
 }

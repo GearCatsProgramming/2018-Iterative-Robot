@@ -33,6 +33,16 @@ public class Grabber {
 		rightGrabMotor.set(1.0);
 	}
 	
+	public static void dLeft(double speed)
+	{
+		leftGrabMotor.set(speed);
+	}
+	
+	public static void dRight(double speed)
+	{
+		rightGrabMotor.set(speed);
+	}
+	
 	/**
 	 * Attempts to eject a cube.  MANUALLY STOPPED!
 	 */

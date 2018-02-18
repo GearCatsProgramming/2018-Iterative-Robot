@@ -4,31 +4,41 @@ import org.usfirst.frc.team6500.robot.Constants;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-/**A class used for controlling the joysticks and receiving input. Used initializeInput() before anything else is done.
- *@author Kyle Miller
+/**
+ * A class used for controlling the joysticks and receiving input. Used initializeInput() before anything else is done.
+ * 
+ * @author Kyle Miller
+ * 
  */
 public class DriveInput {
 	//Create an object for the controller based on the Joystick class (or XboxController)
 	public static Joystick controllerR;
 	public static Joystick controllerL;
 	
-	 /**Call this method to initalize the controllers. Must be called before anything else in this class is used.
-	  * @author Kyle Miller
-	  * @author Thomas Dearth
-	  */
+	/**
+	 * Call this method to initalize the controllers. Must be called before anything else in this class is used.
+	 * 
+	 * @author Kyle Miller
+	 * @author Thomas Dearth
+	 * 
+	 */
 	public static void initializeInput()
 	{
 		controllerR = new Joystick(0);
 		controllerL = new Joystick(1);
 	}
 	
-	/**Calculates the multiplier for the wheel by the position of the throttle
+	/**
+	 * Calculates the multiplier for the wheel by the position of the throttle
+	 * 
 	 * @author Kyle Miller
+	 * 
 	 * @param joystick The joystick to detect from
-	 * @return The throttle of the wheel
+	 * 
+	 * @return The throttle of the joystick
+	 * 
 	 */
-	public static double getThrottle(Joystick joystick)
-	{
+	public static double getThrottle(Joystick joystick) {
 		//Calculate the speed multiplier by the position of the throttle
 		//However, the value returned by the getThrottle function ranges
 		//from -1 to 1, and we need a range of 0 to 1, so we add 1 to
@@ -47,14 +57,22 @@ public class DriveInput {
 		
 		return multiplier;
 	}
+	
+	public static double getRawThrottle(Joystick joystick) {
+		return joystick.getThrottle();
+	}
 
-	/**Detects whether the trigger on joystick is pressed or not
+	/**
+	 * Detects whether the trigger on joystick is pressed or not
+	 * 
 	 * @author Kyle Miller
+	 * 
 	 * @param joystick The joystick used
+	 * 
 	 * @return True if the trigger is pressed; false otherwise
+	 * 
 	 */
-	public static boolean getTrigger(Joystick joystick)
-	{
+	public static boolean getTrigger(Joystick joystick) {
 		return joystick.getTrigger();
 	}
 	
@@ -64,8 +82,7 @@ public class DriveInput {
 	 * @param joystick The joystick being used
 	 * @return A value from -1 to 1 on the requested axis
 	 */
-	public static double getAxis(int axis, Joystick joystick)
-	{
+	public static double getAxis(int axis, Joystick joystick) {
 		if (axis == Constants.INPUT_AXIS_X)
 		{
 			return joystick.getX();
@@ -82,14 +99,22 @@ public class DriveInput {
 		return 0.0;
 	}
 	
-	/**Returns whether the button is pressed or not
+	/**
+	 * Returns whether the button is pressed or not
+	 * 
 	 * @author Kyle Miller
+	 * 
 	 * @param buttonid The button being pressed; check the joystick for the ID
 	 * @param joystick The joystick being checked
+	 * 
 	 * @return True if the button is pressed
+	 * 
 	 */
-	public static boolean getButton(int buttonid, Joystick joystick)
-	{
+	public static boolean getButton(int buttonid, Joystick joystick) {
 		return joystick.getRawButton(buttonid);
+	}
+
+	public static int getPOV(Joystick joystick) {
+		return joystick.getPOV();
 	}
 }

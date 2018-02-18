@@ -5,7 +5,13 @@ import org.usfirst.frc.team6500.robot.systems.Encoders;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 
-public class PIDInputY implements PIDSource {
+/**
+ * PIDSource for movement of drivetrain
+ * 
+ * @author Kyle
+ *
+ */
+public class PIDInputDrive implements PIDSource {
 	private PIDSourceType m_pidSource = PIDSourceType.kDisplacement;
 	
 	@Override

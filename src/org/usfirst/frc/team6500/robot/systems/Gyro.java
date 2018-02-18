@@ -1,22 +1,21 @@
 package org.usfirst.frc.team6500.robot.systems;
 
-import com.kauailabs.navx.frc.AHRS;
-import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 
 public class Gyro {
-	static AHRS ahrs;
+	static ADXRS450_Gyro gyro;
 	
 	public static void intializeGyro()
 	{
-		ahrs = new AHRS(SerialPort.Port.kMXP);
+		gyro = new ADXRS450_Gyro();
 	}
 	
 	public static double getAngle()
 	{
-		return ahrs.getAngle();
+		return gyro.getAngle();
 	}
 
 	public static void reset() {
-		ahrs.reset();
+		gyro.reset();
 	}
 }

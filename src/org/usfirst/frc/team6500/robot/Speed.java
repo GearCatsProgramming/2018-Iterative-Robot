@@ -1,9 +1,9 @@
 package org.usfirst.frc.team6500.robot;
 
 public class Speed {
-	public static double previousSpeed = 0.0;
+	private double previousSpeed = 0.0;
 	
-	public static double calculateSpeed(double raw, double multiplier)
+	public double calculateSpeed(double raw, double multiplier)
 	{
 		double calculated = raw;
 		
@@ -13,10 +13,10 @@ public class Speed {
 		{
 			calculated = (calculated + previousSpeed) / 2;
 		} else {
-			calculated = 0;
+			calculated = calculated;
 		}
 		
-		System.out.println("The previousSpeed is " + previousSpeed);
+		System.out.println("The previousXSpeed is " + previousSpeed);
 		previousSpeed = calculated;
 		return calculated;
 	}
