@@ -4,8 +4,6 @@ import org.usfirst.frc.team6500.robot.Constants;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 /**
  * Simple wrapper around the PID functions and the robot's movement
  * The commented code in this class is in case none of the newer PID stuff works and we need to revert

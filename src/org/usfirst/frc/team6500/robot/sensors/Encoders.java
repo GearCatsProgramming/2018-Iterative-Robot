@@ -40,7 +40,7 @@ public class Encoders {
 	 */
 	public static double getAverageDistance()
 	{
-		return (flenc.getDistance() + blenc.getDistance() + frenc.getDistance()/** + brenc.getDistance()*/) / 3.0;
+		return (flenc.getDistance() + blenc.getDistance() + frenc.getDistance() + brenc.getDistance()) / 4.0;
 	}
 	
 	public static void setDirection(int directionId)
@@ -61,9 +61,9 @@ public class Encoders {
 			case Constants.DIRECTION_FORWARD:
 				return getAverageDistance();
 			case Constants.DIRECTION_LEFT:
-				return ((-flenc.getDistance()) + frenc.getDistance() + blenc.getDistance()/** + (-brenc.getDistance())*/) / 3.0;
+				return ((-flenc.getDistance()) + frenc.getDistance() + blenc.getDistance() + (-brenc.getDistance())) / 4.0;
 			case Constants.DIRECTION_RIGHT:
-				return (flenc.getDistance() + (-frenc.getDistance()) + (-blenc.getDistance())/** + brenc.getDistance()*/) / 3.0;
+				return (flenc.getDistance() + (-frenc.getDistance()) + (-blenc.getDistance()) + brenc.getDistance()) / 4.0;
 		}
 		return 0.0;
 	}

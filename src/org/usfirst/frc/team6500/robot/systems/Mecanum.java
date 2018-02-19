@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 public class Mecanum {
 	/**Motors used in the drive train
 	 */
-	static Talon fleft, bleft, fright, bright;
+	public static Talon fleft, bleft, fright, bright;
 	
 	/**The drive train.
 	 * Don't call it directly, since Mecanum contains most methods
@@ -82,8 +82,20 @@ public class Mecanum {
 		}
 	}
 	
+	public static void driveWheel(Talon wheel, double speed) {
+		wheel.set(speed);
+	}
+	
 	public static void killMotors()
 	{
 		driveRobot(0, 0, 0);
+	}
+	
+	/**Makes the robot not revert to 0 speed
+	 * @author Thomas Dearth
+	 * @param continuous Whether the robot should keep going at a speed or not
+	 */
+	public static void maintainSpeed(boolean continuous) {
+		drive.setSafetyEnabled(continuous);
 	}
 }
