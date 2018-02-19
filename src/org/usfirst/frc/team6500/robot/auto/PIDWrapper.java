@@ -50,7 +50,8 @@ public class PIDWrapper extends Thread
 		this.interrupted();
 		while (true)
 		{
-			double output = this.PID.getOutput(this.input.pidGet());
+			double input = this.input.pidGet();
+			double output = this.PID.getOutput(input);
 			
 			if (Math.abs(output) == 0)
 			{
@@ -64,6 +65,7 @@ public class PIDWrapper extends Thread
 			}
 			
 			SmartDashboard.putNumber("PIDOutput", output);
+			SmartDashboard.putNumber("PIDInput", input);
 			
 			Timer.delay(0.05);
 		}

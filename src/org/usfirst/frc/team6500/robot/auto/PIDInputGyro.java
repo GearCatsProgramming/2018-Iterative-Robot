@@ -1,6 +1,6 @@
 package org.usfirst.frc.team6500.robot.auto;
 
-import org.usfirst.frc.team6500.robot.systems.Gyro;
+import org.usfirst.frc.team6500.robot.sensors.Gyro;
 
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;

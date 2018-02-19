@@ -12,8 +12,6 @@ public class Speed {
 		if (Math.abs(calculated - previousSpeed) > Constants.SPEED_DEADBAND)
 		{
 			calculated = (calculated + previousSpeed) / 2;
-		} else {
-			calculated = calculated;
 		}
 		
 		System.out.println("The previousXSpeed is " + previousSpeed);

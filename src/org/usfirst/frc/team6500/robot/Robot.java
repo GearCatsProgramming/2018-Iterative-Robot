@@ -10,14 +10,14 @@ package org.usfirst.frc.team6500.robot;
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
+import org.usfirst.frc.team6500.robot.sensors.Encoders;
+import org.usfirst.frc.team6500.robot.sensors.Gyro;
+import org.usfirst.frc.team6500.robot.sensors.Vision;
 import org.usfirst.frc.team6500.robot.systems.Lift;
 import org.usfirst.frc.team6500.robot.systems.Climber;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
-import org.usfirst.frc.team6500.robot.systems.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
-import org.usfirst.frc.team6500.robot.systems.Gyro;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
-import org.usfirst.frc.team6500.robot.systems.Vision;
 import org.usfirst.frc.team6500.robot.tasks.Rotate180;
 
 import edu.wpi.cscore.UsbCamera;
@@ -62,7 +62,7 @@ public class Robot extends IterativeRobot {
 		Lift.initializeLift();
 		Climber.initializeWinch();
 		
-
+		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setFPS(30);
 		camera.setResolution(640, 480); //320 = width, 240 = height
@@ -84,10 +84,13 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData("Autonomous Position Selector", autoOriginSelector);
 		
-		
 		xSpeed = new Speed();
 		ySpeed = new Speed();
 		zSpeed = new Speed();
+		
+		SmartDashboard.getNumber("P val", 0.0);
+		SmartDashboard.getNumber("I val", 0.0);
+		SmartDashboard.getNumber("D val", 0.0);
 	}
 
 	/**
@@ -241,8 +244,6 @@ public class Robot extends IterativeRobot {
 		if (!testing) {
 			double multiplier = DriveInput.getThrottle(DriveInput.controllerR);
 			
-			multiplier += boost;
-			
 			xspeed = xSpeed.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR), multiplier);
 			yspeed = ySpeed.calculateSpeed(-DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR), multiplier);
 			zspeed = zSpeed.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR), multiplier);
@@ -258,5 +259,6 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
 		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistance());
+		SmartDashboard.putNumber("PIDInput", Gyro.getAngle() % 360);
 	}
 }

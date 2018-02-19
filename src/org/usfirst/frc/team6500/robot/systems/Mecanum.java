@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6500.robot.systems;
 
 import org.usfirst.frc.team6500.robot.Constants;
+import org.usfirst.frc.team6500.robot.sensors.Gyro;
 
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;

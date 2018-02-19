@@ -1,8 +1,10 @@
 package org.usfirst.frc.team6500.robot.auto;
 
 import org.usfirst.frc.team6500.robot.Constants;
-import org.usfirst.frc.team6500.robot.systems.Encoders;
-import org.usfirst.frc.team6500.robot.systems.Gyro;
+import org.usfirst.frc.team6500.robot.sensors.Encoders;
+import org.usfirst.frc.team6500.robot.sensors.Gyro;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Simple wrapper around the PID functions and the robot's movement
@@ -92,7 +94,8 @@ public class AutoWrapper
 	public static void rotate(double degrees, double speed)
 	{
 		Gyro.reset();
-		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputGyro(), new PIDOutputZ(), degrees, 2.5, -speed, speed);
+		PIDWrapper autoTester = new PIDWrapper(0.5, 0.5,
+				0.5, new PIDInputGyro(), new PIDOutputZ(), degrees, 2.5, -speed, speed);
 		
 		autoTester.start();
 		
