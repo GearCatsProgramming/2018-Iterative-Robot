@@ -10,22 +10,21 @@ import org.usfirst.frc.team6500.robot.systems.Mecanum;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ConfigureGyro {
+public class ConfigureEncoders {
 	
-	public ConfigureGyro() {
+	public ConfigureEncoders() {
 		
 	}
 
 	public static void getGyroSpin() {
 		Mecanum.maintainSpeed(true);
-		Mecanum.driveRobot(1, 0, 0);
+		Mecanum.driveRobot(0, 0, 1);
 		try {
 			TimeUnit.SECONDS.sleep(3);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		Mecanum.maintainSpeed(false);
-		Mecanum.driveRobot(0, 0, 0);
 		SmartDashboard.putNumber("Angle travelled: ", Gyro.getAngle());
 		SmartDashboard.putNumber("FL", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
 		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
@@ -35,7 +34,7 @@ public class ConfigureGyro {
 	}
 	
 	public static void testWorking() {
-		PIDMoveCommand testWorking = new PIDMoveCommand(0, 0, 90, false);
+		PIDMoveCommand testWorking = new PIDMoveCommand(60, 0, 0, false);
 		testWorking.start();
 		System.out.println("Completed.");
 		SmartDashboard.putNumber("Angle travelled: ", Gyro.getAngle());

@@ -4,6 +4,11 @@ import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 
+/**An individual command to move the robot. Create it using (new PIDMoveCommand(parameters)).start();
+ * 
+ * @author Thomas Dearth
+ *
+ */
 public class PIDMoveCommand extends Thread {
 	static ManualPID fleft = PIDDrive.fleft;
 	static ManualPID fright = PIDDrive.fright;
@@ -11,13 +16,28 @@ public class PIDMoveCommand extends Thread {
 	static ManualPID bright = PIDDrive.bright;
 	static ManualPID gyro = PIDDrive.gyro;
 	
+	public double distX;
+	public double distY;
+	public double targetAngle;
+	
+	public PIDMoveCommand(double distX, double distY, double targetAngle, boolean left) {
+		this.distX = distX;
+		if(left) {
+			this.distY = distY;
+			this.targetAngle = targetAngle;
+		} else {
+			this.distY = -distY;
+			this.targetAngle = -targetAngle;
+		}
+	}
+	
 	/**The main loop for the method. Moves the things to the position set in drive().
 	 * @author Thomas Dearth. Overconfidence is a slow and insidious killer.
 	 * @param distX The distance FORWARD. Deal with it.
 	 * @param distY The distance RIGHT. Or left. IDK. test it. TODO: Test whether drive takes you right or left.
 	 * @param targetAngle The angle to be reached. TODO: Add gyroscope support.
 	 */
-	public void run(double distX, double distY, double targetAngle) {
+	public void run() {
 		PIDDrive.beginDrive(distX, distY, targetAngle);
 		while(!fleft.isInBounds() && !fright.isInBounds() && !bleft.isInBounds() && !bright.isInBounds() && gyro.isInBounds()) {
 			fleft.PID();
