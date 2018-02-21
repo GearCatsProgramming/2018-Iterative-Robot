@@ -3,6 +3,7 @@ package org.usfirst.frc.team6500.robot.testsystems;
 import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team6500.robot.Constants;
+import org.usfirst.frc.team6500.robot.manualpid.PIDDrive;
 import org.usfirst.frc.team6500.robot.manualpid.PIDMoveCommand;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
@@ -16,11 +17,12 @@ public class ConfigureEncoders {
 		
 	}
 
-	public static void getGyroSpin() {
+	public static void getEncoderDistance() {
+		Encoders.resetAllEncoders();
 		Mecanum.maintainSpeed(true);
-		Mecanum.driveRobot(0, 0, 1);
+		Mecanum.driveRobot(0, .5, 0);
 		try {
-			TimeUnit.SECONDS.sleep(3);
+			TimeUnit.SECONDS.sleep(2);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -31,6 +33,26 @@ public class ConfigureEncoders {
 		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
 		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistance());
+		
+		try {
+			TimeUnit.SECONDS.sleep(1);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SmartDashboard.putNumber("Angle travelled: ", Gyro.getAngle());
+		SmartDashboard.putNumber("FL2", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
+		SmartDashboard.putNumber("FR2", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
+		SmartDashboard.putNumber("RL2", Encoders.getDistance(Constants.ENCODER_REARLEFT));
+		SmartDashboard.putNumber("RR2", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
+	}
+	
+	public static void testBadly(double help) {
+		Mecanum.maintainSpeed(true);
+		PIDDrive.bleft.setSetpoint(help);
+		PIDDrive.bright.setSetpoint(help);
+		PIDDrive.fleft.setSetpoint(help);
+		PIDDrive.fright.setSetpoint(help);
 	}
 	
 	public static void testWorking() {

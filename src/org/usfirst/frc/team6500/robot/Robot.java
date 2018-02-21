@@ -10,6 +10,9 @@ package org.usfirst.frc.team6500.robot;
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
+import org.usfirst.frc.team6500.robot.manualpid.ManualPID;
+import org.usfirst.frc.team6500.robot.manualpid.PIDDrive;
+import org.usfirst.frc.team6500.robot.manualpid.PIDMoveCommand;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
 import org.usfirst.frc.team6500.robot.sensors.Vision;
@@ -17,6 +20,7 @@ import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Lift;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
+import org.usfirst.frc.team6500.robot.testsystems.ConfigureEncoders;
 import org.usfirst.frc.team6500.robot.testsystems.ConfigureGyro;
 
 import edu.wpi.cscore.UsbCamera;
@@ -49,6 +53,7 @@ public class Robot extends IterativeRobot {
 		Gyro.intializeGyro();
 		Vision.initializeVision();
 		Grabber.intializeGrabber();
+		Lift.initializeLift();
 		
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -61,7 +66,9 @@ public class Robot extends IterativeRobot {
 		autoSelector.addObject("Left/Right", 2);
 		autoSelector.addObject("Rotate", 3);
 		autoSelector.addObject("All", 4);
+		autoSelector.addObject("Encoder Measurement", 7);
 		autoSelector.addObject("Gyroscope Tester", 5);
+		autoSelector.addObject("Test Thomas's PID", 6);
 		
 		speedX = new Speed();
 		speedY = new Speed();
@@ -91,6 +98,11 @@ public class Robot extends IterativeRobot {
 			testRT.run();
 		case 5:
 			ConfigureGyro.getGyroSpin();
+		case 6:
+			//(new PIDMoveCommand(0, 120, 0, true)).start();
+			ConfigureEncoders.testBadly(120);
+		case 7:
+			ConfigureEncoders.getEncoderDistance();
 		}
 	}
 
@@ -143,11 +155,11 @@ public class Robot extends IterativeRobot {
 		
 		
 		//Code to grab/eject cubes
-		if (DriveInput.getButton(3, DriveInput.controllerR))
+		if (DriveInput.getButton(3, DriveInput.controllerL))
 		{
 			Grabber.grabCube();
 		}
-		else if (DriveInput.getButton(4, DriveInput.controllerR))
+		else if (DriveInput.getButton(5, DriveInput.controllerL))
 		{
 			Grabber.ejectCube();
 		}
@@ -162,7 +174,7 @@ public class Robot extends IterativeRobot {
 		{
 			Lift.raiseLift();
 		}
-		if (DriveInput.getButton(6, DriveInput.controllerL))
+		else if (DriveInput.getButton(6, DriveInput.controllerL))
 		{
 			Lift.descend();
 		}

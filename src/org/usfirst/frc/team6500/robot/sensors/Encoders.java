@@ -32,7 +32,6 @@ public class Encoders {
 		
 		frenc.setReverseDirection(true);
 		brenc.setReverseDirection(true);
-		blenc.setReverseDirection(true);
 	}
 	
 	/**Gets the average distance from each encoder

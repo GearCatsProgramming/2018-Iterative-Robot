@@ -10,11 +10,11 @@ import org.usfirst.frc.team6500.robot.systems.Mecanum;
  *
  */
 public class PIDDrive{
-	static ManualPID fleft = new ManualPID(Encoders.flenc);
-	static ManualPID fright = new ManualPID(Encoders.frenc);
-	static ManualPID bleft = new ManualPID(Encoders.blenc);
-	static ManualPID bright = new ManualPID(Encoders.brenc);
-	static ManualPID gyro = new ManualPID(Gyro.ahrs);
+	public static ManualPID fleft = new ManualPID(Encoders.flenc);
+	public static ManualPID fright = new ManualPID(Encoders.frenc);
+	public static ManualPID bleft = new ManualPID(Encoders.blenc);
+	public static ManualPID bright = new ManualPID(Encoders.brenc);
+//	static ManualPID gyro = new ManualPID(Gyro.ahrs);
 	
 	/**Sets the robot to drive a certain direction. Create a PIDMoveCommand object to use the setpoints.
 	 * @author Thomas Dearth
@@ -26,7 +26,7 @@ public class PIDDrive{
 		if(targetAngle > 180) { targetAngle -= 360; }
 		else if(targetAngle < -180) { targetAngle += 360; }
 		
-		gyro.setSetpoint(targetAngle);
+//		gyro.setSetpoint(targetAngle);
 		fleft.setSetpoint(distX + distY + targetAngle*Constants.ANGLE_TO_DISTANCE);
 		fright.setSetpoint(distX - distY + targetAngle*Constants.ANGLE_TO_DISTANCE);
 		bleft.setSetpoint(distX + distY - targetAngle*Constants.ANGLE_TO_DISTANCE);
@@ -36,12 +36,16 @@ public class PIDDrive{
 	/**Sets the targets of movement to 0 and resets encoder data. Use after a command ends.
 	 * @author Thomas Dearth
 	 */
-	public void endCommand() {
+	public static void endCommand() {
 		Mecanum.driveWheel(Mecanum.fleft, 0);
 		Mecanum.driveWheel(Mecanum.fright, 0);
 		Mecanum.driveWheel(Mecanum.bleft, 0);
 		Mecanum.driveWheel(Mecanum.bright, 0);
 		Encoders.resetAllEncoders();
 		Gyro.reset();
+	}
+	
+	public static boolean isDone() {
+		return fleft.isInBounds() && fright.isInBounds() && bleft.isInBounds() && bright.isInBounds();
 	}
 }

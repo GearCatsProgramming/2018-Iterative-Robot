@@ -23,7 +23,10 @@ public final class Constants {
 	public final static int ENCODER_INPUT_RR_B = 1;
 	
 	
-	public final static double ENCODER_DISTANCE_PER_PULSE = 0.11;
+	public final static double ENCODER_DISTANCE_PER_PULSE = 0.0990487842984034;
+	//0.1043508135179383 TODO: Test more conversion values
+	//0.0960629921259843
+	//0.0986475735879077
 	
 	
 	public final static double SPEED_BASE = 0.85;

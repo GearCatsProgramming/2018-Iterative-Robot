@@ -96,6 +96,13 @@ public class Mecanum {
 	 * @param continuous Whether the robot should keep going at a speed or not
 	 */
 	public static void maintainSpeed(boolean continuous) {
-		drive.setSafetyEnabled(continuous);
+		drive.setSafetyEnabled(!continuous);
+	}
+	
+	public static void maintainWheelSpeed(boolean continuous) {
+		fleft.setSafetyEnabled(!continuous);
+		fright.setSafetyEnabled(!continuous);
+		bleft.setSafetyEnabled(!continuous);
+		bright.setSafetyEnabled(!continuous);
 	}
 }

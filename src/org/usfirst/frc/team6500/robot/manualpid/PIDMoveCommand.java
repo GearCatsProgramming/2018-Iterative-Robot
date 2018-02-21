@@ -14,7 +14,7 @@ public class PIDMoveCommand extends Thread {
 	static ManualPID fright = PIDDrive.fright;
 	static ManualPID bleft = PIDDrive.bleft;
 	static ManualPID bright = PIDDrive.bright;
-	static ManualPID gyro = PIDDrive.gyro;
+//	static ManualPID gyro = PIDDrive.gyro; TODO: Reenable gyro when usable
 	
 	public double distX;
 	public double distY;
@@ -38,13 +38,15 @@ public class PIDMoveCommand extends Thread {
 	 * @param targetAngle The angle to be reached. TODO: Add gyroscope support.
 	 */
 	public void run() {
+		Mecanum.maintainWheelSpeed(true);
 		PIDDrive.beginDrive(distX, distY, targetAngle);
-		while(!fleft.isInBounds() && !fright.isInBounds() && !bleft.isInBounds() && !bright.isInBounds() && gyro.isInBounds()) {
+		while(!fleft.isInBounds() && !fright.isInBounds() && !bleft.isInBounds() && !bright.isInBounds()// && gyro.isInBounds()
+				) {
 			fleft.PID();
 			fright.PID();
 			bleft.PID();
 			bright.PID();
-			gyro.PID();
+//			gyro.PID();
 			double greatest = Math.abs(fleft.getSpeed());
 			double frspeed = Math.abs(fright.getSpeed());
 			double blspeed = Math.abs(bleft.getSpeed());
@@ -70,5 +72,6 @@ public class PIDMoveCommand extends Thread {
 				e.printStackTrace();
 			}
 		}
+		Mecanum.maintainWheelSpeed(false);
 	}
 }
