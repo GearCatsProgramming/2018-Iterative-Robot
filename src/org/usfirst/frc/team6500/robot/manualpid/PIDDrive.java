@@ -45,7 +45,31 @@ public class PIDDrive{
 		Gyro.reset();
 	}
 	
+	/**Returns whether the set of PIDs are at the correct values or not
+	 * @author Thomas Dearth
+	 * @return True if all the wheels are in the correct place
+	 */
 	public static boolean isDone() {
 		return fleft.isInBounds() && fright.isInBounds() && bleft.isInBounds() && bright.isInBounds();
+	}
+	
+	/**Returns the values of the PID systems at the current moment. XXX Test system
+	 * @author twdea
+	 * @return A combination of the values of the PID systems
+	 */
+	public static String getTargets() {
+		return "fleft: " + fleft.getSpeed();
+	}
+	
+	public static void main(String[] args) {
+		ManualTestSource awfulSource = new ManualTestSource();
+		ManualPID awfulPID = new ManualPID(awfulSource);
+		awfulPID.setSetpoint(-120);
+		for(int x=0; x<10; x++) {
+			System.out.println("Speed " + awfulPID.getSpeed());
+			awfulPID.PID();
+			awfulSource.pidAdd(awfulPID.getSpeed());
+			System.out.println(awfulSource.pidGet() + "\n------------------------");
+		}
 	}
 }

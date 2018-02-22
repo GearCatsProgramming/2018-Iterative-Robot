@@ -14,7 +14,6 @@ public class ManualPID {
 	private PIDSource source;
 	
 	public ManualPID(PIDSource source) {
-		System.out.println("Drive PID system created.");
 		this.source = source;
 		pidCalc = 0;
 	}
@@ -25,6 +24,10 @@ public class ManualPID {
 	 */
 	public void setSetpoint(double d) {
 		this.setpoint = d;
+	}
+	
+	public double getSetpoint() {
+		return setpoint;
 	}
 	
 	/**Makes the PID system adjust values. The core of the system.*/
@@ -38,13 +41,18 @@ public class ManualPID {
 //			this.pidCalc += maxChange;
 //		}
 		this.previous_error = error;
+		System.out.println(error +" "+ integral +" "+ derivative +" "+ pidCalc);
 	}
 	/**Gets the speed the robot is going at.
 	 * @author Thomas Dearth
 	 * @return The distance the PIDSource has traveled
 	 */
 	public double getSpeed() {
-		return pidCalc * Constants.INCHES_TO_SPEED;
+		return pidCalc * Constants.ENCODER_DISTANCE_PER_PULSE;
+	}
+	
+	public PIDSource getSource() {
+		return source;
 	}
 	
 	/**@author Thomas Dearth

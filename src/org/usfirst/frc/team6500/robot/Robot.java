@@ -99,8 +99,8 @@ public class Robot extends IterativeRobot {
 		case 5:
 			ConfigureGyro.getGyroSpin();
 		case 6:
-			//(new PIDMoveCommand(0, 120, 0, true)).start();
-			ConfigureEncoders.testBadly(120);
+			(new PIDMoveCommand(-120, 0, 0, true)).start();
+			//ConfigureEncoders.testBadly(120);
 		case 7:
 			ConfigureEncoders.getEncoderDistance();
 		}

@@ -37,7 +37,6 @@ public class ConfigureEncoders {
 		try {
 			TimeUnit.SECONDS.sleep(1);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		SmartDashboard.putNumber("Angle travelled: ", Gyro.getAngle());
@@ -49,10 +48,10 @@ public class ConfigureEncoders {
 	
 	public static void testBadly(double help) {
 		Mecanum.maintainSpeed(true);
-		PIDDrive.bleft.setSetpoint(help);
-		PIDDrive.bright.setSetpoint(help);
-		PIDDrive.fleft.setSetpoint(help);
-		PIDDrive.fright.setSetpoint(help);
+		PIDDrive.bleft.setSetpoint(-120);
+		PIDDrive.bright.setSetpoint(120);
+		PIDDrive.fleft.setSetpoint(120);
+		PIDDrive.fright.setSetpoint(-120);
 	}
 	
 	public static void testWorking() {

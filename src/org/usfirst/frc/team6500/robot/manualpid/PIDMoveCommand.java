@@ -40,6 +40,7 @@ public class PIDMoveCommand extends Thread {
 	public void run() {
 		Mecanum.maintainWheelSpeed(true);
 		PIDDrive.beginDrive(distX, distY, targetAngle);
+			System.out.println();
 		while(!fleft.isInBounds() && !fright.isInBounds() && !bleft.isInBounds() && !bright.isInBounds()// && gyro.isInBounds()
 				) {
 			fleft.PID();
