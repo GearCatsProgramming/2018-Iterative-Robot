@@ -20,17 +20,17 @@ public class PIDDrive{
 	 * @author Thomas Dearth
 	 * @param distX The forward distance to travel
 	 * @param distY The right distance to travel
-	 * @param targetAngle Angle to reach
+	 * @param targetAngle Angle to reach clockwise
 	 */
 	public static void beginDrive(double distX, double distY,double targetAngle) {
 		if(targetAngle > 180) { targetAngle -= 360; }
 		else if(targetAngle < -180) { targetAngle += 360; }
 		
 //		gyro.setSetpoint(targetAngle);
-		fleft.setSetpoint(distX + distY + targetAngle*Constants.ANGLE_TO_DISTANCE);
-		fright.setSetpoint(distX - distY + targetAngle*Constants.ANGLE_TO_DISTANCE);
-		bleft.setSetpoint(distX + distY - targetAngle*Constants.ANGLE_TO_DISTANCE);
-		bright.setSetpoint(distX - distY - targetAngle*Constants.ANGLE_TO_DISTANCE);
+		fleft.setSetpoint(distX + distY + targetAngle*Constants.ANGLE_TO_DISTANCE);		//TODO: Fix math here
+		fright.setSetpoint(distX - distY - targetAngle*Constants.ANGLE_TO_DISTANCE);
+		bleft.setSetpoint(distX - distY + targetAngle*Constants.ANGLE_TO_DISTANCE);
+		bright.setSetpoint(distX + distY - targetAngle*Constants.ANGLE_TO_DISTANCE);
 	}
 	
 	/**Sets the targets of movement to 0 and resets encoder data. Use after a command ends.
