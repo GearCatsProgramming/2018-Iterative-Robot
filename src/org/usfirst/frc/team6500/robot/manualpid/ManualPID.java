@@ -41,7 +41,7 @@ public class ManualPID {
 //			this.pidCalc += maxChange;
 //		}
 		this.previous_error = error;
-		System.out.println(error +" "+ integral +" "+ derivative +" "+ pidCalc);
+//		System.out.println(error +" "+ integral +" "+ derivative +" "+ pidCalc);
 	}
 	/**Gets the speed the robot is going at.
 	 * @author Thomas Dearth
@@ -56,15 +56,24 @@ public class ManualPID {
 	}
 	
 	/**@author Thomas Dearth
+	 * @param input The value to check against
 	 * @return True if the robot is in bounds, or False otherwise
 	 */
-	public boolean isInBounds() {
-		return pidCalc > setpoint - acceptableError && pidCalc < setpoint + acceptableError;
+	public boolean isInBounds(double input) {
+		if(setpoint > 0) {
+//			System.out.println(input + ">"+ (setpoint - acceptableError));
+//			System.out.println(input + "<"+ (setpoint + acceptableError));
+			return input > setpoint - acceptableError && input < setpoint + acceptableError;
+		} else {
+//			System.out.println(input + ">"+ (setpoint - acceptableError));
+//			System.out.println(input + "<"+ (setpoint + acceptableError));
+			return input > setpoint - acceptableError && input < setpoint + acceptableError;
+		}
 	}
 	
-	public boolean isInBounds(boolean circular) {
+	public boolean isInBounds(double input, boolean circular) {
 		if(!circular) {
-			return isInBounds();
+			return isInBounds(input);
 		} else {
 			double location = pidCalc;
 			while(location > 360) {

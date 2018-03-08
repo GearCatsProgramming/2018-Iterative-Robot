@@ -67,7 +67,7 @@ public class Robot extends IterativeRobot {
 		autoSelector.addObject("Rotate", 3);
 		autoSelector.addObject("All", 4);
 		autoSelector.addObject("Encoder Measurement", 7);
-		autoSelector.addObject("Gyroscope Tester", 5);
+		autoSelector.addObject("Basic test", 5);
 		autoSelector.addObject("Test Thomas's PID", 6);
 		
 		speedX = new Speed();
@@ -89,20 +89,28 @@ public class Robot extends IterativeRobot {
 		{
 		case 1:
 			AutoWrapper.goForward(20.0, 0.5);
+			break;
 		case 2:
 			AutoWrapper.leftRight(20.0, 0.5);
+			break;
 		case 3:
 			AutoWrapper.rotate(50.0, 0.5);
+			break;
 		case 4:
 			AutoRoute testRT = new TestRoute();
 			testRT.run();
+			break;
 		case 5:
-			ConfigureGyro.getGyroSpin();
+			while(true) {
+				Mecanum.driveRobot(0, 0.5, 0);
+			}
 		case 6:
-			(new PIDMoveCommand(-120, 0, 0, true)).start();
+			(new PIDMoveCommand(50, 0, 0, true)).start();
 			//ConfigureEncoders.testBadly(120);
+			break;
 		case 7:
 			ConfigureEncoders.getEncoderDistance();
+			break;
 		}
 	}
 

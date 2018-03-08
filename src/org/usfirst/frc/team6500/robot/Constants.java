@@ -24,7 +24,7 @@ public final class Constants {
 	
 	
 	public final static double ENCODER_DISTANCE_PER_PULSE = 0.0990487842984034;
-	//0.1043508135179383 TODO: Test more conversion values
+	//0.1043508135179383
 	//0.0960629921259843
 	//0.0986475735879077
 	
@@ -68,6 +68,6 @@ public final class Constants {
 	public static final double PID_I = 0;
 	public static final double PID_D = 0;
 
-	//TODO: Configure this
+	//TODO: Configure distance-to-angle ratio
 	public static final double ANGLE_TO_DISTANCE = 0;
 }
