@@ -17,7 +17,7 @@ public class SideManeuvers {
 		Mecanum.maintainWheelSpeed(true);
 		
 		//Move to switch
-		PIDMoveCommand moveToSwitch = new PIDMoveCommand(130, 0, -90, leftField);	//TODO: Adjust forward distance for all of these- consult game strategy
+		PIDMoveCommand moveToSwitch = new PIDMoveCommand(130, 0, -90, leftField);
 		moveToSwitch.start();
 		Lift.raiseLift();
 		PIDMoveCommand.wait(1.0);
@@ -28,6 +28,10 @@ public class SideManeuvers {
 		Grabber.ejectCube();
 		PIDMoveCommand.wait(0.5);
 		Grabber.killGrab();
+		
+		//Back up for the other bots
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		backUp.start();
 		
 		//TODO: Grab more cheese
 		Mecanum.maintainWheelSpeed(false);
@@ -65,9 +69,8 @@ public class SideManeuvers {
 	/**Places the cube on the switch from the left side of the field
 	 * @author Thomas Dearth
 	 * @param leftField Whether the cube starts on the left side
-	 * @param leftSwitch Whether the switch is on the left of the field
 	 */
-	public static void sameScale(boolean leftField, boolean leftSwitch) {
+	public static void sameScale(boolean leftField) {
 		Mecanum.maintainWheelSpeed(true);
 		
 		//Move to scale
@@ -82,6 +85,43 @@ public class SideManeuvers {
 		Grabber.ejectCube();
 		PIDMoveCommand.wait(0.5);
 		Grabber.killGrab();
+		
+		//Back up for the other bots
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		backUp.start();
+		
+		//TODO: Grab more cheese
+		Mecanum.maintainWheelSpeed(false);
+	}
+	
+	/**Places the cube on the switch on the opposite side of the field
+	 * @author Thomas Dearth
+	 * @param leftField Whether the cube starts on the left side of the field
+	 */
+	public static void oppositeScale(boolean leftField) {
+		Mecanum.maintainWheelSpeed(true);
+		
+		//Move to the outside
+		PIDMoveCommand moveToOutside = new PIDMoveCommand(200, 0, 0, leftField);
+		moveToOutside.start();
+		PIDMoveCommand.holdYourHorses(moveToOutside);
+		
+		//Move to the scale
+		PIDMoveCommand moveToScale = new PIDMoveCommand(100, 200, 0, leftField);
+		moveToScale.start();
+		Lift.raiseLift();
+		PIDMoveCommand.wait(1.0);
+		Lift.stopLift();
+		PIDMoveCommand.holdYourHorses(moveToScale);
+		
+		//THROW THE CHEESE
+		Grabber.ejectCube();
+		PIDMoveCommand.wait(0.5);
+		Grabber.killGrab();
+		
+		//Back up for the other bots
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		backUp.start();
 		
 		//TODO: Grab more cheese
 		Mecanum.maintainWheelSpeed(false);

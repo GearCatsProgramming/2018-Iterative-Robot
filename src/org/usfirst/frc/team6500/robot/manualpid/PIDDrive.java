@@ -59,18 +59,18 @@ public class PIDDrive{
 		ManualTestSource awfulSourceFR = new ManualTestSource();
 		ManualTestSource awfulSourceBL = new ManualTestSource();
 		ManualTestSource awfulSourceBR = new ManualTestSource();
-		
 		ManualPID awfulFL = new ManualPID(awfulSourceFL);
 		ManualPID awfulFR = new ManualPID(awfulSourceFR);
 		ManualPID awfulBL = new ManualPID(awfulSourceBL);
 		ManualPID awfulBR = new ManualPID(awfulSourceBR);
+		
 		int iterations = 1;
-		awfulFL.setSetpoint(-120);
+		awfulFL.setSetpoint(-12000);
 		awfulFR.setSetpoint(120);
 		awfulBL.setSetpoint(40);
 		awfulBR.setSetpoint(-30);
 //		while(awfulSourceFR.pidGet() > -115) {
-		System.out.println(-11 < -123);
+//		System.out.println(-11 < -123);
 		while(!awfulFL.isInBounds(awfulSourceFL.pidGet()) || !awfulFR.isInBounds(awfulSourceFR.pidGet())
 				|| !awfulBL.isInBounds(awfulSourceBL.pidGet()) || !awfulBR.isInBounds(awfulSourceBR.pidGet())) {
 //		while(!awfulFL.isInBounds(awfulSourceFL.pidGet())) {

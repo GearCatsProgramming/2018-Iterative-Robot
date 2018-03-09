@@ -33,26 +33,30 @@ public class CenterManeuvers {
 		PIDMoveCommand.wait(0.5);
 		Grabber.killGrab();
 		
+		//Back up for the other bots
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		backUp.start();
+		
 		//TODO: Grab more cheese
 		Mecanum.maintainWheelSpeed(false);
 	}
 	
 	/**Places the cube on the scale
 	 * @author Thomas Dearth
-	 * @param leftScale
+	 * @param leftField
 	 */
-	public static void goToScale(boolean leftScale) {
+	public static void goToScale(boolean leftField) {
 		Mecanum.maintainWheelSpeed(true);
 		
 		//Move to scale
-		PIDMoveCommand moveToScale1 = new PIDMoveCommand(100, 75, 0, leftScale);
+		PIDMoveCommand moveToScale1 = new PIDMoveCommand(100, 75, 0, leftField);
 		moveToScale1.start();
 		Lift.raiseLift();
 		PIDMoveCommand.wait(1.0);
 		Lift.stopLift();
 		PIDMoveCommand.holdYourHorses(moveToScale1);
 		
-		PIDMoveCommand moveToScale2 = new PIDMoveCommand(200, 0, 0, leftScale);
+		PIDMoveCommand moveToScale2 = new PIDMoveCommand(200, 0, 0, leftField);
 		moveToScale2.start();
 		PIDMoveCommand.holdYourHorses(moveToScale2);
 		
@@ -60,6 +64,10 @@ public class CenterManeuvers {
 		Grabber.ejectCube();
 		PIDMoveCommand.wait(0.5);
 		Grabber.killGrab();
+		
+		//Back up for the other bots
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		backUp.start();
 		
 		//TODO: Grab more cheese
 		Mecanum.maintainWheelSpeed(false);
