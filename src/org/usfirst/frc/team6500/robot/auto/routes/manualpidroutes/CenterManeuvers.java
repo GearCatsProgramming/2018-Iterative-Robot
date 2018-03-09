@@ -17,14 +17,14 @@ public class CenterManeuvers {
 		Mecanum.maintainWheelSpeed(true);
 		
 		//Move to switch
-		PIDMoveCommand moveToSwitch1 = new PIDMoveCommand(100, 80, -90, leftField);
+		PIDMoveCommand moveToSwitch1 = new PIDMoveCommand(100, 80, 90, leftField);
 		moveToSwitch1.start();
 		Lift.raiseLift();
 		PIDMoveCommand.wait(1.0);
 		Lift.stopLift();
 		PIDMoveCommand.holdYourHorses(moveToSwitch1);
 		
-		PIDMoveCommand moveToSwitch2 = new PIDMoveCommand(200, 0, -90, leftField);
+		PIDMoveCommand moveToSwitch2 = new PIDMoveCommand(50, 0, 0, leftField);
 		moveToSwitch2.start();
 		PIDMoveCommand.holdYourHorses(moveToSwitch2);
 		
@@ -34,7 +34,7 @@ public class CenterManeuvers {
 		Grabber.killGrab();
 		
 		//Back up for the other bots
-		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, 0, leftField);
 		backUp.start();
 		
 		//TODO: Grab more cheese
@@ -66,7 +66,7 @@ public class CenterManeuvers {
 		Grabber.killGrab();
 		
 		//Back up for the other bots
-		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, 0, leftField);
 		backUp.start();
 		
 		//TODO: Grab more cheese
