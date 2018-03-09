@@ -73,4 +73,5 @@ public final class Constants {
 	public static final double ANGLE_TO_DISTANCE = 0;
 	/**The speed of the robot converted to the speed. TODO: Configure distance-to-speed ratio*/
 	public static final double INCHES_TO_SPEED = 0;
+	public static final double AUTO_SPEED = 0.5;
 }

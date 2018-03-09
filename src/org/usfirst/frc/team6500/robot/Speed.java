@@ -14,7 +14,7 @@ public class Speed {
 			calculated = (calculated + previousSpeed) / 2;
 		}
 		
-		System.out.println("The previousXSpeed is " + previousSpeed);
+		System.out.println("The previousSpeed is " + previousSpeed);
 		previousSpeed = calculated;
 		return calculated;
 	}

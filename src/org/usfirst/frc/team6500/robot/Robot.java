@@ -8,11 +8,7 @@
 package org.usfirst.frc.team6500.robot;
 
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
-import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
-import org.usfirst.frc.team6500.robot.manualpid.ManualPID;
-import org.usfirst.frc.team6500.robot.manualpid.PIDDrive;
-import org.usfirst.frc.team6500.robot.manualpid.PIDMoveCommand;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
 import org.usfirst.frc.team6500.robot.sensors.Vision;
@@ -20,11 +16,9 @@ import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Lift;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
-import org.usfirst.frc.team6500.robot.testsystems.ConfigureEncoders;
-import org.usfirst.frc.team6500.robot.testsystems.ConfigureGyro;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,8 +29,7 @@ public class Robot extends IterativeRobot {
 	double xspeed, yspeed, zspeed;
 	Speed speedX, speedY, speedZ;
 	
-	int autoMode = 0;
-	SendableChooser<Integer> autoSelector;
+	SendableChooser<Integer> autoTargetSelector, autoStartSelector;
 	
 	boolean fieldOriented = false;
 	
@@ -60,21 +53,23 @@ public class Robot extends IterativeRobot {
 		camera.setFPS(30);
 		camera.setResolution(640, 480); //320 = width, 240 = height
 		
-		autoSelector = new SendableChooser<Integer>();
+		autoTargetSelector = new SendableChooser<Integer>();
+		autoStartSelector = new SendableChooser<Integer>();
 		
-		autoSelector.addDefault("Forward/Backward", 1);
-		autoSelector.addObject("Left/Right", 2);
-		autoSelector.addObject("Rotate", 3);
-		autoSelector.addObject("All", 4);
-		autoSelector.addObject("Encoder Measurement", 7);
-		autoSelector.addObject("Gyroscope Tester", 5);
-		autoSelector.addObject("Test Thomas's PID", 6);
+		autoTargetSelector.addDefault("Switch", 1);
+		autoTargetSelector.addObject("Scale", 2);
+		autoTargetSelector.addObject("Autoline", 3);
+		
+		autoStartSelector.addDefault("Left", 1);
+		autoStartSelector.addObject("Middle", 2);
+		autoStartSelector.addObject("Right", 3);
 		
 		speedX = new Speed();
 		speedY = new Speed();
 		speedZ = new Speed();
 		
-		SmartDashboard.putData("Autonomous Tester Selector", autoSelector);
+		SmartDashboard.putData("Autonomous Target Selector", autoTargetSelector);
+		SmartDashboard.putData("Autonomous Start Position Selector", autoStartSelector);
 	}
 
 	/**
@@ -83,27 +78,75 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit()
 	{
-		autoMode = autoSelector.getSelected();
+		int autoPos = autoStartSelector.getSelected();
+		int autoTarget = autoTargetSelector.getSelected();
 		
-		switch (autoMode)
-		{
-		case 1:
-			AutoWrapper.goForward(20.0, 0.5);
-		case 2:
-			AutoWrapper.leftRight(20.0, 0.5);
-		case 3:
-			AutoWrapper.rotate(50.0, 0.5);
-		case 4:
-			AutoRoute testRT = new TestRoute();
-			testRT.run();
-		case 5:
-			ConfigureGyro.getGyroSpin();
-		case 6:
-			//(new PIDMoveCommand(0, 120, 0, true)).start();
-			ConfigureEncoders.testBadly(120);
-		case 7:
-			ConfigureEncoders.getEncoderDistance();
-		}
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+        if(!(gameData.length() > 0))
+        {
+        	System.err.println("Auto Machine Broke!! :(");
+        	//return;
+        }
+        
+        
+        
+        char switchData = gameData.charAt(0);
+        boolean switchLeft;
+        if (switchData == 'L') { switchLeft = true; } else { switchLeft = false; }
+        
+        char scaleData = gameData.charAt(1);
+        boolean scaleLeft;
+        if (scaleData == 'L') { scaleLeft = true; } else { scaleLeft = false; }
+        
+        if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
+        
+        
+        double autoSpeed = Constants.AUTO_SPEED;
+        
+        
+        AutoRoute route = new ForwardRoute(130.0, 0.5);
+		
+        switch(autoTarget)
+        {
+        case 1: //Switch
+        	if (autoPos == 1) { //Left
+        		if (switchLeft) { route = new ForwardSwitch(autoSpeed); }
+        		else { route = new OppositeSwitch(autoSpeed, true); }
+        	}
+        	
+        	
+        	else if (autoPos == 2) { route = new AutoLine(autoSpeed); } //Middle
+        	
+
+        	else if (autoPos == 1) { //Right
+        		if (switchLeft) { route = new OppositeSwitch(autoSpeed, false); }
+        		else { route = new ForwardSwitch(autoSpeed); }
+        	}
+        	
+        	break;
+        case 2: //Scale
+        	if (autoPos == 1) { //Left
+        		if (scaleLeft) { route = new ForwardScale(autoSpeed, true); }
+        		else { route = new OppositeScale(autoSpeed, true); }
+        	}
+        	
+        	
+        	else if (autoPos == 2) { route = new AutoLine(autoSpeed); } //Middle
+        	
+
+        	else if (autoPos == 1) { //Right
+        		if (scaleLeft) { route = new OppositeScale(autoSpeed, false); }
+        		else { route = new ForwardScale(autoSpeed, false); }
+        	}
+        	
+        	break;
+        case 3: //Autoline
+        	route = new ForwardRoute(70.0, 0.5);
+        	break;
+        }
+        
+        route.run();
 	}
 
 	/**
@@ -209,6 +252,5 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
 		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistance());
-		SmartDashboard.putNumber("PIDInput", Gyro.getAngle() % 360);
 	}
 }
