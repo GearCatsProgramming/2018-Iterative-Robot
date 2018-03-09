@@ -83,6 +83,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit()
 	{
+		//A quick jerk to drop the claw
+		Mecanum.driveRobot(0, .1, 0);
+		
 		autoMode = autoSelector.getSelected();
 		
 		switch (autoMode)
