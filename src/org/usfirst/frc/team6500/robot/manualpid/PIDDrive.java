@@ -23,8 +23,8 @@ public class PIDDrive{
 	 * @param targetAngle Angle to reach clockwise
 	 */
 	public static void beginDrive(double distX, double distY,double targetAngle) {
-		if(targetAngle > 180) { targetAngle -= 360; }
-		else if(targetAngle < -180) { targetAngle += 360; }
+//		if(targetAngle > 180) { targetAngle -= 360; }
+//		else if(targetAngle < -180) { targetAngle += 360; }
 		
 //		gyro.setSetpoint(targetAngle);
 		fleft.setSetpoint(distX + distY + targetAngle*Constants.ANGLE_TO_DISTANCE);		//TODO: Fix two-axis math

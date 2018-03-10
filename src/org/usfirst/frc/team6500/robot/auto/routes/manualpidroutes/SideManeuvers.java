@@ -30,7 +30,7 @@ public class SideManeuvers {
 		Grabber.killGrab();
 		
 		//Back up for the other bots
-		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, 0, leftField);
 		backUp.start();
 		
 		//TODO: Grab more cheese
@@ -53,7 +53,7 @@ public class SideManeuvers {
 		PIDMoveCommand.holdYourHorses(moveToOutside);
 		
 		//Move to opposite switch
-		PIDMoveCommand moveToSwitch = new PIDMoveCommand(150, 0, -90, leftField);
+		PIDMoveCommand moveToSwitch = new PIDMoveCommand(150, 0, 0, leftField);
 		moveToSwitch.start();
 		PIDMoveCommand.holdYourHorses(moveToSwitch);
 		
@@ -87,7 +87,7 @@ public class SideManeuvers {
 		Grabber.killGrab();
 		
 		//Back up for the other bots
-		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, 0, leftField);
 		backUp.start();
 		
 		//TODO: Grab more cheese
@@ -120,7 +120,7 @@ public class SideManeuvers {
 		Grabber.killGrab();
 		
 		//Back up for the other bots
-		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, 0, leftField);
 		backUp.start();
 		
 		//TODO: Grab more cheese

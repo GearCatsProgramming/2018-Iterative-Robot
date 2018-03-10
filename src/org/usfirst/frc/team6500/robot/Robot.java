@@ -25,6 +25,7 @@ import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -66,6 +67,7 @@ public class Robot extends IterativeRobot {
 		autoTargetSelector.addDefault("Switch", 1);
 		autoTargetSelector.addObject("Scale", 2);
 		autoTargetSelector.addObject("Autoline", 3);
+		autoTargetSelector.addObject("Nothing", 4);
 		
 		autoStartSelector.addDefault("Left", 1);
 		autoStartSelector.addObject("Middle", 2);
@@ -112,6 +114,11 @@ public class Robot extends IterativeRobot {
         if (scaleData == 'L') { scaleLeft = true; } else { scaleLeft = false; }
         
         
+        if (autoTarget == 4) //Do nothing.
+        {
+        	return;
+        }
+        
         
         if (autoType == 1) //Kyle
         {
@@ -120,6 +127,11 @@ public class Robot extends IterativeRobot {
             
             double autoSpeed = Constants.AUTO_SPEED;
             
+            Mecanum.driveRobot(0.0, 1.0, 0.0);
+            Timer.delay(0.25);
+            Mecanum.driveRobot(0.0, -1.0, 0.0);
+            Timer.delay(0.25);
+            Mecanum.killMotors();
             
             AutoRoute route = new ForwardRoute(130.0, 0.5);
     		
@@ -166,6 +178,10 @@ public class Robot extends IterativeRobot {
         }
         else if (autoType == 2) //Thomas
         {
+        	PIDMoveCommand aaa = new PIDMoveCommand(7, 0, 0, true);
+        	aaa.start();
+        	PIDMoveCommand.holdYourHorses(aaa);
+        	
         	switch(autoTarget)
             {
             case 1: //Switch
@@ -206,33 +222,33 @@ public class Robot extends IterativeRobot {
             }
         }
         
-		switch (autoMode)
-		{
-		case 1:
-			AutoWrapper.goForward(20.0, 0.5);
-			break;
-		case 2:
-			AutoWrapper.leftRight(20.0, 0.5);
-			break;
-		case 3:
-			AutoWrapper.rotate(50.0, 0.5);
-			break;
-		case 4:
-			AutoRoute testRT = new TestRoute();
-			testRT.run();
-			break;
-		case 5:
-			while(true) {
-				Mecanum.driveRobot(0, 0.5, 0);
-			}
-		case 6:
-			(new PIDMoveCommand(50, 0, 0, true)).start();
-			//ConfigureEncoders.testBadly(120);
-			break;
-		case 7:
-			ConfigureEncoders.getEncoderDistance();
-			break;
-		}
+//		switch (autoMode)
+//		{
+//		case 1:
+//			AutoWrapper.goForward(20.0, 0.5);
+//			break;
+//		case 2:
+//			AutoWrapper.leftRight(20.0, 0.5);
+//			break;
+//		case 3:
+//			AutoWrapper.rotate(50.0, 0.5);
+//			break;
+//		case 4:
+//			AutoRoute testRT = new TestRoute();
+//			testRT.run();
+//			break;
+//		case 5:
+//			while(true) {
+//				Mecanum.driveRobot(0, 0.5, 0);
+//			}
+//		case 6:
+//			(new PIDMoveCommand(50, 0, 0, true)).start();
+//			//ConfigureEncoders.testBadly(120);
+//			break;
+//		case 7:
+//			ConfigureEncoders.getEncoderDistance();
+//			break;
+//		}
 	}
 
 	/**

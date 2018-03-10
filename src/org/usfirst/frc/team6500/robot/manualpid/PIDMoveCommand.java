@@ -107,6 +107,6 @@ public class PIDMoveCommand extends Thread {
 		}
 		Mecanum.maintainWheelSpeed(false);
 		PIDDrive.endCommand();
-		return;
+		this.interrupt();
 	}
 }

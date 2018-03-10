@@ -34,7 +34,7 @@ public class CenterManeuvers {
 		Grabber.killGrab();
 		
 		//Back up for the other bots
-		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, 0, leftField);
 		backUp.start();
 		
 		//TODO: Grab more cheese
@@ -66,7 +66,7 @@ public class CenterManeuvers {
 		Grabber.killGrab();
 		
 		//Back up for the other bots
-		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, -90, leftField);
+		PIDMoveCommand backUp = new PIDMoveCommand(40, 0, 0, leftField);
 		backUp.start();
 		
 		//TODO: Grab more cheese
