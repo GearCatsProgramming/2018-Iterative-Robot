@@ -70,4 +70,5 @@ public final class Constants {
 
 	//TODO: Configure distance-to-angle ratio
 	public static final double ANGLE_TO_DISTANCE = 0;
+	public static final double AUTO_SPEED = 0.5;
 }

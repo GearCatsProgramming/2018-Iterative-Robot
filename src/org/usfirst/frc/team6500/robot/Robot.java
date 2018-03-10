@@ -10,8 +10,8 @@ package org.usfirst.frc.team6500.robot;
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
-import org.usfirst.frc.team6500.robot.manualpid.ManualPID;
-import org.usfirst.frc.team6500.robot.manualpid.PIDDrive;
+import org.usfirst.frc.team6500.robot.auto.routes.manualpidroutes.CenterManeuvers;
+import org.usfirst.frc.team6500.robot.auto.routes.manualpidroutes.SideManeuvers;
 import org.usfirst.frc.team6500.robot.manualpid.PIDMoveCommand;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
@@ -21,10 +21,9 @@ import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Lift;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import org.usfirst.frc.team6500.robot.testsystems.ConfigureEncoders;
-import org.usfirst.frc.team6500.robot.testsystems.ConfigureGyro;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,7 +35,7 @@ public class Robot extends IterativeRobot {
 	Speed speedX, speedY, speedZ;
 	
 	int autoMode = 0;
-	SendableChooser<Integer> autoSelector;
+	SendableChooser<Integer> autoTargetSelector, autoStartSelector, autoTypeSelector;
 	
 	boolean fieldOriented = false;
 	
@@ -58,23 +57,30 @@ public class Robot extends IterativeRobot {
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setFPS(30);
-		camera.setResolution(640, 480); //320 = width, 240 = height
+		camera.setResolution(640, 480); //640 = width, 480 = height
 		
-		autoSelector = new SendableChooser<Integer>();
+		autoTargetSelector = new SendableChooser<Integer>();
+		autoStartSelector = new SendableChooser<Integer>();
+		autoTypeSelector = new SendableChooser<Integer>();
 		
-		autoSelector.addDefault("Forward/Backward", 1);
-		autoSelector.addObject("Left/Right", 2);
-		autoSelector.addObject("Rotate", 3);
-		autoSelector.addObject("All", 4);
-		autoSelector.addObject("Encoder Measurement", 7);
-		autoSelector.addObject("Basic test", 5);
-		autoSelector.addObject("Test Thomas's PID", 6);
+		autoTargetSelector.addDefault("Switch", 1);
+		autoTargetSelector.addObject("Scale", 2);
+		autoTargetSelector.addObject("Autoline", 3);
+		
+		autoStartSelector.addDefault("Left", 1);
+		autoStartSelector.addObject("Middle", 2);
+		autoStartSelector.addObject("Right", 3);
+		
+		autoTypeSelector.addDefault("Kyle", 1);
+		autoTypeSelector.addObject("Thomas", 2);
 		
 		speedX = new Speed();
 		speedY = new Speed();
 		speedZ = new Speed();
 		
-		SmartDashboard.putData("Autonomous Tester Selector", autoSelector);
+		SmartDashboard.putData("Autonomous Target Selector", autoTargetSelector);
+		SmartDashboard.putData("Autonomous Start Position Selector", autoStartSelector);
+		SmartDashboard.putData("Autonomous Type Selector", autoTypeSelector);
 	}
 
 	/**
@@ -83,8 +89,123 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit()
 	{
-		autoMode = autoSelector.getSelected();
+		int autoPos = autoStartSelector.getSelected();
+		int autoTarget = autoTargetSelector.getSelected();
+		int autoType = autoTypeSelector.getSelected();
 		
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+        if(!(gameData.length() > 0))
+        {
+        	System.err.println("Auto Machine Broke!! :(");
+        	//return;
+        }
+        
+        
+        //Obtain data about this game
+        char switchData = gameData.charAt(0);
+        boolean switchLeft;
+        if (switchData == 'L') { switchLeft = true; } else { switchLeft = false; }
+        
+        char scaleData = gameData.charAt(1);
+        boolean scaleLeft;
+        if (scaleData == 'L') { scaleLeft = true; } else { scaleLeft = false; }
+        
+        
+        
+        if (autoType == 1) //Kyle
+        {
+        	if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
+            
+            
+            double autoSpeed = Constants.AUTO_SPEED;
+            
+            
+            AutoRoute route = new ForwardRoute(130.0, 0.5);
+    		
+            switch(autoTarget)
+            {
+            case 1: //Switch
+            	if (autoPos == 1) { //Left
+            		if (switchLeft) { route = new ForwardSwitch(autoSpeed); }
+            		else { route = new OppositeSwitch(autoSpeed, true); }
+            	}
+            	
+            	
+            	else if (autoPos == 2) { route = new AutoLine(autoSpeed); } //Middle
+            	
+
+            	else if (autoPos == 3) { //Right
+            		if (switchLeft) { route = new OppositeSwitch(autoSpeed, false); }
+            		else { route = new ForwardSwitch(autoSpeed); }
+            	}
+            	
+            	break;
+            case 2: //Scale
+            	if (autoPos == 1) { //Left
+            		if (scaleLeft) { route = new ForwardScale(autoSpeed, true); }
+            		else { route = new OppositeScale(autoSpeed, true); }
+            	}
+            	
+            	
+            	else if (autoPos == 2) { route = new AutoLine(autoSpeed); } //Middle
+            	
+
+            	else if (autoPos == 3) { //Right
+            		if (scaleLeft) { route = new OppositeScale(autoSpeed, false); }
+            		else { route = new ForwardScale(autoSpeed, false); }
+            	}
+            	
+            	break;
+            case 3: //Autoline
+            	route = new ForwardRoute(70.0, 0.5);
+            	break;
+            }
+            
+            route.run();
+        }
+        else if (autoType == 2) //Thomas
+        {
+        	switch(autoTarget)
+            {
+            case 1: //Switch
+            	if (autoPos == 1) { //Left
+            		if (switchLeft) { SideManeuvers.sameSwitch(true); }
+            		else { SideManeuvers.oppositeSwitch(true); }
+            	}
+            	
+            	
+            	else if (autoPos == 2) { CenterManeuvers.goToSwitch(switchLeft); } //Middle
+            	
+
+            	else if (autoPos == 3) { //Right
+            		if (switchLeft) { SideManeuvers.oppositeSwitch(false); }
+            		else { SideManeuvers.sameSwitch(false); }
+            	}
+            	
+            	break;
+            case 2: //Scale
+            	if (autoPos == 1) { //Left
+            		if (scaleLeft) {SideManeuvers.sameScale(true); }
+            		else { SideManeuvers.oppositeScale(true); }
+            	}
+            	
+            	
+            	else if (autoPos == 2) { CenterManeuvers.goToScale(scaleLeft); } //Middle
+            	
+
+            	else if (autoPos == 3) { //Right
+            		if (scaleLeft) { SideManeuvers.oppositeScale(false); }
+            		else { SideManeuvers.sameScale(false); }
+            	}
+            	
+            	break;
+            case 3: //Autoline
+            	(new PIDMoveCommand(120.0, 0.0, 0.0, switchLeft)).start();
+            	break;
+            }
+        }
+        
 		switch (autoMode)
 		{
 		case 1:

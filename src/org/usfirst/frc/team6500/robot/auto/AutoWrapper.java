@@ -22,12 +22,16 @@ public class AutoWrapper
 	public static void goForward(double inches, double speed)
 	{
 		Encoders.resetAllEncoders();
-		Encoders.setDirection(Constants.DIRECTION_FORWARD);
+		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_BACKWARDS); }
+		else { Encoders.setDirection(Constants.DIRECTION_FORWARD); }
+		//System.out.println("Encoders reset.");
 		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputFB(), inches, 2.5, -speed, speed);
 		
 		autoTester.start();
 		
 		while (!autoTester.isInterrupted()) { }
+		
+		System.out.println("Donezo con forward.");
 		//TestPID autoTester = new TestPID(new PIDInputY(), new PIDOutputFB());
 		
 		//autoTester.disable();
@@ -57,12 +61,16 @@ public class AutoWrapper
 	public static void leftRight(double inches, double speed)
 	{
 		Encoders.resetAllEncoders();
-		Encoders.setDirection(Constants.DIRECTION_RIGHT);
+		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_LEFT); }
+		else { Encoders.setDirection(Constants.DIRECTION_RIGHT); }
+		//System.out.println("going right booooiiiiisss");
 		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputLR(), inches, 2.5, -speed, speed);
 		
 		autoTester.start();
 		
 		while (!autoTester.isInterrupted()) { }
+		
+		System.out.println("Donezo con side.");
 //		TestPID autoTester = new TestPID(new PIDInputX(), new PIDOutputLR());
 //		
 //		autoTester.disable();
@@ -92,12 +100,13 @@ public class AutoWrapper
 	public static void rotate(double degrees, double speed)
 	{
 		Gyro.reset();
-		PIDWrapper autoTester = new PIDWrapper(0.5, 0.5,
-				0.5, new PIDInputGyro(), new PIDOutputZ(), degrees, 2.5, -speed, speed);
+		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputGyro(), new PIDOutputZ(), degrees, 2.5, -speed, speed);
 		
 		autoTester.start();
 		
 		while (!autoTester.isInterrupted()) { }
+		
+		System.out.println("Donezo con rotate.");
 //		TestPID autoTester = new TestPID(new PIDInputGyro(), new PIDOutputZ());
 //		
 //		autoTester.disable();

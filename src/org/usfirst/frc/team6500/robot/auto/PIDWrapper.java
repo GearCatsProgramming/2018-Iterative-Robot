@@ -1,5 +1,7 @@
 package org.usfirst.frc.team6500.robot.auto;
 
+import org.usfirst.frc.team6500.robot.systems.Mecanum;
+
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
@@ -16,6 +18,11 @@ public class PIDWrapper extends Thread
 	private PIDSource input;
 	private PIDOutput output;
 	private MiniPID PID;
+	private boolean realPID = true;
+	private double speed;
+	private double time;
+	private boolean leftright;
+	private int CorrectCount;
 	
 	/**
 	 * Constructor, provide all information here
@@ -39,6 +46,16 @@ public class PIDWrapper extends Thread
 		this.PID.setSetpoint(target);
 		this.PID.setSetpointRange(tolerance);
 		this.PID.setOutputLimits(outlow, outhigh);
+		this.realPID = true;
+		this.CorrectCount = 0;
+	}
+	
+	public PIDWrapper(double time, double speed, boolean leftright) {
+		this.realPID = false;
+		this.time = time;
+		this.speed = speed;
+		this.leftright = true;
+		this.CorrectCount = 0;
 	}
 	
 	/**
@@ -48,26 +65,46 @@ public class PIDWrapper extends Thread
 	public void run()
 	{
 		this.interrupted();
-		while (true)
-		{
-			double input = this.input.pidGet();
-			double output = this.PID.getOutput(input);
-			
-			if (Math.abs(output) == 0)
+		if (this.realPID) {
+			while (true)
 			{
-				this.output.pidWrite(0.0);
-				this.interrupt();
-				break;
+				double input = this.input.pidGet();
+				double output = this.PID.getOutput(input);
+				
+				if (Math.abs(output) == 0)
+				{
+					this.output.pidWrite(0.0);
+					this.CorrectCount++;
+					if (this.CorrectCount > 50)
+					{
+						this.interrupt();
+						System.out.println("Broken.");
+						break;
+					}
+				}
+				else
+				{
+					this.output.pidWrite(output);
+				}
+				
+				SmartDashboard.putNumber("PIDInput", input);
+				SmartDashboard.putNumber("PIDOutput", output);
+				
+				Timer.delay(0.05);
+			}
+		}
+		else
+		{
+			if (leftright) {
+				Mecanum.driveRobot(0.0, this.speed, 0.0);
 			}
 			else
 			{
-				this.output.pidWrite(output);
+				Mecanum.driveRobot(this.speed, 0.0, 0.0);
 			}
 			
-			SmartDashboard.putNumber("PIDOutput", output);
-			SmartDashboard.putNumber("PIDInput", input);
-			
-			Timer.delay(0.05);
+			Timer.delay(this.time);
+			this.interrupt();
 		}
 	}
 }
