@@ -7,7 +7,10 @@
 
 package org.usfirst.frc.team6500.robot;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
+import org.usfirst.frc.team6500.robot.auto.PIDWrapper;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
 import org.usfirst.frc.team6500.robot.auto.routes.manualpidroutes.CenterManeuvers;
 import org.usfirst.frc.team6500.robot.auto.routes.manualpidroutes.SideManeuvers;
@@ -37,6 +40,8 @@ public class Robot extends IterativeRobot {
 	
 	boolean fieldOriented = false;
 	
+	public static ArrayList<PIDWrapper> hitList;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -52,6 +57,7 @@ public class Robot extends IterativeRobot {
 		Grabber.intializeGrabber();
 		Lift.initializeLift();
 		
+		hitList = new ArrayList<PIDWrapper>();
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//camera.setFPS(10);
@@ -142,19 +148,19 @@ public class Robot extends IterativeRobot {
             switch(autoTarget)
             {
             case 1: //Switch
-            	if (autoPos == 1) { //Left
-            		if (switchLeft) { route = new ForwardSwitch(autoSpeed, true); }
-            		else { route = new ForwardRoute(130.0, 0.5);}
+            	if (switchLeft && autoPos == 1)
+            	{
+            		route = new SimpleSwitch(0.65);
             	}
-            	
-            	
-            	else if (autoPos == 2) { route = new AutoLine(autoSpeed); } //Middle
-            	
-
-            	else if (autoPos == 3) { //Right
-            		if (switchLeft) { //route = new OppositeSwitch(autoSpeed, false);
-            		route = new ForwardRoute(130.0, 0.5);}
-            		else { route = new ForwardSwitch(autoSpeed, false); }
+            	else if (!switchLeft && autoPos == 3)
+            	{
+            		route = new SimpleSwitch(0.65);
+            	}
+            	else
+            	{
+            		if (autoPos == 1) { route = new EvadeSwitch(0.5, true); }
+            		else if (autoPos == 2) { route = new ForwardRoute(130.0, 0.5); }
+            		else { route = new EvadeSwitch(0.5, false); }
             	}
             	
             	break;
@@ -178,20 +184,7 @@ public class Robot extends IterativeRobot {
             	break;
             case 3: //Autoline
             	System.out.println("Done");
-//            	route = new ForwardRoute(130.0, 0.5);
-            	if (switchLeft && autoPos == 1)
-            	{
-            		route = new SimpleSwitch(0.65);
-            	}
-            	else if (!switchLeft && autoPos == 3)
-            	{
-            		route = new SimpleSwitch(0.65);
-            	}
-            	else
-            	{
-            		if (autoPos == 1) { route = new EvadeSwitch(0.5, true); }
-            		else { route = new EvadeSwitch(0.5, false); }
-            	}
+            	route = new ForwardRoute(130.0, 0.5);
             	break;
             }
             
@@ -279,6 +272,17 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic()
 	{
 		
+	}
+	
+	@Override
+	public void teleopInit()
+	{
+		for (PIDWrapper thread : hitList)
+		{
+			thread.interrupt();
+			//thread.stop();
+			//thread.destroy();
+		}
 	}
 
 	/**

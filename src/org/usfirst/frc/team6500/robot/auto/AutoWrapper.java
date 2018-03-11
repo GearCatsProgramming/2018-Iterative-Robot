@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6500.robot.auto;
 
 import org.usfirst.frc.team6500.robot.Constants;
+import org.usfirst.frc.team6500.robot.Robot;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
 
@@ -26,6 +27,8 @@ public class AutoWrapper
 		else { Encoders.setDirection(Constants.DIRECTION_FORWARD); }
 		//System.out.println("Encoders reset.");
 		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputFB(), inches, 2.5, -speed, speed);
+		
+		Robot.hitList.add(autoTester);
 		
 		autoTester.start();
 		
@@ -66,6 +69,8 @@ public class AutoWrapper
 		//System.out.println("going right booooiiiiisss");
 		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputLR(), inches * 3.5, 2.5, -speed, speed);
 		
+		Robot.hitList.add(autoTester);
+		
 		autoTester.start();
 		
 		while (!autoTester.isInterrupted()) { }
@@ -101,6 +106,8 @@ public class AutoWrapper
 	{
 		Gyro.reset();
 		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputGyro(), new PIDOutputZ(), degrees, 2.5, -speed, speed);
+		
+		Robot.hitList.add(autoTester);
 		
 		autoTester.start();
 		
