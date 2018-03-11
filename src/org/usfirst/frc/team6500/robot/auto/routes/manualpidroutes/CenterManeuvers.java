@@ -20,7 +20,7 @@ public class CenterManeuvers {
 		PIDMoveCommand moveToSwitch1 = new PIDMoveCommand(100, 80, -90, leftField);
 		moveToSwitch1.start();
 		Lift.raiseLift();
-		PIDMoveCommand.wait(1.0);
+		PIDMoveCommand.wait(2.0);
 		Lift.stopLift();
 		PIDMoveCommand.holdYourHorses(moveToSwitch1);
 		
@@ -52,7 +52,7 @@ public class CenterManeuvers {
 		PIDMoveCommand moveToScale1 = new PIDMoveCommand(100, 75, 0, leftField);
 		moveToScale1.start();
 		Lift.raiseLift();
-		PIDMoveCommand.wait(1.0);
+		PIDMoveCommand.wait(7.0);
 		Lift.stopLift();
 		PIDMoveCommand.holdYourHorses(moveToScale1);
 		

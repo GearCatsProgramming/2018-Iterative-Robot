@@ -4,30 +4,22 @@ import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
-public class ForwardSwitch implements AutoRoute
+public class SimpleSwitch implements AutoRoute
 {
 	private double inches, speed;
-	private boolean done, left;
+	private boolean done;
 
-	public ForwardSwitch(double speed, boolean left)
+	public SimpleSwitch(double speed)
 	{
 		this.inches = 130.0;
 		this.speed = speed;
 		this.done = false;
-		this.left = left;
 	}
 	
 	@Override
 	public void run() {
 		AutoUtils.liftToSwitch();
 		
-		if (left) {
-			AutoWrapper.leftRight(20, this.speed);
-		}
-		else
-		{
-			AutoWrapper.leftRight(-20, this.speed);
-		}
 		AutoWrapper.goForward(this.inches, this.speed);
 		
 		AutoUtils.ejectCube();

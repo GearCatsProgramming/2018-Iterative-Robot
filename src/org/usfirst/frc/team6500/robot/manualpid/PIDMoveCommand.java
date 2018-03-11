@@ -36,7 +36,7 @@ public class PIDMoveCommand extends Thread {
 	 * @param command The thread to wait for.
 	 */
 	public static void holdYourHorses(Thread command) {
-		while(!command.isAlive()) {
+		while(command.isAlive()) {
 			System.out.println("\"I met a traveler from an antique land who said: ");
 		}
 	}
@@ -62,7 +62,7 @@ public class PIDMoveCommand extends Thread {
 	public void run() {
 		Mecanum.maintainWheelSpeed(true);
 		PIDDrive.beginDrive(distX, distY, targetAngle);
-			System.out.println();
+			System.out.println(fleft.getSetpoint() + " " + fright.getSetpoint() + " " + bleft.getSetpoint() + " " + bright.getSetpoint());
 		while(!fleft.isInBounds(fleft.getSource().pidGet()) || !fright.isInBounds(fright.getSource().pidGet())
 				|| !bleft.isInBounds(bleft.getSource().pidGet()) || !bright.isInBounds(bright.getSource().pidGet())// && gyro.isInBounds()
 				) {
@@ -77,6 +77,7 @@ public class PIDMoveCommand extends Thread {
 			double frspeed = Math.abs(fright.getSpeed());
 			double blspeed = Math.abs(bleft.getSpeed());
 			double brspeed = Math.abs(bright.getSpeed());
+			System.out.println(greatest + " " + frspeed + " " + blspeed + " " + brspeed);
 			if(frspeed > greatest) {
 				greatest = frspeed;
 			}
@@ -90,10 +91,10 @@ public class PIDMoveCommand extends Thread {
 			//Drives that wheel at 1.0 or -1.0 and others in proportion
 			System.out.println(fleft.getSpeed()/greatest + " " + fright.getSpeed()/greatest
 					+ " " + bleft.getSpeed()/greatest + " " + bright.getSpeed()/greatest);
-			Mecanum.driveWheel(Mecanum.fleft, fleft.getSpeed()/greatest);
-			Mecanum.driveWheel(Mecanum.fright, fright.getSpeed()/greatest);	
-			Mecanum.driveWheel(Mecanum.bleft, bleft.getSpeed()/greatest);	
-			Mecanum.driveWheel(Mecanum.bright, bright.getSpeed()/greatest);	
+			Mecanum.driveWheel(Mecanum.fleft, fleft.getSpeed());
+			Mecanum.driveWheel(Mecanum.fright, fright.getSpeed());	
+			Mecanum.driveWheel(Mecanum.bleft, bleft.getSpeed());	
+			Mecanum.driveWheel(Mecanum.bright, bright.getSpeed());	
 			try {
 				TimeUnit.SECONDS.sleep((long)0.2);
 //				System.out.println("Waiting... fleft: " + fleft.getSpeed()
@@ -108,5 +109,6 @@ public class PIDMoveCommand extends Thread {
 		Mecanum.maintainWheelSpeed(false);
 		PIDDrive.endCommand();
 		this.interrupt();
+		return;
 	}
 }

@@ -26,14 +26,13 @@ public class OppositeSwitch implements AutoRoute
 	
 	@Override
 	public void run() {
-		AutoWrapper.leftRight(inches0, speed);
+		AutoUtils.liftToSwitch();
 		
+		AutoWrapper.leftRight(inches0, speed);
 		AutoWrapper.goForward(inches1, speed);
 		AutoWrapper.rotate(degrees0, speed);
 		AutoWrapper.goForward(inches2, speed);
 		AutoWrapper.rotate(degrees0, speed);
-		
-		AutoUtils.liftToSwitch();
 		
 		AutoUtils.ejectCube();
 		

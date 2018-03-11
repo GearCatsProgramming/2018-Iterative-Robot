@@ -8,7 +8,6 @@
 package org.usfirst.frc.team6500.robot;
 
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
-import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
 import org.usfirst.frc.team6500.robot.auto.routes.manualpidroutes.CenterManeuvers;
 import org.usfirst.frc.team6500.robot.auto.routes.manualpidroutes.SideManeuvers;
@@ -20,12 +19,10 @@ import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Lift;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
-import org.usfirst.frc.team6500.robot.testsystems.ConfigureEncoders;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -57,8 +54,8 @@ public class Robot extends IterativeRobot {
 		
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-		camera.setFPS(30);
-		camera.setResolution(640, 480); //640 = width, 480 = height
+		//camera.setFPS(10);
+		camera.setResolution(240, 180); //640 = width, 480 = height
 		
 		autoTargetSelector = new SendableChooser<Integer>();
 		autoStartSelector = new SendableChooser<Integer>();
@@ -116,6 +113,11 @@ public class Robot extends IterativeRobot {
         
         if (autoTarget == 4) //Do nothing.
         {
+//        	PIDMoveCommand help = new PIDMoveCommand(20, 0, 0, true);
+//        	help.start();
+        	//AutoRoute route = new SidewardRoute(20.0, 0.5);
+        	
+        	//System.out.println("Started");
         	return;
         }
         
@@ -127,11 +129,13 @@ public class Robot extends IterativeRobot {
             
             double autoSpeed = Constants.AUTO_SPEED;
             
-            Mecanum.driveRobot(0.0, 1.0, 0.0);
-            Timer.delay(0.25);
-            Mecanum.driveRobot(0.0, -1.0, 0.0);
-            Timer.delay(0.25);
+//            Mecanum.driveRobot(0.0, 1.0, 0.0);
+//            Timer.delay(0.25);
+//            Mecanum.driveRobot(0.0, -1.0, 0.0);
+//            Timer.delay(0.25);
             Mecanum.killMotors();
+            
+            Encoders.resetAllEncoders();
             
             AutoRoute route = new ForwardRoute(130.0, 0.5);
     		
@@ -139,8 +143,8 @@ public class Robot extends IterativeRobot {
             {
             case 1: //Switch
             	if (autoPos == 1) { //Left
-            		if (switchLeft) { route = new ForwardSwitch(autoSpeed); }
-            		else { route = new OppositeSwitch(autoSpeed, true); }
+            		if (switchLeft) { route = new ForwardSwitch(autoSpeed, true); }
+            		else { route = new ForwardRoute(130.0, 0.5);}
             	}
             	
             	
@@ -148,15 +152,17 @@ public class Robot extends IterativeRobot {
             	
 
             	else if (autoPos == 3) { //Right
-            		if (switchLeft) { route = new OppositeSwitch(autoSpeed, false); }
-            		else { route = new ForwardSwitch(autoSpeed); }
+            		if (switchLeft) { //route = new OppositeSwitch(autoSpeed, false);
+            		route = new ForwardRoute(130.0, 0.5);}
+            		else { route = new ForwardSwitch(autoSpeed, false); }
             	}
             	
             	break;
             case 2: //Scale
             	if (autoPos == 1) { //Left
             		if (scaleLeft) { route = new ForwardScale(autoSpeed, true); }
-            		else { route = new OppositeScale(autoSpeed, true); }
+            		else { //route = new OppositeScale(autoSpeed, true);
+            		route = new ForwardRoute(130.0, 0.5);}
             	}
             	
             	
@@ -164,13 +170,28 @@ public class Robot extends IterativeRobot {
             	
 
             	else if (autoPos == 3) { //Right
-            		if (scaleLeft) { route = new OppositeScale(autoSpeed, false); }
+            		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
+            		route = new ForwardRoute(130.0, 0.5);}
             		else { route = new ForwardScale(autoSpeed, false); }
             	}
             	
             	break;
             case 3: //Autoline
-            	route = new ForwardRoute(70.0, 0.5);
+            	System.out.println("Done");
+//            	route = new ForwardRoute(130.0, 0.5);
+            	if (switchLeft && autoPos == 1)
+            	{
+            		route = new SimpleSwitch(0.65);
+            	}
+            	else if (!switchLeft && autoPos == 3)
+            	{
+            		route = new SimpleSwitch(0.65);
+            	}
+            	else
+            	{
+            		if (autoPos == 1) { route = new EvadeSwitch(0.5, true); }
+            		else { route = new EvadeSwitch(0.5, false); }
+            	}
             	break;
             }
             

@@ -64,7 +64,7 @@ public class AutoWrapper
 		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_LEFT); }
 		else { Encoders.setDirection(Constants.DIRECTION_RIGHT); }
 		//System.out.println("going right booooiiiiisss");
-		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputLR(), inches, 2.5, -speed, speed);
+		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputLR(), inches * 3.5, 2.5, -speed, speed);
 		
 		autoTester.start();
 		
