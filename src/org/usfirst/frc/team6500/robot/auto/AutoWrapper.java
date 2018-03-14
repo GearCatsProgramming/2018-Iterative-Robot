@@ -20,13 +20,13 @@ public class AutoWrapper
 	 * @param inches How many inches to go forward or backward, backward is negative and positive is forward
 	 * @param speed How fast to move the robot
 	 */
-	public static void goForward(double inches, double speed)
+	public static void goForward(double inches, double speed, Robot theRobot)
 	{
 		Encoders.resetAllEncoders();
 		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_BACKWARDS); }
 		else { Encoders.setDirection(Constants.DIRECTION_FORWARD); }
 		//System.out.println("Encoders reset.");
-		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputFB(), inches, 2.5, -speed, speed);
+		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputFB(), inches, 2.5, -speed, speed, false, theRobot);
 		
 		Robot.hitList.add(autoTester);
 		
@@ -61,13 +61,14 @@ public class AutoWrapper
 	 * @param inches How many inches to go left or right, left is negative and positive is right
 	 * @param speed How fast to move the robot
 	 */
-	public static void leftRight(double inches, double speed)
+	public static void leftRight(double inches, double speed, Robot theRobot)
 	{
+		inches = inches * 8 / 7;
 		Encoders.resetAllEncoders();
-		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_LEFT); }
-		else { Encoders.setDirection(Constants.DIRECTION_RIGHT); }
+//		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_LEFT); }
+//		else { Encoders.setDirection(Constants.DIRECTION_RIGHT); }
 		//System.out.println("going right booooiiiiisss");
-		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputLR(), inches * 3.5, 2.5, -speed, speed);
+		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputLR(), inches * Constants.ENCODER_LR_MULTIPLIER, 2.5, -speed, speed, true, theRobot);
 		
 		Robot.hitList.add(autoTester);
 		
@@ -102,10 +103,10 @@ public class AutoWrapper
 	 * @param degrees How many degrees to rotate, positive is clockwise and negative is counterclockwise
 	 * @param speed How fast to turn
 	 */
-	public static void rotate(double degrees, double speed)
+	public static void rotate(double degrees, double speed, Robot theRobot)
 	{
 		Gyro.reset();
-		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputGyro(), new PIDOutputZ(), degrees, 2.5, -speed, speed);
+		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputGyro(), new PIDOutputZ(), degrees, 2.5, -speed, speed, false, theRobot);
 		
 		Robot.hitList.add(autoTester);
 		

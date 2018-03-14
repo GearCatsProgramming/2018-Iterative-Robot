@@ -32,8 +32,23 @@ public class PIDInputDrive implements PIDSource {
 		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
 		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
-		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistance());
-		return Encoders.getDistanceRelativeDirection();
+		SmartDashboard.putNumber("Avg. Distance Forward", Encoders.getAverageDistanceForward());
+		SmartDashboard.putNumber("Avg. Distance Right", Encoders.getAverageDistanceRight());
+		return Encoders.getAverageDistanceForward();
+	}
+	
+	public double pidGetForward() {
+		return pidGet();
+	}
+	
+	public double pidGetRight() {
+		SmartDashboard.putNumber("FL", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
+		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
+		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
+		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
+		SmartDashboard.putNumber("Avg. Distance Forward", Encoders.getAverageDistanceForward());
+		SmartDashboard.putNumber("Avg. Distance Right", Encoders.getAverageDistanceRight());
+		return Encoders.getAverageDistanceRight();
 	}
 
 }

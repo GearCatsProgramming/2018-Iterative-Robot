@@ -31,7 +31,7 @@ public class ConfigureGyro {
 		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
 		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
-		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistance());
+		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistanceForward());
 	}
 	
 	public static void testWorking() {
@@ -43,6 +43,6 @@ public class ConfigureGyro {
 		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
 		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
-		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistance());
+		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistanceForward());
 	}
 }

@@ -8,6 +8,7 @@
 package org.usfirst.frc.team6500.robot;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.PIDWrapper;
@@ -92,6 +93,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Autonomous Target Selector", autoTargetSelector);
 		SmartDashboard.putData("Autonomous Start Position Selector", autoStartSelector);
 		SmartDashboard.putData("Autonomous Type Selector", autoTypeSelector);
+		SmartDashboard.putData("Teleop Controller Mode", teleopControlSelector);
 	}
 
 	/**
@@ -136,7 +138,7 @@ public class Robot extends IterativeRobot {
         
         if (autoType == 1) //Kyle
         {
-        	if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
+        	//if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
             
             
             double autoSpeed = Constants.AUTO_SPEED;
@@ -149,48 +151,48 @@ public class Robot extends IterativeRobot {
             
             Encoders.resetAllEncoders();
             
-            AutoRoute route = new ForwardRoute(130.0, 0.5);
+            AutoRoute route = new ForwardRoute(130.0, 0.5, this);
     		
             switch(autoTarget)
             {
             case 1: //Switch
             	if (switchLeft && autoPos == 1)
             	{
-            		route = new SimpleSwitch(0.65);
+            		route = new SimpleSwitch(0.65, this);
             	}
             	else if (!switchLeft && autoPos == 3)
             	{
-            		route = new SimpleSwitch(0.65);
+            		route = new SimpleSwitch(0.65, this);
             	}
             	else
             	{
-            		if (autoPos == 1) { route = new EvadeSwitch(0.5, true); }
-            		else if (autoPos == 2) { route = new ForwardRoute(130.0, 0.5); }
-            		else { route = new EvadeSwitch(0.5, false); }
+            		if (autoPos == 1) { route = new EvadeSwitch(0.5, true, this); }
+            		else if (autoPos == 2) { route = new ForwardRoute(130.0, 0.5, this); }
+            		else { route = new EvadeSwitch(0.5, false, this); }
             	}
             	
             	break;
             case 2: //Scale
             	if (autoPos == 1) { //Left
-            		if (scaleLeft) { route = new ForwardScale(autoSpeed, true); }
+            		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
             		else { //route = new OppositeScale(autoSpeed, true);
-            		route = new ForwardRoute(130.0, 0.5);}
+            		route = new ForwardRoute(130.0, 0.5, this);}
             	}
             	
             	
-            	else if (autoPos == 2) { route = new AutoLine(autoSpeed); } //Middle
+            	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
             	
 
             	else if (autoPos == 3) { //Right
             		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
-            		route = new ForwardRoute(130.0, 0.5);}
-            		else { route = new ForwardScale(autoSpeed, false); }
+            		route = new ForwardRoute(130.0, 0.5, this);}
+            		else { route = new ForwardScale(autoSpeed, false, this); }
             	}
             	
             	break;
             case 3: //Autoline
             	System.out.println("Done");
-            	route = new ForwardRoute(130.0, 0.5);
+            	route = new ForwardRoute(130.0, 0.5, this);
             	break;
             }
             
@@ -242,6 +244,14 @@ public class Robot extends IterativeRobot {
             }
         }
         
+    	try {
+			TimeUnit.SECONDS.wait(15);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	exterminateThreads();
+        
 //		switch (autoMode)
 //		{
 //		case 1:
@@ -283,12 +293,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit()
 	{
-		for (PIDWrapper thread : hitList)
-		{
-			thread.interrupt();
-			//thread.stop();
-			//thread.destroy();
-		}
+		System.out.println("Beginning teleop");
+		exterminateThreads();
 		
 		teleopMode = teleopControlSelector.getSelected();
 	}
@@ -415,7 +421,20 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
 		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
-		SmartDashboard.putNumber("Avg. Distance", Encoders.getAverageDistance());
+		SmartDashboard.putNumber("Avg. Distance Forward", Encoders.getAverageDistanceForward());
+		SmartDashboard.putNumber("Avg. Distance Right", Encoders.getAverageDistanceRight());
 		SmartDashboard.putNumber("PIDInput", Gyro.getAngle() % 360);
+		
+		SmartDashboard.putBoolean("channel a", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_A].get());
+		SmartDashboard.putBoolean("channel b", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_B].get());
+	}
+	
+	public void exterminateThreads() {
+		for (PIDWrapper thread : hitList)
+		{
+			thread.interrupt();
+			System.out.println();
+			System.out.println("Suck it");
+		}
 	}
 }

@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6500.robot.auto.routes;
 
+import org.usfirst.frc.team6500.robot.Robot;
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
@@ -14,25 +15,27 @@ public class OppositeSwitch implements AutoRoute
 	
 	private double speed;
 	private boolean done;
+	private Robot robot;
 
-	public OppositeSwitch(double speed, boolean left)
+	public OppositeSwitch(double speed, boolean left, Robot robot)
 	{
 		if (left) { inches0 *= -1; degrees0 *= -1;}
 		
 		this.speed = speed;
 		
 		this.done = false;
+		this.robot = robot;
 	}
 	
 	@Override
 	public void run() {
 		AutoUtils.liftToSwitch();
 		
-		AutoWrapper.leftRight(inches0, speed);
-		AutoWrapper.goForward(inches1, speed);
-		AutoWrapper.rotate(degrees0, speed);
-		AutoWrapper.goForward(inches2, speed);
-		AutoWrapper.rotate(degrees0, speed);
+//		AutoWrapper.leftRight(inches0, speed);
+//		AutoWrapper.goForward(inches1, speed);
+//		AutoWrapper.rotate(degrees0, speed);
+//		AutoWrapper.goForward(inches2, speed);
+//		AutoWrapper.rotate(degrees0, speed);
 		
 		AutoUtils.ejectCube();
 		

@@ -11,6 +11,6 @@ import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 public class Rotate180 extends Thread {
 	public void run()
 	{
-		AutoWrapper.rotate(180.0, 0.4);
+		//AutoWrapper.rotate(180.0, 0.4);
 	}
 }
