@@ -363,11 +363,11 @@ public class Robot extends IterativeRobot {
 			
 		} else if(teleopMode == 2) {	//One-driver mode
 			//Code to grab/eject cubes
-			if (DriveInput.getButton(5, DriveInput.controllerR))
+			if (DriveInput.getButton(3, DriveInput.controllerR))
 			{
 				Grabber.grabCube();
 			}
-			else if (DriveInput.getButton(3, DriveInput.controllerR))
+			else if (DriveInput.getButton(5, DriveInput.controllerR))
 			{
 				Grabber.ejectCube();
 			}
