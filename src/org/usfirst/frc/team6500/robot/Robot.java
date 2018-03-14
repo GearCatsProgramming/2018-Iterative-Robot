@@ -376,11 +376,11 @@ public class Robot extends IterativeRobot {
 				Grabber.killGrab();
 			}
 			//Code to drive climber
-			if (DriveInput.getButton(7, DriveInput.controllerR))
+			if (DriveInput.getButton(6, DriveInput.controllerR))
 			{
 				Lift.raiseLift();
 			}
-			else if (DriveInput.getButton(9, DriveInput.controllerR))
+			else if (DriveInput.getButton(4, DriveInput.controllerR))
 			{
 				Lift.descend();
 			}
