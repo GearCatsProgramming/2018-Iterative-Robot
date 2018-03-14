@@ -36,7 +36,8 @@ public class Robot extends IterativeRobot {
 	Speed speedX, speedY, speedZ;
 	
 	int autoMode = 0;
-	SendableChooser<Integer> autoTargetSelector, autoStartSelector, autoTypeSelector;
+	int teleopMode = 0;
+	SendableChooser<Integer> autoTargetSelector, autoStartSelector, autoTypeSelector, teleopControlSelector;
 	
 	boolean fieldOriented = false;
 	
@@ -67,6 +68,8 @@ public class Robot extends IterativeRobot {
 		autoStartSelector = new SendableChooser<Integer>();
 		autoTypeSelector = new SendableChooser<Integer>();
 		
+		teleopControlSelector = new SendableChooser<Integer>();
+		
 		autoTargetSelector.addDefault("Switch", 1);
 		autoTargetSelector.addObject("Scale", 2);
 		autoTargetSelector.addObject("Autoline", 3);
@@ -78,6 +81,9 @@ public class Robot extends IterativeRobot {
 		
 		autoTypeSelector.addDefault("Kyle", 1);
 		autoTypeSelector.addObject("Thomas", 2);
+		
+		teleopControlSelector.addDefault("Two Drivers", 1);
+		teleopControlSelector.addObject("One Driver", 2);
 		
 		speedX = new Speed();
 		speedY = new Speed();
@@ -283,6 +289,8 @@ public class Robot extends IterativeRobot {
 			//thread.stop();
 			//thread.destroy();
 		}
+		
+		teleopMode = teleopControlSelector.getSelected();
 	}
 
 	/**
@@ -291,22 +299,22 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic()
 	{
-		if (DriveInput.getButton(7, DriveInput.controllerR))
-		{
-			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT, DriveInput.getThrottle(DriveInput.controllerR));
-		}
-		if (DriveInput.getButton(8, DriveInput.controllerR))
-		{
-			Mecanum.driveWheel(Constants.DRIVE_FRONTRIGHT, DriveInput.getThrottle(DriveInput.controllerR));
-		}
-		if (DriveInput.getButton(9, DriveInput.controllerR))
-		{
-			Mecanum.driveWheel(Constants.DRIVE_REARLEFT, DriveInput.getThrottle(DriveInput.controllerR));
-		}
-		if (DriveInput.getButton(10, DriveInput.controllerR))
-		{
-			Mecanum.driveWheel(Constants.DRIVE_REARRIGHT, DriveInput.getThrottle(DriveInput.controllerR));
-		}
+//		if (DriveInput.getButton(7, DriveInput.controllerR))
+//		{
+//			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT, DriveInput.getThrottle(DriveInput.controllerR));
+//		}
+//		if (DriveInput.getButton(8, DriveInput.controllerR))
+//		{
+//			Mecanum.driveWheel(Constants.DRIVE_FRONTRIGHT, DriveInput.getThrottle(DriveInput.controllerR));
+//		}
+//		if (DriveInput.getButton(9, DriveInput.controllerR))
+//		{
+//			Mecanum.driveWheel(Constants.DRIVE_REARLEFT, DriveInput.getThrottle(DriveInput.controllerR));
+//		}
+//		if (DriveInput.getButton(10, DriveInput.controllerR))
+//		{
+//			Mecanum.driveWheel(Constants.DRIVE_REARRIGHT, DriveInput.getThrottle(DriveInput.controllerR));
+//		}
 		
 		//Resets all of the encoders
 		if(DriveInput.getButton(11, DriveInput.controllerR))
@@ -315,42 +323,71 @@ public class Robot extends IterativeRobot {
 		}
 		
 		//Vision Testing
-		if (DriveInput.getButton(2, DriveInput.controllerR))
-		{
-			System.out.println(Vision.getContourX());
-			System.out.println(Vision.getContourY());
-			System.out.println(Vision.getContourWidth());
-			System.out.println(Vision.getContourHeight());
-		}
+//		if (DriveInput.getButton(2, DriveInput.controllerR))
+//		{
+//			System.out.println(Vision.getContourX());
+//			System.out.println(Vision.getContourY());
+//			System.out.println(Vision.getContourWidth());
+//			System.out.println(Vision.getContourHeight());
+//		}
 		
-		
-		//Code to grab/eject cubes
-		if (DriveInput.getButton(3, DriveInput.controllerL))
-		{
-			Grabber.grabCube();
-		}
-		else if (DriveInput.getButton(5, DriveInput.controllerL))
-		{
-			Grabber.ejectCube();
-		}
-		else
-		{
-			Grabber.killGrab();
-		}
-		
-		
-		//Code to drive climber
-		if (DriveInput.getButton(4, DriveInput.controllerL))
-		{
-			Lift.raiseLift();
-		}
-		else if (DriveInput.getButton(6, DriveInput.controllerL))
-		{
-			Lift.descend();
-		}
-		else
-		{
-			Lift.stopLift();
+		if(teleopMode == 1) {		//Two-driver mode
+			//Code to grab/eject cubes
+			if (DriveInput.getButton(3, DriveInput.controllerL))
+			{
+				Grabber.grabCube();
+			}
+			else if (DriveInput.getButton(5, DriveInput.controllerL))
+			{
+				Grabber.ejectCube();
+			}
+			else
+			{
+				Grabber.killGrab();
+			}
+			
+			
+			//Code to drive climber
+			if (DriveInput.getButton(4, DriveInput.controllerL))
+			{
+				Lift.raiseLift();
+			}
+			else if (DriveInput.getButton(6, DriveInput.controllerL))
+			{
+				Lift.descend();
+			}
+			else
+			{
+				Lift.stopLift();
+			}
+			
+		} else if(teleopMode == 2) {	//One-driver mode
+			//Code to grab/eject cubes
+			if (DriveInput.getButton(5, DriveInput.controllerR))
+			{
+				Grabber.grabCube();
+			}
+			else if (DriveInput.getButton(3, DriveInput.controllerR))
+			{
+				Grabber.ejectCube();
+			}
+			else
+			{
+				Grabber.killGrab();
+			}
+			//Code to drive climber
+			if (DriveInput.getButton(7, DriveInput.controllerR))
+			{
+				Lift.raiseLift();
+			}
+			else if (DriveInput.getButton(9, DriveInput.controllerR))
+			{
+				Lift.descend();
+			}
+			else
+			{
+				Lift.stopLift();
+			}
 		}
 		
 		
