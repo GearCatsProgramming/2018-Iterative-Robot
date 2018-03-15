@@ -7,13 +7,14 @@ import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
 public class EvadeSwitch implements AutoRoute
 {
-	private double inches, speed;
+	private double inches0, inches1, speed;
 	private boolean done, left;
 	private Robot robot;
 
 	public EvadeSwitch(double speed, boolean left, Robot theRobot)
 	{
-		this.inches = 130.0;
+		this.inches0 = 20.0;
+		this.inches1 = 130.0;
 		this.speed = speed;
 		this.done = false;
 		this.left = left;
@@ -24,10 +25,10 @@ public class EvadeSwitch implements AutoRoute
 	public void run() {
 		AutoUtils.liftToSwitch();
 		
-		if (left) { AutoWrapper.leftRight(-120.0, this.speed, this.robot); }
-		else { AutoWrapper.leftRight(30.0, this.speed, this.robot); }
+		if (left) { AutoWrapper.leftRight(-this.inches0, this.speed, this.robot); }
+		else { AutoWrapper.leftRight(this.inches0, this.speed, this.robot); }
 		
-		AutoWrapper.goForward(this.inches, this.speed, this.robot);
+		AutoWrapper.goForward(this.inches1, this.speed, this.robot);
 		
 		AutoUtils.ejectCube();
 		

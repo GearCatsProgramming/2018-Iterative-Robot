@@ -8,7 +8,6 @@
 package org.usfirst.frc.team6500.robot;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.PIDWrapper;
@@ -116,12 +115,13 @@ public class Robot extends IterativeRobot {
         boolean switchLeft;
         if (switchData == 'L') { switchLeft = true; } else { switchLeft = false; }
         
-        char scaleData = gameData.charAt(1);
-        boolean scaleLeft;
-        if (scaleData == 'L') { scaleLeft = true; } else { scaleLeft = false; }
+        //char scaleData = gameData.charAt(1);
+        //boolean scaleLeft;
+        //if (scaleData == 'L') { scaleLeft = true; } else { scaleLeft = false; }
         
         
     	//if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
+        
         
         AutoRoute route = new ForwardRoute(130.0, 0.5, this);
         double autoSpeed = Constants.AUTO_SPEED;
@@ -134,43 +134,44 @@ public class Robot extends IterativeRobot {
         case 1: //Switch
         	if (switchLeft && autoPos == 1)
         	{
-        		route = new SimpleSwitch(0.65, this);
+        		route = new ForwardSwitch(autoSpeed, true, this);
         	}
         	else if (!switchLeft && autoPos == 3)
         	{
-        		route = new SimpleSwitch(0.65, this);
+        		route = new ForwardSwitch(autoSpeed, false, this);
         	}
         	else
         	{
-        		if (autoPos == 1) { route = new EvadeSwitch(0.5, true, this); }
-        		else if (autoPos == 2) { route = new ForwardRoute(130.0, 0.5, this); }
-        		else { route = new EvadeSwitch(0.5, false, this); }
+        		if (autoPos == 1) { route = new EvadeSwitch(autoSpeed, true, this); }
+        		else if (autoPos == 2) { route = new ForwardRoute(130.0, autoSpeed, this); }
+        		else { route = new EvadeSwitch(autoSpeed, false, this); }
         	}
         	
         	break;
-        case 2: //Scale
-        	if (autoPos == 1) { //Left
-        		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
-        		else { //route = new OppositeScale(autoSpeed, true);
-        		route = new ForwardRoute(130.0, 0.5, this);}
-        	}
-        	
-        	
-        	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
-        	
-
-        	else if (autoPos == 3) { //Right
-        		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
-        		route = new ForwardRoute(130.0, 0.5, this);}
-        		else { route = new ForwardScale(autoSpeed, false, this); }
-        	}
-        	
-        	break;
-        case 3: //Autoline
+        case 2: //Autoline
         	System.out.println("Done");
-        	route = new ForwardRoute(130.0, 0.5, this);
+        	route = new ForwardRoute(130.0, autoSpeed, this);
         	break;
         }
+//        case 2: //Scale
+//        	if (autoPos == 1) { //Left
+//        		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
+//        		else { //route = new OppositeScale(autoSpeed, true);
+//        		route = new ForwardRoute(130.0, 0.5, this);}
+//        	}
+//        	
+//        	
+//        	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
+//        	
+//
+//        	else if (autoPos == 3) { //Right
+//        		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
+//        		route = new ForwardRoute(130.0, 0.5, this);}
+//        		else { route = new ForwardScale(autoSpeed, false, this); }
+//        	}
+//        	
+//        	break;
+//        }
         
         route.run();
     
