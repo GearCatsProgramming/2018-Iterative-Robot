@@ -33,4 +33,17 @@ public class AutoUtils
 		Timer.delay(1);
 		Grabber.killGrab();
 	}
+	
+	public static void lowerFromScale()
+	{
+		Lift.raiseLift();
+		Timer.delay(7);
+		Lift.stopLift();
+	}
+	
+	public static void lowerFromSwitch() {
+		Lift.raiseLift();
+		Timer.delay(7);
+		Lift.stopLift();
+	}
 }

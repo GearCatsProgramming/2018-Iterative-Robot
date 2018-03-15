@@ -38,7 +38,7 @@ public class Robot extends IterativeRobot {
 	
 	boolean fieldOriented = false;
 	
-	public static ArrayList<PIDWrapper> hitList;
+	public static ArrayList<Thread> hitList;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -55,7 +55,7 @@ public class Robot extends IterativeRobot {
 		Grabber.intializeGrabber();
 		Lift.initializeLift();
 		
-		hitList = new ArrayList<PIDWrapper>();
+		hitList = new ArrayList<Thread>();
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//camera.setFPS(10);
@@ -327,10 +327,9 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void exterminateThreads() {
-		for (PIDWrapper thread : hitList)
+		for (Thread thread : hitList)
 		{
 			thread.interrupt();
-			System.out.println();
 			System.out.println("Suck it");
 		}
 	}
