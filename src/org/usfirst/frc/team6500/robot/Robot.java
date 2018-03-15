@@ -13,9 +13,6 @@ import java.util.concurrent.TimeUnit;
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.PIDWrapper;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
-import org.usfirst.frc.team6500.robot.auto.routes.manualpidroutes.CenterManeuvers;
-import org.usfirst.frc.team6500.robot.auto.routes.manualpidroutes.SideManeuvers;
-import org.usfirst.frc.team6500.robot.manualpid.PIDMoveCommand;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
 import org.usfirst.frc.team6500.robot.sensors.Vision;
@@ -38,7 +35,7 @@ public class Robot extends IterativeRobot {
 	
 	int autoMode = 0;
 	int teleopMode = 0;
-	SendableChooser<Integer> autoTargetSelector, autoStartSelector, autoTypeSelector, teleopControlSelector;
+	SendableChooser<Integer> autoTargetSelector, autoStartSelector, teleopControlSelector;
 	
 	boolean fieldOriented = false;
 	
@@ -66,22 +63,17 @@ public class Robot extends IterativeRobot {
 		camera.setResolution(240, 180); //640 = width, 480 = height
 		
 		autoTargetSelector = new SendableChooser<Integer>();
-		autoStartSelector = new SendableChooser<Integer>();
-		autoTypeSelector = new SendableChooser<Integer>();
-		
+		autoStartSelector = new SendableChooser<Integer>();		
 		teleopControlSelector = new SendableChooser<Integer>();
 		
 		autoTargetSelector.addDefault("Switch", 1);
-		autoTargetSelector.addObject("Scale", 2);
-		autoTargetSelector.addObject("Autoline", 3);
-		autoTargetSelector.addObject("Nothing", 4);
+		autoTargetSelector.addObject("Autoline", 2);
+		autoTargetSelector.addObject("Nothing", 3);
+//		autoTargetSelector.addObject("Scale", 4);
 		
 		autoStartSelector.addDefault("Left", 1);
 		autoStartSelector.addObject("Middle", 2);
 		autoStartSelector.addObject("Right", 3);
-		
-		autoTypeSelector.addDefault("Kyle", 1);
-		autoTypeSelector.addObject("Thomas", 2);
 		
 		teleopControlSelector.addDefault("Two Drivers", 1);
 		teleopControlSelector.addObject("One Driver", 2);
@@ -92,7 +84,6 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData("Autonomous Target Selector", autoTargetSelector);
 		SmartDashboard.putData("Autonomous Start Position Selector", autoStartSelector);
-		SmartDashboard.putData("Autonomous Type Selector", autoTypeSelector);
 		SmartDashboard.putData("Teleop Controller Mode", teleopControlSelector);
 	}
 
@@ -102,16 +93,21 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit()
 	{
-		int autoPos = autoStartSelector.getSelected();
 		int autoTarget = autoTargetSelector.getSelected();
-		int autoType = autoTypeSelector.getSelected();
+		
+		if (autoTarget == 3) //Do nothing.
+        {
+        	return;
+        }
+		
+		int autoPos = autoStartSelector.getSelected();
 		
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
         if(!(gameData.length() > 0))
         {
-        	System.err.println("Auto Machine Broke!! :(");
-        	//return;
+        	System.err.println("No game data found! Exiting Auto.");
+        	return;
         }
         
         
@@ -125,160 +121,60 @@ public class Robot extends IterativeRobot {
         if (scaleData == 'L') { scaleLeft = true; } else { scaleLeft = false; }
         
         
-        if (autoTarget == 4) //Do nothing.
+    	//if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
+        
+        AutoRoute route = new ForwardRoute(130.0, 0.5, this);
+        double autoSpeed = Constants.AUTO_SPEED;
+        
+        Mecanum.killMotors();
+        Encoders.resetAllEncoders();
+		
+        switch(autoTarget)
         {
-//        	PIDMoveCommand help = new PIDMoveCommand(20, 0, 0, true);
-//        	help.start();
-        	//AutoRoute route = new SidewardRoute(20.0, 0.5);
+        case 1: //Switch
+        	if (switchLeft && autoPos == 1)
+        	{
+        		route = new SimpleSwitch(0.65, this);
+        	}
+        	else if (!switchLeft && autoPos == 3)
+        	{
+        		route = new SimpleSwitch(0.65, this);
+        	}
+        	else
+        	{
+        		if (autoPos == 1) { route = new EvadeSwitch(0.5, true, this); }
+        		else if (autoPos == 2) { route = new ForwardRoute(130.0, 0.5, this); }
+        		else { route = new EvadeSwitch(0.5, false, this); }
+        	}
         	
-        	//System.out.println("Started");
-        	return;
-        }
-        
-        
-        if (autoType == 1) //Kyle
-        {
-        	//if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
-            
-            
-            double autoSpeed = Constants.AUTO_SPEED;
-            
-//            Mecanum.driveRobot(0.0, 1.0, 0.0);
-//            Timer.delay(0.25);
-//            Mecanum.driveRobot(0.0, -1.0, 0.0);
-//            Timer.delay(0.25);
-            Mecanum.killMotors();
-            
-            Encoders.resetAllEncoders();
-            
-            AutoRoute route = new ForwardRoute(130.0, 0.5, this);
-    		
-            switch(autoTarget)
-            {
-            case 1: //Switch
-            	if (switchLeft && autoPos == 1)
-            	{
-            		route = new SimpleSwitch(0.65, this);
-            	}
-            	else if (!switchLeft && autoPos == 3)
-            	{
-            		route = new SimpleSwitch(0.65, this);
-            	}
-            	else
-            	{
-            		if (autoPos == 1) { route = new EvadeSwitch(0.5, true, this); }
-            		else if (autoPos == 2) { route = new ForwardRoute(130.0, 0.5, this); }
-            		else { route = new EvadeSwitch(0.5, false, this); }
-            	}
-            	
-            	break;
-            case 2: //Scale
-            	if (autoPos == 1) { //Left
-            		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
-            		else { //route = new OppositeScale(autoSpeed, true);
-            		route = new ForwardRoute(130.0, 0.5, this);}
-            	}
-            	
-            	
-            	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
-            	
-
-            	else if (autoPos == 3) { //Right
-            		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
-            		route = new ForwardRoute(130.0, 0.5, this);}
-            		else { route = new ForwardScale(autoSpeed, false, this); }
-            	}
-            	
-            	break;
-            case 3: //Autoline
-            	System.out.println("Done");
-            	route = new ForwardRoute(130.0, 0.5, this);
-            	break;
-            }
-            
-            route.run();
-        }
-        else if (autoType == 2) //Thomas
-        {
-        	PIDMoveCommand aaa = new PIDMoveCommand(7, 0, 0, true);
-        	aaa.start();
-        	PIDMoveCommand.holdYourHorses(aaa);
+        	break;
+        case 2: //Scale
+        	if (autoPos == 1) { //Left
+        		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
+        		else { //route = new OppositeScale(autoSpeed, true);
+        		route = new ForwardRoute(130.0, 0.5, this);}
+        	}
         	
-        	switch(autoTarget)
-            {
-            case 1: //Switch
-            	if (autoPos == 1) { //Left
-            		if (switchLeft) { SideManeuvers.sameSwitch(true); }
-            		else { SideManeuvers.oppositeSwitch(true); }
-            	}
-            	
-            	
-            	else if (autoPos == 2) { CenterManeuvers.goToSwitch(switchLeft); } //Middle
-            	
+        	
+        	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
+        	
 
-            	else if (autoPos == 3) { //Right
-            		if (switchLeft) { SideManeuvers.oppositeSwitch(false); }
-            		else { SideManeuvers.sameSwitch(false); }
-            	}
-            	
-            	break;
-            case 2: //Scale
-            	if (autoPos == 1) { //Left
-            		if (scaleLeft) {SideManeuvers.sameScale(true); }
-            		else { SideManeuvers.oppositeScale(true); }
-            	}
-            	
-            	
-            	else if (autoPos == 2) { CenterManeuvers.goToScale(scaleLeft); } //Middle
-            	
-
-            	else if (autoPos == 3) { //Right
-            		if (scaleLeft) { SideManeuvers.oppositeScale(false); }
-            		else { SideManeuvers.sameScale(false); }
-            	}
-            	
-            	break;
-            case 3: //Autoline
-            	(new PIDMoveCommand(120.0, 0.0, 0.0, switchLeft)).start();
-            	break;
-            }
+        	else if (autoPos == 3) { //Right
+        		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
+        		route = new ForwardRoute(130.0, 0.5, this);}
+        		else { route = new ForwardScale(autoSpeed, false, this); }
+        	}
+        	
+        	break;
+        case 3: //Autoline
+        	System.out.println("Done");
+        	route = new ForwardRoute(130.0, 0.5, this);
+        	break;
         }
         
-    	try {
-			TimeUnit.SECONDS.wait(15);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	exterminateThreads();
-        
-//		switch (autoMode)
-//		{
-//		case 1:
-//			AutoWrapper.goForward(20.0, 0.5);
-//			break;
-//		case 2:
-//			AutoWrapper.leftRight(20.0, 0.5);
-//			break;
-//		case 3:
-//			AutoWrapper.rotate(50.0, 0.5);
-//			break;
-//		case 4:
-//			AutoRoute testRT = new TestRoute();
-//			testRT.run();
-//			break;
-//		case 5:
-//			while(true) {
-//				Mecanum.driveRobot(0, 0.5, 0);
-//			}
-//		case 6:
-//			(new PIDMoveCommand(50, 0, 0, true)).start();
-//			//ConfigureEncoders.testBadly(120);
-//			break;
-//		case 7:
-//			ConfigureEncoders.getEncoderDistance();
-//			break;
-//		}
+        route.run();
+    
+        exterminateThreads();
 	}
 
 	/**

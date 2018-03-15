@@ -57,7 +57,6 @@ public class PIDWrapper extends Thread
 	/**
 	 * Runs the PID calculation until we reach our target; then stop
 	 */
-	@SuppressWarnings("static-access")
 	public void run()
 	{
 		while (!this.isInterrupted())
