@@ -1,11 +1,16 @@
-package driveutil;
+package org.usfirst.frc.team6500.robot.auto;
 
 import org.usfirst.frc.team6500.robot.Constants;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 
-public class AutoDrive { //drive functions for taking in cube w/ CV
+/**
+ * Drive functions for taking in cube w/ CV
+ * 
+ * @author Helen Herring
+ */
+public class AutoDrive { 
 
 	boolean isInTeleop;
 	boolean isDone;
@@ -28,15 +33,16 @@ public class AutoDrive { //drive functions for taking in cube w/ CV
 		
 		Encoders.resetAllEncoders();
 		Encoders.setDirection(Constants.DIRECTION_FORWARD);
-		
-		
 	}
 	
 	public void update(int topX, int topY, int bottomX, int bottomY) {
-		//if it's taking too long, revert
+		//don't keep updating if we're done or in teleop
+		if (isDone || this.isInTeleop)
+		{
+			onExit();
+			return;
+		}
 		
-		//get the two points
-				
 		//match the angle of the cube
 		if((topX-bottomX)>angleThreshold) rotateClockwise(.2);
 		if((bottomX-topX)>angleThreshold) rotateCounterClockwise(.2);
@@ -44,9 +50,8 @@ public class AutoDrive { //drive functions for taking in cube w/ CV
 		//center the cube within the grabber
 		if((bottomX-middleX)>Xthreshold) strafeLeft(.2);
 		if((middleX-bottomX)>Xthreshold) strafeRight(.2);
-				
-		//drive to the cube
 		
+		//drive to the cube
 		if(bottomY<thresholdY) driveToCube(0.2);
 		else {
 			quitDriving();
@@ -66,19 +71,18 @@ public class AutoDrive { //drive functions for taking in cube w/ CV
 	//match angle to vision
 	private void rotateClockwise(double speed) {
 		//run frontleft wheel forwards, frontright wheel backwards, 
-				//backleft wheel forwards, backright wheel backwards
-				//running all at speed parameter - eventually build in speed proportional to distance from center? 
-				
-				Mecanum.driveRobot(0, 0, speed);
+		//backleft wheel forwards, backright wheel backwards
+		//running all at speed parameter - eventually build in speed proportional to distance from center? 
+		
+		Mecanum.driveRobot(0, 0, speed);
 	}
 	
 	private void rotateCounterClockwise(double speed) {
 		//run frontleft wheel backwards, frontright wheel forwards, 
-				//backleft wheel backwards, backright wheel forwards
-				//running all at speed parameter - eventually build in speed proportional to distance from center? 
-				
-				Mecanum.driveRobot(0, 0, -1*speed);
+		//backleft wheel backwards, backright wheel forwards
+		//running all at speed parameter - eventually build in speed proportional to distance from center? 
 		
+		Mecanum.driveRobot(0, 0, -1*speed);
 	}
 	
 	//strafe to center vision
@@ -88,44 +92,35 @@ public class AutoDrive { //drive functions for taking in cube w/ CV
 		//running all at speed parameter - eventually build in speed proportional to distance from center? 
 		
 		Mecanum.driveRobot(0, -1*speed, 0);
-		
 	}
 	
 	public void strafeRight(double speed) {
-			//run frontleft wheel forwards, frontright wheel backwards, 
-			//backleft wheel backwards, backright wheel forwards
-			//running all at speed parameter - eventually build in speed proportional to distance from center? 
+		//run frontleft wheel forwards, frontright wheel backwards, 
+		//backleft wheel backwards, backright wheel forwards
+		//running all at speed parameter - eventually build in speed proportional to distance from center? 
 			
-			Mecanum.driveRobot(0, speed, 0);
-			
-		
+		Mecanum.driveRobot(0, speed, 0);
 	}
 	
 	//drive to cube
 	public void driveToCube(double speed) {
-		
-	//turn all wheels forward to drive forward
+		//turn all wheels forward to drive forward
 		//run at speed parameter, eventually build in speed proportional to distance from cube? 
 		
 		Mecanum.driveRobot(speed, 0, 0);
-		
 	}
 	
 	//stop driving to cube
 	public void quitDriving() {
 		//stop all the driving in order to get things set up for cube intake
-		
 		Mecanum.driveRobot(0, 0, 0);
-		
 	}
 	
 	//with robot lined up with cube, intake the cube
-		public void intake() { 
-			
-			Mecanum.driveRobot(intakeDriveSpeed, 0, 0);
-			Grabber.grabCube();
-			this.isDone = true;
-			
-		}
+	public void intake() { 
+		Mecanum.driveRobot(intakeDriveSpeed, 0, 0);
+		AutoUtils.grabCube();
+		this.isDone = true;
+	}
 	
 }

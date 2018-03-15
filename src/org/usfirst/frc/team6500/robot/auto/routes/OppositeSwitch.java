@@ -31,11 +31,11 @@ public class OppositeSwitch implements AutoRoute
 	public void run() {
 		AutoUtils.liftToSwitch();
 		
-//		AutoWrapper.leftRight(inches0, speed);
-//		AutoWrapper.goForward(inches1, speed);
-//		AutoWrapper.rotate(degrees0, speed);
-//		AutoWrapper.goForward(inches2, speed);
-//		AutoWrapper.rotate(degrees0, speed);
+		AutoWrapper.leftRight(inches0, speed, this.robot);
+		AutoWrapper.goForward(inches1, speed, this.robot);
+		AutoWrapper.rotate(degrees0, speed, this.robot);
+		AutoWrapper.goForward(inches2, speed, this.robot);
+		AutoWrapper.rotate(degrees0, speed, this.robot);
 		
 		AutoUtils.ejectCube();
 		

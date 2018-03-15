@@ -23,7 +23,7 @@ public class SimpleSwitch implements AutoRoute
 	public void run() {
 		AutoUtils.liftToSwitch();
 		
-	//	AutoWrapper.goForward(this.inches, this.speed);
+		AutoWrapper.goForward(this.inches, this.speed, this.robot);
 		
 		AutoUtils.ejectCube();
 		

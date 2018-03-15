@@ -1,10 +1,6 @@
 package org.usfirst.frc.team6500.robot.auto;
 
-import java.util.concurrent.TimeUnit;
-
 import org.usfirst.frc.team6500.robot.Robot;
-import org.usfirst.frc.team6500.robot.systems.Mecanum;
-
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.Timer;
@@ -77,7 +73,7 @@ public class PIDWrapper extends Thread
 				} else {
 					input = inputSource.pidGet();
 				}
-				double output = this.PID.getOutput(input);
+				output = this.PID.getOutput(input);
 				if (Math.abs(output) == 0)
 				{
 					this.outputSource.pidWrite(0.0);

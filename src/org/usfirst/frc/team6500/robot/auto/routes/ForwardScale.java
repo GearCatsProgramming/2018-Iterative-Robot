@@ -27,9 +27,9 @@ public class ForwardScale implements AutoRoute
 	
 	@Override
 	public void run() {
-//		AutoWrapper.leftRight(inches0, speed);
-//		AutoWrapper.goForward(inches1, speed);
-//		AutoWrapper.leftRight(-inches0, speed);
+		AutoWrapper.leftRight(inches0, speed, this.robot);
+		AutoWrapper.goForward(inches1, speed, this.robot);
+		AutoWrapper.leftRight(-inches0, speed, this.robot);
 		
 		AutoUtils.liftToScale();
 		

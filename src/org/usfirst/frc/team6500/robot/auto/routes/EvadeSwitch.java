@@ -22,10 +22,14 @@ public class EvadeSwitch implements AutoRoute
 	
 	@Override
 	public void run() {
+		AutoUtils.liftToSwitch();
+		
 		if (left) { AutoWrapper.leftRight(-120.0, this.speed, this.robot); }
 		else { AutoWrapper.leftRight(30.0, this.speed, this.robot); }
 		
-//		AutoWrapper.goForward(this.inches, this.speed, this.robot);
+		AutoWrapper.goForward(this.inches, this.speed, this.robot);
+		
+		AutoUtils.ejectCube();
 		
 		this.done = true;
 	}

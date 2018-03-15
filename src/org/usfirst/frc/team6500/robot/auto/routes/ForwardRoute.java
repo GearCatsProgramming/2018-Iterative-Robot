@@ -20,7 +20,7 @@ public class ForwardRoute implements AutoRoute
 	
 	@Override
 	public void run() {
-	//	AutoWrapper.goForward(this.inches, this.speed);
+		AutoWrapper.goForward(this.inches, this.speed, this.robot);
 		this.done = true;
 	}
 	

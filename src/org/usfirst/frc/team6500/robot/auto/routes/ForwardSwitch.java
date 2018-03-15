@@ -25,13 +25,12 @@ public class ForwardSwitch implements AutoRoute
 		AutoUtils.liftToSwitch();
 		
 		if (left) {
-		//	AutoWrapper.leftRight(20, this.speed);
+			AutoWrapper.leftRight(20, this.speed, this.robot);
+		} else {
+			AutoWrapper.leftRight(-20, this.speed, this.robot);
 		}
-		else
-		{
-	//		AutoWrapper.leftRight(-20, this.speed);
-		}
-	//	AutoWrapper.goForward(this.inches, this.speed);
+		
+		AutoWrapper.goForward(this.inches, this.speed, this.robot);
 		
 		AutoUtils.ejectCube();
 		

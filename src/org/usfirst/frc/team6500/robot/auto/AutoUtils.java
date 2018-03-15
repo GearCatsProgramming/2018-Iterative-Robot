@@ -27,4 +27,10 @@ public class AutoUtils
 		Timer.delay(1);
 		Grabber.killGrab();
 	}
+
+	public static void grabCube() {
+		Grabber.grabCube();
+		Timer.delay(1);
+		Grabber.killGrab();
+	}
 }

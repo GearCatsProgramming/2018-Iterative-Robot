@@ -20,7 +20,7 @@ public class SidewardRoute implements AutoRoute
 	
 	@Override
 	public void run() {
-	//	AutoWrapper.leftRight(this.inches, this.speed);
+		AutoWrapper.leftRight(this.inches, this.speed, this.robot);
 		this.done = true;
 	}
 	
