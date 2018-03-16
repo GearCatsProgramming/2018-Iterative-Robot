@@ -7,9 +7,9 @@ import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
 public class OppositeSwitch implements AutoRoute
 {
-	private static double inches0 = 12.0;
-	private static double inches1 = 215.0;
-	private static double inches2 = 100.0;
+	private static double inches0 = 200.0;
+	private static double inches1 = 165.0;
+	private static double inches2 = 10.0;
 	
 	private static double degrees0 = 90.0;
 	

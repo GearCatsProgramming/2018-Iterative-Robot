@@ -14,8 +14,8 @@ public class EvadeSwitch implements AutoRoute
 
 	public EvadeSwitch(double speed, boolean left, Robot theRobot)
 	{
-		this.inches0 = 20.0;
-		this.inches1 = 130.0;
+		this.inches0 = 120.0;
+		this.inches1 = 165.0;
 		this.speed = speed;
 		this.done = false;
 		this.left = left;
