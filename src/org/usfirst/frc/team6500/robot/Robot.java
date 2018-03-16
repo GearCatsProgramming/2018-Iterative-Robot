@@ -10,7 +10,6 @@ package org.usfirst.frc.team6500.robot;
 import java.util.ArrayList;
 
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
-import org.usfirst.frc.team6500.robot.auto.PIDWrapper;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
@@ -19,6 +18,7 @@ import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Lift;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;

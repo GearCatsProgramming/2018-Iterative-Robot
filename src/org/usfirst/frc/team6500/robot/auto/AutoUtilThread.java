@@ -21,7 +21,7 @@ public class AutoUtilThread extends Thread{
 			AutoUtils.lowerFromSwitch();
 		} else if(type == actionType.ejectCube) {
 			AutoUtils.ejectCube();
-		} else {
+		} else if(type == actionType.grabCube) {
 			AutoUtils.grabCube();
 		}
 	}

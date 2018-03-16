@@ -3,7 +3,6 @@ package org.usfirst.frc.team6500.robot.auto.routes;
 import org.usfirst.frc.team6500.robot.Robot;
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.AutoUtilThread;
-import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
 public class EvadeSwitch implements AutoRoute
