@@ -2,8 +2,6 @@ package org.usfirst.frc.team6500.robot.auto.routes;
 
 import org.usfirst.frc.team6500.robot.Robot;
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
-import org.usfirst.frc.team6500.robot.auto.AutoUtilThread;
-import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
 public class EvadeSwitch implements AutoRoute
@@ -14,7 +12,7 @@ public class EvadeSwitch implements AutoRoute
 
 	public EvadeSwitch(double speed, boolean left, Robot theRobot)
 	{
-		this.inches0 = 120.0;
+		this.inches0 = 50.0;
 		this.inches1 = 165.0;
 		this.speed = speed;
 		this.done = false;
@@ -23,15 +21,11 @@ public class EvadeSwitch implements AutoRoute
 	}
 	
 	@Override
-	public void run() {
-		//(new AutoUtilThread(AutoUtilThread.actionType.liftToSwitch)).start();
-		
+	public void run() {		
 		if (left) { AutoWrapper.leftRight(-this.inches0, this.speed, this.robot); }
 		else { AutoWrapper.leftRight(this.inches0, this.speed, this.robot); }
 		
 		AutoWrapper.goForward(this.inches1, this.speed, this.robot);
-		
-		//AutoUtils.ejectCube();
 		
 		this.done = true;
 	}

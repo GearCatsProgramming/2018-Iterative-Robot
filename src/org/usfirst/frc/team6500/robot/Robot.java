@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData("Autonomous Target Selector", autoTargetSelector);
 		SmartDashboard.putData("Autonomous Start Position Selector", autoStartSelector);
-		SmartDashboard.putData("Teleop Controller Mode", teleopControlSelector);
+		//SmartDashboard.putData("Teleop Controller Mode", teleopControlSelector);
 	}
 
 	/**
@@ -96,6 +96,7 @@ public class Robot extends IterativeRobot {
 		
 		if (autoTarget == 3) //Do nothing.
         {
+			System.out.println("Doing Nothing.");
         	return;
         }
 		
@@ -134,22 +135,24 @@ public class Robot extends IterativeRobot {
         case 1: //Switch
         	if (switchLeft && autoPos == 1)
         	{
+        		System.out.println("Left Switch");
         		route = new ForwardSwitch(autoSpeed, true, this);
         	}
         	else if (!switchLeft && autoPos == 3)
         	{
+        		System.out.println("Right Switch");
         		route = new ForwardSwitch(autoSpeed, false, this);
         	}
         	else
         	{
-        		if (autoPos == 1) { route = new EvadeSwitch(autoSpeed, true, this); }
-        		else if (autoPos == 2) { route = new ForwardRoute(130.0, autoSpeed, this); }
-        		else { route = new EvadeSwitch(autoSpeed, false, this); }
+        		if (autoPos == 1) { System.out.println("Left Evade"); route = new EvadeSwitch(autoSpeed, true, this); }
+        		else if (autoPos == 2) { System.out.println("Middle Forward"); route = new ForwardRoute(130.0, autoSpeed, this); }
+        		else { System.out.println("Right Evade"); route = new EvadeSwitch(autoSpeed, false, this); }
         	}
         	
         	break;
         case 2: //Autoline
-        	System.out.println("Done");
+        	System.out.println("Autoline");
         	route = new ForwardRoute(130.0, autoSpeed, this);
         	break;
         }
@@ -193,7 +196,8 @@ public class Robot extends IterativeRobot {
 		System.out.println("Beginning teleop");
 		exterminateThreads();
 		
-		teleopMode = teleopControlSelector.getSelected();
+		//teleopMode = teleopControlSelector.getSelected();
+		teleopMode = 1;
 	}
 
 	/**
@@ -253,11 +257,11 @@ public class Robot extends IterativeRobot {
 			//Code to drive climber
 			if (DriveInput.getButton(4, DriveInput.controllerL))
 			{
-				Lift.raiseLift(DriveInput.getThrottle(DriveInput.controllerL));
+				Lift.descend(0.40);
 			}
 			else if (DriveInput.getButton(6, DriveInput.controllerL))
 			{
-				Lift.descend(DriveInput.getThrottle(DriveInput.controllerL));
+				Lift.raiseLift(DriveInput.getThrottle(DriveInput.controllerL));
 			}
 			else
 			{
@@ -281,11 +285,11 @@ public class Robot extends IterativeRobot {
 			//Code to drive climber
 			if (DriveInput.getButton(6, DriveInput.controllerR))
 			{
-				Lift.raiseLift(DriveInput.getThrottle(DriveInput.controllerL));
+				Lift.raiseLift(0.90);
 			}
 			else if (DriveInput.getButton(4, DriveInput.controllerR))
 			{
-				Lift.descend(DriveInput.getThrottle(DriveInput.controllerL));
+				Lift.descend(0.40);
 			}
 			else
 			{
@@ -314,22 +318,24 @@ public class Robot extends IterativeRobot {
 		else { Mecanum.driveRobotField(xspeed, yspeed, zspeed); }
 		
 		SmartDashboard.putNumber("Speed Multiplier", multiplier);
-		SmartDashboard.putNumber("FL", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
-		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
-		SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
-		SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
-		SmartDashboard.putNumber("Avg. Distance Forward", Encoders.getAverageDistanceForward());
+		//SmartDashboard.putNumber("FL", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
+		//SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
+		//SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
+		//SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
+		//SmartDashboard.putNumber("Avg. Distance Forward", Encoders.getAverageDistanceForward());
 		SmartDashboard.putNumber("Avg. Distance Right", Encoders.getAverageDistanceRight());
-		SmartDashboard.putNumber("PIDInput", Gyro.getAngle() % 360);
+		//SmartDashboard.putNumber("PIDInput", Gyro.getAngle() % 360);
 		
-		SmartDashboard.putBoolean("channel a", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_A].get());
-		SmartDashboard.putBoolean("channel b", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_B].get());
+		//SmartDashboard.putBoolean("channel a", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_A].get());
+		//SmartDashboard.putBoolean("channel b", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_B].get());
 	}
 	
 	public void exterminateThreads() {
-		for (Thread thread : hitList)
+		for (int threadID = 0; threadID < hitList.size(); threadID++)
 		{
+			Thread thread = hitList.get(threadID);
 			thread.interrupt();
+			//thread.stop();
 			System.out.println("Suck it");
 		}
 	}

@@ -33,15 +33,15 @@ public class ForwardScale implements AutoRoute
 		AutoWrapper.goForward(inches1, speed, this.robot);
 		AutoWrapper.leftRight(-inches0, speed, this.robot);
 		
-		//(new AutoUtilThread(AutoUtilThread.actionType.liftToScale)).start();
+		(new AutoUtilThread(AutoUtilThread.actionType.liftToScale)).start();
 		
 		AutoWrapper.goForward(inches0, speed, this.robot);
 		
-		//AutoUtils.ejectCube();
+		AutoUtils.ejectCube();
 		
 		AutoWrapper.goForward(inches2, speed, this.robot);
 		
-		//(new AutoUtilThread(AutoUtilThread.actionType.lowerFromScale)).start();
+		(new AutoUtilThread(AutoUtilThread.actionType.lowerFromScale)).start();
 		
 		this.done = true;
 	}

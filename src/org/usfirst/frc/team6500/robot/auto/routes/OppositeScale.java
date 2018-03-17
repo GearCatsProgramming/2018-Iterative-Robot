@@ -41,15 +41,15 @@ public class OppositeScale implements AutoRoute
 		AutoWrapper.goForward(inches2, speed, this.robot);
 		AutoWrapper.rotate(-degrees0, speed, this.robot);
 		
-		//(new AutoUtilThread(AutoUtilThread.actionType.liftToScale)).start();
+		(new AutoUtilThread(AutoUtilThread.actionType.liftToScale)).start();
 		
 		AutoWrapper.goForward(inches3, speed, this.robot);
 		
-		//AutoUtils.ejectCube();
+		AutoUtils.ejectCube();
 		
 		AutoWrapper.goForward(inches4, speed, this.robot);
 		
-		//(new AutoUtilThread(AutoUtilThread.actionType.lowerFromScale)).start();
+		(new AutoUtilThread(AutoUtilThread.actionType.lowerFromScale)).start();
 		
 		this.done = true;
 	}
