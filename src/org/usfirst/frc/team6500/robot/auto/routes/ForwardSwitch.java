@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6500.robot.auto.routes;
 
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
+import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoUtilThread;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 import org.usfirst.frc.team6500.robot.Robot;
@@ -22,7 +23,7 @@ public class ForwardSwitch implements AutoRoute
 	
 	@Override
 	public void run() {
-		(new AutoUtilThread(AutoUtilThread.actionType.liftToSwitch)).start();
+		//(new AutoUtilThread(AutoUtilThread.actionType.liftToSwitch)).start();
 		
 		if (left) {
 			AutoWrapper.leftRight(20, this.speed, this.robot);
@@ -32,7 +33,7 @@ public class ForwardSwitch implements AutoRoute
 		
 		AutoWrapper.goForward(this.inches, this.speed, this.robot);
 		
-		(new AutoUtilThread(AutoUtilThread.actionType.ejectCube)).start();
+		//AutoUtils.ejectCube();
 		
 		this.done = true;
 	}

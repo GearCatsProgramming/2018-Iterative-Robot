@@ -9,14 +9,14 @@ public class AutoUtils
 {
 	public static void liftToScale()
 	{
-		Lift.raiseLift();
+		Lift.raiseLift(0.0);
 		Timer.delay(7);
 		Lift.stopLift();
 	}
 	
 	public static void liftToSwitch()
 	{
-		Lift.raiseLift();
+		Lift.raiseLift(0.0);
 		Timer.delay(2);
 		Lift.stopLift();
 	}
@@ -36,13 +36,13 @@ public class AutoUtils
 	
 	public static void lowerFromScale()
 	{
-		Lift.raiseLift();
+		Lift.raiseLift(0.0);
 		Timer.delay(7);
 		Lift.stopLift();
 	}
 	
 	public static void lowerFromSwitch() {
-		Lift.raiseLift();
+		Lift.raiseLift(0.0);
 		Timer.delay(7);
 		Lift.stopLift();
 	}

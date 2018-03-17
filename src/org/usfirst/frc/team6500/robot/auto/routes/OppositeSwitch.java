@@ -29,7 +29,7 @@ public class OppositeSwitch implements AutoRoute
 	
 	@Override
 	public void run() {
-		(new AutoUtilThread(AutoUtilThread.actionType.liftToSwitch)).start();
+		//(new AutoUtilThread(AutoUtilThread.actionType.liftToSwitch)).start();
 		
 		AutoWrapper.leftRight(inches0, speed, this.robot);
 		AutoWrapper.goForward(inches1, speed, this.robot);
@@ -37,7 +37,7 @@ public class OppositeSwitch implements AutoRoute
 		AutoWrapper.goForward(inches2, speed, this.robot);
 		AutoWrapper.rotate(degrees0, speed, this.robot);
 		
-		(new AutoUtilThread(AutoUtilThread.actionType.ejectCube)).start();
+		//(new AutoUtilThread(AutoUtilThread.actionType.ejectCube)).start();
 		
 		this.done = true;
 	}
