@@ -23,6 +23,7 @@ public class AutoWrapper
 	public static void goForward(double inches, double speed, Robot theRobot)
 	{
 		Encoders.resetAllEncoders();
+		Gyro.reset();
 		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_BACKWARDS); }
 		else { Encoders.setDirection(Constants.DIRECTION_FORWARD); }
 		//System.out.println("Encoders reset.");
@@ -65,6 +66,7 @@ public class AutoWrapper
 	{
 		inches = inches * 8 / 7;
 		Encoders.resetAllEncoders();
+		Gyro.reset();
 //		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_LEFT); }
 //		else { Encoders.setDirection(Constants.DIRECTION_RIGHT); }
 		//System.out.println("going right booooiiiiisss");
@@ -106,7 +108,7 @@ public class AutoWrapper
 	public static void rotate(double degrees, double speed, Robot theRobot)
 	{
 		Gyro.reset();
-		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputGyro(), new PIDOutputZ(), degrees, 2.5, -speed, speed, false, theRobot);
+		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputGyro(), new PIDOutputZ(), degrees, 5, -speed, speed, false, theRobot);
 		
 		Robot.hitList.add(autoTester);
 		

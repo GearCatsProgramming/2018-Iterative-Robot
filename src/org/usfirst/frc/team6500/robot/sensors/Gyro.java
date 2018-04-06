@@ -14,7 +14,7 @@ public class Gyro {
 	
 	public static double getAngle()
 	{
-		return ahrs.getAngle();
+		return (-ahrs.getAngle() * 2) % 360;
 	}
 
 	public static void reset() {

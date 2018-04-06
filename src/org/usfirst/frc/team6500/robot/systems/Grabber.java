@@ -29,8 +29,8 @@ public class Grabber {
 	 */
 	public static void ejectCube()
 	{
-		leftGrabMotor.set(1.0);
-		rightGrabMotor.set(1.0);
+		leftGrabMotor.set(-1.0);
+		rightGrabMotor.set(-1.0);
 	}
 	
 	public static void dLeft(double speed)
@@ -48,8 +48,8 @@ public class Grabber {
 	 */
 	public static void grabCube()
 	{
-		leftGrabMotor.set(-1.0);
-		rightGrabMotor.set(-1.0);
+		leftGrabMotor.set(1.0);
+		rightGrabMotor.set(1.0);
 	}
 	
 	/**

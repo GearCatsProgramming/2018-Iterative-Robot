@@ -129,6 +129,7 @@ public class Robot extends IterativeRobot {
         
         Mecanum.killMotors();
         Encoders.resetAllEncoders();
+        Gyro.reset();
 		
         switch(autoTarget)
         {
@@ -146,7 +147,7 @@ public class Robot extends IterativeRobot {
         	else
         	{
         		if (autoPos == 1) { System.out.println("Left Evade"); route = new EvadeSwitch(autoSpeed, true, this); }
-        		else if (autoPos == 2) { System.out.println("Middle Forward"); route = new ForwardRoute(130.0, autoSpeed, this); }
+        		else if (autoPos == 2) { System.out.println("Middle Forward"); route = new MiddleSwitch(autoSpeed, switchLeft, this); }
         		else { System.out.println("Right Evade"); route = new EvadeSwitch(autoSpeed, false, this); }
         	}
         	
@@ -325,7 +326,7 @@ public class Robot extends IterativeRobot {
 		//SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
 		//SmartDashboard.putNumber("Avg. Distance Forward", Encoders.getAverageDistanceForward());
 		SmartDashboard.putNumber("Avg. Distance Right", Encoders.getAverageDistanceRight());
-		//SmartDashboard.putNumber("PIDInput", Gyro.getAngle() % 360);
+		SmartDashboard.putNumber("Gyro", Gyro.getAngle() % 360);
 		
 		//SmartDashboard.putBoolean("channel a", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_A].get());
 		//SmartDashboard.putBoolean("channel b", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_B].get());
