@@ -68,7 +68,7 @@ public class Robot extends IterativeRobot {
 		autoTargetSelector.addDefault("Switch", 1);
 		autoTargetSelector.addObject("Autoline", 2);
 		autoTargetSelector.addObject("Nothing", 3);
-//		autoTargetSelector.addObject("Scale", 4);
+		autoTargetSelector.addObject("Scale", 4);
 		
 		autoStartSelector.addDefault("Left", 1);
 		autoStartSelector.addObject("Middle", 2);
@@ -116,9 +116,9 @@ public class Robot extends IterativeRobot {
         boolean switchLeft;
         if (switchData == 'L') { switchLeft = true; } else { switchLeft = false; }
         
-        //char scaleData = gameData.charAt(1);
-        //boolean scaleLeft;
-        //if (scaleData == 'L') { scaleLeft = true; } else { scaleLeft = false; }
+        char scaleData = gameData.charAt(1);
+        boolean scaleLeft;
+        if (scaleData == 'L') { scaleLeft = true; } else { scaleLeft = false; }
         
         
     	//if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
@@ -155,26 +155,27 @@ public class Robot extends IterativeRobot {
         	System.out.println("Autoline");
         	route = new ForwardRoute(130.0, autoSpeed, this);
         	break;
+        case 3: //Nothing
+        	break;
+        case 4: //Scale
+        	if (autoPos == 1) { //Left
+        		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
+        		else { //route = new OppositeScale(autoSpeed, true);
+        		route = new ForwardRoute(130.0, 0.5, this);}
+        	}
+        	
+        	
+        	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
+        	
+
+        	else if (autoPos == 3) { //Right
+        		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
+        		route = new ForwardRoute(130.0, 0.5, this);}
+        		else { route = new ForwardScale(autoSpeed, false, this); }
+        	}
+        	
+        	break;
         }
-//        case 2: //Scale
-//        	if (autoPos == 1) { //Left
-//        		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
-//        		else { //route = new OppositeScale(autoSpeed, true);
-//        		route = new ForwardRoute(130.0, 0.5, this);}
-//        	}
-//        	
-//        	
-//        	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
-//        	
-//
-//        	else if (autoPos == 3) { //Right
-//        		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
-//        		route = new ForwardRoute(130.0, 0.5, this);}
-//        		else { route = new ForwardScale(autoSpeed, false, this); }
-//        	}
-//        	
-//        	break;
-//        }
         
         route.run();
     

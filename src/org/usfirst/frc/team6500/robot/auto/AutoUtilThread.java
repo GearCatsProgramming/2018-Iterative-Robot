@@ -9,6 +9,7 @@ public class AutoUtilThread extends Thread{
 		this.type = type;
 	}
 	
+	@Override
 	public void run() {
 		Robot.hitList.add(this);
 		if(type == actionType.liftToScale) {

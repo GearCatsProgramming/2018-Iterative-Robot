@@ -27,7 +27,7 @@ public class Grabber {
 	/**
 	 * Attempts to grab a cube.  MANUALLY STOPPED!
 	 */
-	public static void grabCube()
+	public static void ejectCube()
 	{
 		leftGrabMotor.set(1.0);
 		rightGrabMotor.set(1.0);
@@ -46,7 +46,7 @@ public class Grabber {
 	/**
 	 * Attempts to eject a cube.  MANUALLY STOPPED!
 	 */
-	public static void ejectCube()
+	public static void grabCube()
 	{
 		leftGrabMotor.set(-1.0);
 		rightGrabMotor.set(-1.0);

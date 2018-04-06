@@ -8,13 +8,14 @@ import org.usfirst.frc.team6500.robot.Robot;
 
 public class ForwardSwitch implements AutoRoute
 {
-	private double inches, speed;
+	private double inches0, inches1, speed;
 	private boolean done, left;
 	private Robot robot;
 	
 	public ForwardSwitch(double speed, boolean left, Robot robot)
 	{
-		this.inches = 165.0;
+		this.inches0 = 15.0;
+		this.inches1 = 165.0;
 		this.speed = speed;
 		this.done = false;
 		this.left = left;
@@ -23,17 +24,17 @@ public class ForwardSwitch implements AutoRoute
 	
 	@Override
 	public void run() {
-		//(new AutoUtilThread(AutoUtilThread.actionType.liftToSwitch)).start();
+		(new AutoUtilThread(AutoUtilThread.actionType.liftToSwitch)).start();
 		
 		if (left) {
-			AutoWrapper.leftRight(20, this.speed, this.robot);
+			AutoWrapper.leftRight(this.inches0, this.speed, this.robot);
 		} else {
-			AutoWrapper.leftRight(-20, this.speed, this.robot);
+			AutoWrapper.leftRight(-this.inches0, this.speed, this.robot);
 		}
 		
-		AutoWrapper.goForward(this.inches, this.speed, this.robot);
+		AutoWrapper.goForward(this.inches1, this.speed, this.robot);
 		
-		//AutoUtils.ejectCube();
+		AutoUtils.ejectCube();
 		
 		this.done = true;
 	}

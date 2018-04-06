@@ -38,7 +38,7 @@ public class Lift {
 	 * @author Kyle
 	 * 
 	 */
-	public static void raiseLift(double speed) {
+	public static void descend(double speed) {
 		if (isReady) {
 			left.set(speed);
 			right.set(speed);
@@ -62,7 +62,7 @@ public class Lift {
 	 * @author Kyle
 	 * 
 	 */
-	public static void descend(double speed) {
+	public static void raiseLift(double speed) {
 		if (isReady) {
 			left.set(-speed);
 			right.set(-speed);
