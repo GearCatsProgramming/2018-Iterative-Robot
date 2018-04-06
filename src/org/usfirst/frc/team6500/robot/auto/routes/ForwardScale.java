@@ -9,8 +9,10 @@ import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 public class ForwardScale implements AutoRoute
 {
 	private static double inches0 = 12.0;
-	private static double inches1 = 288.0;
-	private static double inches2 = 24.0;
+	private static double inches1 = 312.0;
+	private static double inches2 = -6.0;
+	
+	private static double degrees0 = -90.0;
 	
 	private double speed;
 	private boolean done;
@@ -19,7 +21,7 @@ public class ForwardScale implements AutoRoute
 
 	public ForwardScale(double speed, boolean left, Robot robot)
 	{
-		if (left) { inches0 *= -1; }
+		if (left) { inches0 *= -1; degrees0 *= -1; }
 		
 		this.speed = speed;
 		
@@ -29,11 +31,13 @@ public class ForwardScale implements AutoRoute
 	
 	@Override
 	public void run() {
-		AutoWrapper.leftRight(inches0, speed, this.robot);
+//		AutoWrapper.leftRight(inches0, speed, this.robot);
 		AutoWrapper.goForward(inches1, speed, this.robot);
-		AutoWrapper.leftRight(-inches0, speed, this.robot);
+//		AutoWrapper.leftRight(-inches0, speed, this.robot);
 		
 		(new AutoUtilThread(AutoUtilThread.actionType.liftToScale)).start();
+		
+		AutoWrapper.rotate(degrees0, speed, this.robot);
 		
 		AutoWrapper.goForward(inches0, speed, this.robot);
 		
