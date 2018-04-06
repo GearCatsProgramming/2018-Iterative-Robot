@@ -8,7 +8,7 @@ import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
 public class ForwardScale implements AutoRoute
 {
-	private static double inches0 = 12.0;
+	//private static double inches0 = 12.0;
 	private static double inches1 = 312.0;
 	private static double inches2 = -15.0;
 	
@@ -21,7 +21,7 @@ public class ForwardScale implements AutoRoute
 
 	public ForwardScale(double speed, boolean left, Robot robot)
 	{
-		if (left) { inches0 *= -1; degrees0 *= -1; }
+		if (left) { degrees0 *= -1; }
 		
 		this.speed = speed;
 		

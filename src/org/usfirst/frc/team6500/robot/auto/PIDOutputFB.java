@@ -16,7 +16,7 @@ public class PIDOutputFB implements PIDOutput {
 	@Override
 	public void pidWrite(double output) {
 		final double tolerance = 3.0;
-		final double correctionmultiplier = 5.0;
+		final double correctionmultiplier = 10.0;
 		double angle = Gyro.getAngle();
 		System.out.println("Angle is... " + angle);
 		if (angle > tolerance)

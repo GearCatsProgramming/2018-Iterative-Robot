@@ -8,10 +8,10 @@ import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
 public class OppositeScale implements AutoRoute
 {
-	private static double inches0 = 12.0;
+	//private static double inches0 = 12.0;
 	private static double inches1 = 225.0;
 	private static double inches2 = 200.0;
-	private static double inches3 = 18.0;
+	//private static double inches3 = 18.0;
 	private static double inches4 = -15.0;
 	
 	private static double degrees0 = 90.0;
@@ -24,7 +24,7 @@ public class OppositeScale implements AutoRoute
 
 	public OppositeScale(double speed, boolean left, Robot robot)
 	{
-		if (left) { inches0 *= -1; degrees0 *= -1; }
+		if (left) { degrees0 *= -1; }
 		
 		this.speed = speed;
 		

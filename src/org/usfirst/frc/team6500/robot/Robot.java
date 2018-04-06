@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	
 	int autoMode = 0;
 	int teleopMode = 0;
-	SendableChooser<Integer> autoTargetSelector, autoStartSelector, teleopControlSelector;
+	SendableChooser<Integer> autoTargetSelector, autoStartSelector, riskFactorSelector;
 	
 	boolean fieldOriented = false;
 	
@@ -63,7 +63,7 @@ public class Robot extends IterativeRobot {
 		
 		autoTargetSelector = new SendableChooser<Integer>();
 		autoStartSelector = new SendableChooser<Integer>();		
-		teleopControlSelector = new SendableChooser<Integer>();
+		riskFactorSelector = new SendableChooser<Integer>();
 		
 		autoTargetSelector.addDefault("Switch", 1);
 		autoTargetSelector.addObject("Autoline", 2);
@@ -74,8 +74,8 @@ public class Robot extends IterativeRobot {
 		autoStartSelector.addObject("Middle", 2);
 		autoStartSelector.addObject("Right", 3);
 		
-		teleopControlSelector.addDefault("Two Drivers", 1);
-		teleopControlSelector.addObject("One Driver", 2);
+		riskFactorSelector.addDefault("Normal", 1);
+		riskFactorSelector.addObject("We goin' risky boi (double cubes) (don't use plz) (emergencies only) (only in playoffs or matches we know we can win)", 9001);
 		
 		speedX = new Speed();
 		speedY = new Speed();
@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putData("Autonomous Target Selector", autoTargetSelector);
 		SmartDashboard.putData("Autonomous Start Position Selector", autoStartSelector);
-		//SmartDashboard.putData("Teleop Controller Mode", teleopControlSelector);
+		SmartDashboard.putData("Risk Selector", riskFactorSelector);
 	}
 
 	/**
@@ -101,6 +101,7 @@ public class Robot extends IterativeRobot {
         }
 		
 		int autoPos = autoStartSelector.getSelected();
+		int riskFactor = riskFactorSelector.getSelected();
 		
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
@@ -126,11 +127,22 @@ public class Robot extends IterativeRobot {
         
         AutoRoute route = new ForwardRoute(130.0, 0.5, this);
         double autoSpeed = Constants.AUTO_SPEED;
+        double sosososoSonicSpeed = 0.75;
         
         Mecanum.killMotors();
         Encoders.resetAllEncoders();
         Gyro.reset();
 		
+        //RISK FACTOR OVER 9000!!!
+        if (riskFactor == 9001)
+        {
+        	route = new DoubleCube(sosososoSonicSpeed, scaleLeft, this, !switchLeft);
+        	route.run();
+            
+        	return;
+            //exterminateThreads();
+        }
+        
         switch(autoTarget)
         {
         case 1: //Switch
@@ -196,7 +208,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit()
 	{
-		System.out.println("Beginning teleop");
+		System.out.println("Beginning teleop, gotta squash those threads");
+		exterminateThreads();
 		exterminateThreads();
 		
 		//teleopMode = teleopControlSelector.getSelected();

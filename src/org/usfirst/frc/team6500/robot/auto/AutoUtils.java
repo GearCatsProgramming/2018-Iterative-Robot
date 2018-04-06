@@ -30,7 +30,7 @@ public class AutoUtils
 
 	public static void grabCube() {
 		Grabber.grabCube();
-		Timer.delay(1);
+		Timer.delay(2.5);
 		Grabber.killGrab();
 	}
 	
