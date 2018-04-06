@@ -167,6 +167,7 @@ public class Robot extends IterativeRobot {
         	
         	
         	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
+//        	else if (autoPos == 2) { route = new CenterScale(autoSpeed, scaleLeft, this); }  //Extra middle for if we acutally use scale
         	
 
         	else if (autoPos == 3) { //Right

@@ -29,8 +29,12 @@ public class CenterScale implements AutoRoute {
 	@Override
 	public void run() {
 		AutoWrapper.leftRight(inches0, speed, this.robot);
+		
 		ForwardScale thing = new ForwardScale(speed, left, robot);
+		thing.run();
 		while(!thing.isDone()) {}
+		
+		done = true;
 	}
 
 	@Override
