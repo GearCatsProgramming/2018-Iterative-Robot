@@ -18,7 +18,7 @@ public class RouteMap2
 	 * @param start The starting position {@link Position}
 	 * @param switchLoc The position of the friendly side of the switch {@link Position}
 	 * @param scaleLoc The position of the friendly side of the scale {@link Position}
-	 * @param priority The thing we'd rather put cubebs on {@link Target}
+	 * @param priority The thing we'd rather put cubes on {@link Target}
 	 * @return The route we're going to do.
 	 */
 	public static AutoRoute getRoute(double autoSpeed, Robot robot, Position start, Position switchLoc, Position scaleLoc, Target priority) {

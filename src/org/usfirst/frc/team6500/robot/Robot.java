@@ -131,7 +131,7 @@ public class Robot extends IterativeRobot {
         //RISK FACTOR IS 9001!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (riskFactor == 9001)
         {
-        	route = new DoubleCube(sosososoSonicSpeed, RouteMap2.toBoolean(scalePos), this, !RouteMap2.toBoolean(switchPos));
+        	route = new DoubleCube(sosososoSonicSpeed, Position.toBoolean(scalePos), this, !Position.toBoolean(switchPos));
         	route.run();
             
         	return;
