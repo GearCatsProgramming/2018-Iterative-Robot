@@ -38,7 +38,7 @@ public class ForwardScale implements AutoRoute
 		
 //		AutoUtils.liftToScale();
 		
-		AutoWrapper.rotate(degrees0, speed, this.robot);
+//		AutoWrapper.rotate(degrees0, speed, this.robot);
 		
 //		AutoWrapper.goForward(inches0, speed, this.robot);
 		

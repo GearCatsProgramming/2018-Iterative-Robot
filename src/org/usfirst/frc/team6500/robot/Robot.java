@@ -273,7 +273,7 @@ public class Robot extends IterativeRobot {
 			//Code to drive climber
 			if (DriveInput.getButton(4, DriveInput.controllerL))
 			{
-				Lift.descend(0.40);
+				Lift.descend(0.65);
 			}
 			else if (DriveInput.getButton(6, DriveInput.controllerL))
 			{
@@ -305,7 +305,7 @@ public class Robot extends IterativeRobot {
 			}
 			else if (DriveInput.getButton(4, DriveInput.controllerR))
 			{
-				Lift.descend(0.40);
+				Lift.descend(0.65);
 			}
 			else
 			{
