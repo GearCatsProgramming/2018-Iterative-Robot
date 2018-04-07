@@ -7,8 +7,9 @@ import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
 public class DoubleCube implements AutoRoute {
-	private static double inches0 = 15.0;
-	private static double inches1 = 40.0;
+	private static double inches0 = 50.0;
+	private static double inches1 = 45.0;
+	private double inches2 = 10.0;
 	
 	private static double degrees0 = -90.0;
 	
@@ -59,7 +60,7 @@ public class DoubleCube implements AutoRoute {
 			//What is the saddest thing of all?
 			(new AutoUtilThread(AutoUtilThread.actionType.liftToSwitch)).start();
 			
-			AutoWrapper.goForward(inches0, this.speed, robot);
+			AutoWrapper.goForward(inches2, this.speed, robot);
 		}
 		
 		AutoUtils.ejectCube();
