@@ -7,18 +7,17 @@ import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
 public class DoubleCube implements AutoRoute {
-	private static double inches0 = 50.0;
-	private static double inches1 = 45.0;
-	private double inches2 = 10.0;
+	private static double inches0 = 50.0 - 12.5;
+	private static double inches1 = 12.0;
+	private double inches2 = 7.5;
 	
-	private static double degrees0 = -90.0;
+	private static double degrees0 = -180.0;
 	
 	private boolean done;
 	private Robot robot;
 	private double speed;
 	
-	private boolean left;
-	private boolean scaleNotSwitch;
+	private boolean left, scaleNotSwitch;
 	
 	public DoubleCube(double speed, boolean left, Robot robot, boolean scaleNotSwitch) {
 		if(left) { inches1 *= -1; degrees0 *= -1; }
@@ -40,7 +39,7 @@ public class DoubleCube implements AutoRoute {
 		AutoWrapper.goForward(inches0, this.speed, robot);
 		AutoWrapper.leftRight(inches1, this.speed, robot);
 		
-		(new AutoUtilThread(AutoUtilThread.actionType.ejectCube)).start();
+		(new AutoUtilThread(AutoUtilThread.actionType.grabCube)).start();
 		
 		AutoWrapper.goForward(inches0, this.speed, robot);
 		

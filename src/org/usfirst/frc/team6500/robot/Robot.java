@@ -34,7 +34,9 @@ public class Robot extends IterativeRobot {
 	
 	int autoMode = 0;
 	int teleopMode = 0;
-	SendableChooser<Integer> autoTargetSelector, autoStartSelector, riskFactorSelector;
+	SendableChooser<Integer> riskFactorSelector;
+	SendableChooser<Target> autoTargetSelector;
+	SendableChooser<Position> autoStartSelector;
 	
 	boolean fieldOriented = false;
 	
@@ -61,18 +63,17 @@ public class Robot extends IterativeRobot {
 		//camera.setFPS(10);
 		camera.setResolution(240, 180); //640 = width, 480 = height
 		
-		autoTargetSelector = new SendableChooser<Integer>();
-		autoStartSelector = new SendableChooser<Integer>();		
+		autoTargetSelector = new SendableChooser<Target>();
+		autoStartSelector = new SendableChooser<Position>();		
 		riskFactorSelector = new SendableChooser<Integer>();
 		
-		autoTargetSelector.addDefault("Switch", 1);
-		autoTargetSelector.addObject("Autoline", 2);
-		autoTargetSelector.addObject("Nothing", 3);
-		autoTargetSelector.addObject("Scale", 4);
+		autoTargetSelector.addDefault("Switch", Target.hitSwitch);
+		autoTargetSelector.addObject("Autoline", Target.hitSwitch);
+		autoTargetSelector.addObject("Scale", Target.hitScale);
 		
-		autoStartSelector.addDefault("Left", 1);
-		autoStartSelector.addObject("Middle", 2);
-		autoStartSelector.addObject("Right", 3);
+		autoStartSelector.addDefault("Left", Position.left);
+		autoStartSelector.addObject("Middle", Position.middle);
+		autoStartSelector.addObject("Right", Position.right);
 		
 		riskFactorSelector.addDefault("Normal", 1);
 		riskFactorSelector.addObject("We goin' risky boi (double cubes) (don't use plz) (emergencies only) (only in playoffs or matches we know we can win)", 9001);
@@ -92,15 +93,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit()
 	{
-		int autoTarget = autoTargetSelector.getSelected();
+		Target autoTarget = autoTargetSelector.getSelected();
 		
-		if (autoTarget == 3) //Do nothing.
-        {
-			System.out.println("Doing Nothing.");
-        	return;
-        }
-		
-		int autoPos = autoStartSelector.getSelected();
+		Position autoPos = autoStartSelector.getSelected();
 		int riskFactor = riskFactorSelector.getSelected();
 		
 		String gameData;
@@ -114,12 +109,12 @@ public class Robot extends IterativeRobot {
         
         //Obtain data about this game
         char switchData = gameData.charAt(0);
-        boolean switchLeft;
-        if (switchData == 'L') { switchLeft = true; } else { switchLeft = false; }
+        Position switchPos;
+        if (switchData == 'L') { switchPos = Position.left; } else { switchPos = Position.right; }
         
         char scaleData = gameData.charAt(1);
-        boolean scaleLeft;
-        if (scaleData == 'L') { scaleLeft = true; } else { scaleLeft = false; }
+        Position scalePos;
+        if (scaleData == 'L') { scalePos = Position.left; } else { scalePos = Position.right; }
         
         
     	//if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
@@ -133,63 +128,65 @@ public class Robot extends IterativeRobot {
         Encoders.resetAllEncoders();
         Gyro.reset();
 		
-        //RISK FACTOR OVER 9000!!!
+        //RISK FACTOR IS 9001!!!!!!!!!!!!!!!!!!!!!!!!!!!
         if (riskFactor == 9001)
         {
-        	route = new DoubleCube(sosososoSonicSpeed, scaleLeft, this, !switchLeft);
+        	route = new DoubleCube(sosososoSonicSpeed, RouteMap2.toBoolean(scalePos), this, !RouteMap2.toBoolean(switchPos));
         	route.run();
             
         	return;
             //exterminateThreads();
         }
         
-        switch(autoTarget)
-        {
-        case 1: //Switch
-        	if (switchLeft && autoPos == 1)
-        	{
-        		System.out.println("Left Switch");
-        		route = new ForwardSwitch(autoSpeed, true, this);
-        	}
-        	else if (!switchLeft && autoPos == 3)
-        	{
-        		System.out.println("Right Switch");
-        		route = new ForwardSwitch(autoSpeed, false, this);
-        	}
-        	else
-        	{
-        		if (autoPos == 1) { System.out.println("Left Evade"); route = new EvadeSwitch(autoSpeed, true, this); }
-        		else if (autoPos == 2) { System.out.println("Middle Forward"); route = new MiddleSwitch(autoSpeed, switchLeft, this); }
-        		else { System.out.println("Right Evade"); route = new EvadeSwitch(autoSpeed, false, this); }
-        	}
-        	
-        	break;
-        case 2: //Autoline
-        	System.out.println("Autoline");
-        	route = new ForwardRoute(130.0, autoSpeed, this);
-        	break;
-        case 3: //Nothing
-        	break;
-        case 4: //Scale
-        	if (autoPos == 1) { //Left
-        		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
-        		else { //route = new OppositeScale(autoSpeed, true);
-        		route = new ForwardRoute(130.0, 0.5, this);}
-        	}
-        	
-        	
-        	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
-//        	else if (autoPos == 2) { route = new CenterScale(autoSpeed, scaleLeft, this); }  //Extra middle for if we acutally use scale
-        	
-
-        	else if (autoPos == 3) { //Right
-        		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
-        		route = new ForwardRoute(130.0, 0.5, this);}
-        		else { route = new ForwardScale(autoSpeed, false, this); }
-        	}
-        	
-        	break;
-        }
+        route = RouteMap2.getRoute(autoSpeed, this, autoPos, switchPos, scalePos, autoTarget);
+        
+//        switch(autoTarget)
+//        {
+//        case 1: //Switch
+//        	if (switchLeft && autoPos == 1)
+//        	{
+//        		System.out.println("Left Switch");
+//        		route = new ForwardSwitch(autoSpeed, true, this);
+//        	}
+//        	else if (!switchLeft && autoPos == 3)
+//        	{
+//        		System.out.println("Right Switch");
+//        		route = new ForwardSwitch(autoSpeed, false, this);
+//        	}
+//        	else
+//        	{
+//        		if (autoPos == 1) { System.out.println("Left Evade"); route = new EvadeSwitch(autoSpeed, true, this); }
+//        		else if (autoPos == 2) { System.out.println("Middle Forward"); route = new MiddleSwitch(autoSpeed, switchLeft, this); }
+//        		else { System.out.println("Right Evade"); route = new EvadeSwitch(autoSpeed, false, this); }
+//        	}
+//        	
+//        	break;
+//        case 2: //Autoline
+//        	System.out.println("Autoline");
+//        	route = new ForwardRoute(130.0, autoSpeed, this);
+//        	break;
+//        case 3: //Nothing
+//        	break;
+//        case 4: //Scale
+//        	if (autoPos == 1) { //Left
+//        		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
+//        		else { //route = new OppositeScale(autoSpeed, true);
+//        		route = new ForwardRoute(130.0, 0.5, this);}
+//        	}
+//        	
+//        	
+//        	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
+////        	else if (autoPos == 2) { route = new CenterScale(autoSpeed, scaleLeft, this); }  //Extra middle for if we acutally use scale
+//        	
+//
+//        	else if (autoPos == 3) { //Right
+//        		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
+//        		route = new ForwardRoute(130.0, 0.5, this);}
+//        		else { route = new ForwardScale(autoSpeed, false, this); }
+//        	}
+//        	
+//        	break;
+//        }
         
         route.run();
     
