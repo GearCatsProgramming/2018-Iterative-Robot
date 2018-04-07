@@ -46,10 +46,10 @@ public class DoubleCube implements AutoRoute {
 		if (this.scaleNotSwitch)
 		{
 			//Mirror mirror on the wall...
-			AutoWrapper.goForward(-inches0, this.speed, robot);
-			
 			(new AutoUtilThread(AutoUtilThread.actionType.liftToScale)).start();
-			
+
+			AutoWrapper.goForward(-inches0, this.speed, robot);
+						
 			AutoWrapper.leftRight(-inches1, this.speed, robot);
 			AutoWrapper.goForward(inches0, this.speed, robot);
 			AutoWrapper.rotate(-degrees0, this.speed, robot);
