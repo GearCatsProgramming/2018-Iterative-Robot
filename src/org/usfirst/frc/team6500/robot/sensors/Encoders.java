@@ -42,6 +42,9 @@ public class Encoders {
 		return (flenc.getDistance() + blenc.getDistance() + frenc.getDistance() + (brenc.getDistance() * 2)) / 4.0;
 	}
 	
+	/**Gets the average distance to the right.
+	 * @return The distance to the right; left is negative
+	 * */
 	public static double getAverageDistanceRight()
 	{
 		return (flenc.getDistance() + -blenc.getDistance() + -frenc.getDistance() + (2 * brenc.getDistance())) / 4.0;
@@ -57,6 +60,7 @@ public class Encoders {
 		return direction;
 	}
 	
+	@Deprecated
 	public static double getDistanceRelativeDirection()
 	{
 		switch (direction) {

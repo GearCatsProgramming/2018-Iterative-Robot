@@ -6,6 +6,10 @@ import org.usfirst.frc.team6500.robot.auto.AutoUtilThread;
 import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
+/**Moves the robot to the opposite side of the field to drop the cube.
+ * @author Frig, I dunno
+ */
+@Deprecated
 public class OppositeSwitch implements AutoRoute
 {
 	private static double inches0 = 200.0;
