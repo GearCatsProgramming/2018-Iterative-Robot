@@ -260,9 +260,9 @@ public class MiniPID{
 		this.setpoint=setpoint;
 
 		// Ramp the setpoint used for calculations if user has opted to do so
-		if(setpointRange!=0){
-			setpoint=constrain(setpoint,actual-setpointRange,actual+setpointRange);
-		}
+		//if(setpointRange!=0){
+		//	setpoint=constrain(setpoint,actual-setpointRange,actual+setpointRange);
+		//}
 
 		// Do the simple parts of the calculations
 		double error=setpoint-actual;
@@ -337,7 +337,15 @@ public class MiniPID{
 		// System.out.printf("%5.2f\t%5.2f\t%5.2f\t%5.2f\n",output,Poutput, Ioutput, Doutput );
 
 		lastOutput=output;
-		return output;
+		
+		if (actual > setpoint - setpointRange && actual < setpoint + setpointRange )
+		{
+			return 0.0;
+		}
+		else
+		{
+			return output;
+		}
 	}
 
 	/**

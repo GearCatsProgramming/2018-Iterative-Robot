@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.Encoder;
  * @author Kyle Miller
  */
 public class Encoders {
-	static DigitalInput[] encoderinputs = new DigitalInput[8];
+	public static DigitalInput[] encoderinputs = new DigitalInput[8];
 	public static Encoder flenc, blenc, frenc, brenc;
 	static int direction;
 	
@@ -37,9 +37,17 @@ public class Encoders {
 	/**Gets the average distance from each encoder
 	 * @return The average distance
 	 */
-	public static double getAverageDistance()
+	public static double getAverageDistanceForward()
 	{
-		return (flenc.getDistance() + blenc.getDistance() + frenc.getDistance() + brenc.getDistance()) / 4.0;
+		return (flenc.getDistance() + blenc.getDistance() + frenc.getDistance() + (brenc.getDistance() * 2)) / 4.0;
+	}
+	
+	/**Gets the average distance to the right.
+	 * @return The distance to the right; left is negative
+	 * */
+	public static double getAverageDistanceRight()
+	{
+		return (flenc.getDistance() + -blenc.getDistance() + -frenc.getDistance() + (2 * brenc.getDistance())) / 4.0;
 	}
 	
 	public static void setDirection(int directionId)
@@ -52,13 +60,14 @@ public class Encoders {
 		return direction;
 	}
 	
+	@Deprecated
 	public static double getDistanceRelativeDirection()
 	{
 		switch (direction) {
 			case Constants.DIRECTION_BACKWARDS:
-				return -getAverageDistance();
+				return -getAverageDistanceForward();
 			case Constants.DIRECTION_FORWARD:
-				return getAverageDistance();
+				return getAverageDistanceForward();
 			case Constants.DIRECTION_LEFT:
 				return ((-flenc.getDistance()) + frenc.getDistance() + blenc.getDistance() + (-brenc.getDistance())) / 4.0;
 			case Constants.DIRECTION_RIGHT:

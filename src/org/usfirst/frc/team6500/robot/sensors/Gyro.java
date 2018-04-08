@@ -1,23 +1,32 @@
 package org.usfirst.frc.team6500.robot.sensors;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.I2C;
+
+/**A wrapper class for the gyroscope. Probably isn't using the same gyroscope as last time you read this.
+ * @author Changes wildly
+ */
 public class Gyro {
 //	public static AHRS ahrs;
-	public static ADXRS450_Gyro ahrs;
+	public static AHRS ahrs;
 	
 	public static void intializeGyro()
 	{
-//		ahrs = new AHRS(SerialPort.Port.kMXP);
-		ahrs = new ADXRS450_Gyro();
+		ahrs = new AHRS(I2C.Port.kMXP);
+		ahrs.reset();
+//		ahrs = new ADXRS450_Gyro();
 	}
 	
 	public static double getAngle()
 	{
-		return ahrs.getAngle();
+		return ahrs.getAngle() % 360;
 	}
 
+	/**Resets the gryoscope such that the current position is 0 degrees.
+	 */
 	public static void reset() {
 		ahrs.reset();
+		ahrs.zeroYaw();
 	}
 }

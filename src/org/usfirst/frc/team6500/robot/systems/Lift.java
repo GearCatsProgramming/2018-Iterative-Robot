@@ -38,10 +38,10 @@ public class Lift {
 	 * @author Kyle
 	 * 
 	 */
-	public static void raiseLift() {
+	public static void descend(double speed) {
 		if (isReady) {
-			left.set(1.0);
-			right.set(1.0);
+			left.set(speed);
+			right.set(speed);
 		}
 	}
 	
@@ -62,10 +62,10 @@ public class Lift {
 	 * @author Kyle
 	 * 
 	 */
-	public static void descend() {
+	public static void raiseLift(double speed) {
 		if (isReady) {
-			left.set(-1.0);
-			right.set(-1.0);
+			left.set(-speed);
+			right.set(-speed);
 		}
 	}
 

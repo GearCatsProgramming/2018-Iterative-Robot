@@ -1,6 +1,7 @@
 package org.usfirst.frc.team6500.robot.auto;
 
 import org.usfirst.frc.team6500.robot.Constants;
+import org.usfirst.frc.team6500.robot.Robot;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
 
@@ -13,21 +14,26 @@ import org.usfirst.frc.team6500.robot.sensors.Gyro;
  */
 public class AutoWrapper
 {
-	/**
-	 * Move the robot approximately inches forward or backward at speed
-	 * 
+	/**Move the robot approximately some inches forward or backward at speed
+	 * @author Kyle Miller
 	 * @param inches How many inches to go forward or backward, backward is negative and positive is forward
 	 * @param speed How fast to move the robot
 	 */
-	public static void goForward(double inches, double speed)
+	public static void goForward(double inches, double speed, Robot theRobot)
 	{
 		Encoders.resetAllEncoders();
-		Encoders.setDirection(Constants.DIRECTION_FORWARD);
-		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputFB(), inches, 2.5, -speed, speed);
+		Gyro.reset();
+		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_BACKWARDS); }
+		else { Encoders.setDirection(Constants.DIRECTION_FORWARD); }
+		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputFB(), inches, 2.5, -speed, speed, false, theRobot);
+		
+		Robot.hitList.add(autoTester);
 		
 		autoTester.start();
 		
 		while (!autoTester.isInterrupted()) { }
+		
+		System.out.println("Donezo con forward.");
 		//TestPID autoTester = new TestPID(new PIDInputY(), new PIDOutputFB());
 		
 		//autoTester.disable();
@@ -54,15 +60,20 @@ public class AutoWrapper
 	 * @param inches How many inches to go left or right, left is negative and positive is right
 	 * @param speed How fast to move the robot
 	 */
-	public static void leftRight(double inches, double speed)
+	public static void leftRight(double inches, double speed, Robot theRobot)
 	{
+		inches = inches * 8 / 7;
 		Encoders.resetAllEncoders();
-		Encoders.setDirection(Constants.DIRECTION_RIGHT);
-		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputLR(), inches, 2.5, -speed, speed);
+		Gyro.reset();
+		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputLR(), inches * Constants.ENCODER_LR_MULTIPLIER, 2.5, -speed, speed, true, theRobot);
+		
+		Robot.hitList.add(autoTester);
 		
 		autoTester.start();
 		
 		while (!autoTester.isInterrupted()) { }
+		
+		System.out.println("Donezo con side.");
 //		TestPID autoTester = new TestPID(new PIDInputX(), new PIDOutputLR());
 //		
 //		autoTester.disable();
@@ -89,15 +100,18 @@ public class AutoWrapper
 	 * @param degrees How many degrees to rotate, positive is clockwise and negative is counterclockwise
 	 * @param speed How fast to turn
 	 */
-	public static void rotate(double degrees, double speed)
+	public static void rotate(double degrees, double speed, Robot theRobot)
 	{
 		Gyro.reset();
-		PIDWrapper autoTester = new PIDWrapper(0.5, 0.5,
-				0.5, new PIDInputGyro(), new PIDOutputZ(), degrees, 2.5, -speed, speed);
+		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputGyro(), new PIDOutputZ(), degrees, 5, -speed, speed, false, theRobot);
+		
+		Robot.hitList.add(autoTester);
 		
 		autoTester.start();
 		
 		while (!autoTester.isInterrupted()) { }
+		
+		System.out.println("Donezo con rotate.");
 //		TestPID autoTester = new TestPID(new PIDInputGyro(), new PIDOutputZ());
 //		
 //		autoTester.disable();

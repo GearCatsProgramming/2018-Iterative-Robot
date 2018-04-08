@@ -62,12 +62,14 @@ public final class Constants {
 	public final static int DIRECTION_BACKWARDS = 1;
 	public final static int DIRECTION_RIGHT = 2;
 	public final static int DIRECTION_LEFT = 3;
-	
-	//TODO: Configure PID values
-	public static final double PID_P = 1;
-	public static final double PID_I = 0;
-	public static final double PID_D = 0;
 
-	//TODO: Configure distance-to-angle ratio
-	public static final double ANGLE_TO_DISTANCE = 0;
+	public static final double ANGLE_TO_DISTANCE = 1*ENCODER_DISTANCE_PER_PULSE;
+	public static final double AUTO_SPEED = 0.5;
+	
+	public static final double ENCODER_LR_MULTIPLIER = 1.0892243362162;
+	//1.1163279
+	//+1.0859728506787
+	//+1.1111111111111
+	//+1.05263
+	//+1.08108108
 }

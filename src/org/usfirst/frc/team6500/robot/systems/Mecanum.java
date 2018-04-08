@@ -18,7 +18,7 @@ public class Mecanum {
 	/**The drive train.
 	 * Don't call it directly, since Mecanum contains most methods
 	 */
-	static MecanumDrive drive;
+	private static MecanumDrive drive;
 	
 	/**Initializes the motors and drive train. After this method is called, other methods are usable.
 	 * @author Kyle Miller
@@ -32,6 +32,7 @@ public class Mecanum {
 		
 		drive = new MecanumDrive(fleft, bleft, fright, bright);
 		
+		//Makes the robot stop moving each update unless it's told to continue driving.
 		drive.setSafetyEnabled(false);
 	}
 	
@@ -81,11 +82,12 @@ public class Mecanum {
 			bright.set(speed);
 		}
 	}
-	
+	/**Causes one wheel to move at a certain speed.*/
 	public static void driveWheel(Talon wheel, double speed) {
 		wheel.set(speed);
 	}
 	
+	/**Stops all movement.*/
 	public static void killMotors()
 	{
 		driveRobot(0, 0, 0);
@@ -99,6 +101,10 @@ public class Mecanum {
 		drive.setSafetyEnabled(!continuous);
 	}
 	
+	/**Makes the indiviudual wheels not revert to 0 speed when not recieving updates
+	 * @author Thomas Dearth
+	 * @param continuous Whether the wheels keep their speed or not.
+	 */
 	public static void maintainWheelSpeed(boolean continuous) {
 		fleft.setSafetyEnabled(!continuous);
 		fright.setSafetyEnabled(!continuous);

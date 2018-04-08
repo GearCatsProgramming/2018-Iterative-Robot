@@ -12,4 +12,9 @@ public interface AutoRoute
 	 * Main runner method of the route, just tells the robot to run it
 	 */
 	public void run();
+	
+	/**
+	 * Indicates whether the route has completed
+	 */
+	boolean isDone();
 }
