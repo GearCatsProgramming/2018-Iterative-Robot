@@ -15,7 +15,7 @@ public class ForwardSwitch implements AutoRoute
 	public ForwardSwitch(double speed, boolean left, Robot robot)
 	{
 		this.inches0 = 15.0;
-		this.inches1 = 135.0;
+		this.inches1 = 135.0; //135
 		this.degrees0 = -90.0;
 		this.speed = speed;
 		this.done = false;

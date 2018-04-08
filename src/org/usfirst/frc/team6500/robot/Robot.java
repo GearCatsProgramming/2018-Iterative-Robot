@@ -68,7 +68,7 @@ public class Robot extends IterativeRobot {
 		riskFactorSelector = new SendableChooser<Integer>();
 		
 		autoTargetSelector.addDefault("Switch", Target.hitSwitch);
-		autoTargetSelector.addObject("Autoline", Target.hitSwitch);
+		autoTargetSelector.addObject("Autoline", Target.hitAutoLine);
 		autoTargetSelector.addObject("Scale", Target.hitScale);
 		
 		autoStartSelector.addDefault("Left", Position.left);

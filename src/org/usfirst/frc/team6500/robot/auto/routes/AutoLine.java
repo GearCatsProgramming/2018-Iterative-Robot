@@ -21,6 +21,7 @@ public class AutoLine implements AutoRoute
 	@Override
 	public void run() {
 		AutoWrapper.goForward(this.inches, this.speed, robot);
+//		AutoWrapper.rotate(90.0, this.speed, robot);
 		
 		this.done = true;
 	}
