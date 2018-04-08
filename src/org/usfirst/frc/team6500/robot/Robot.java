@@ -13,7 +13,6 @@ import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.routes.*;
 import org.usfirst.frc.team6500.robot.sensors.Encoders;
 import org.usfirst.frc.team6500.robot.sensors.Gyro;
-import org.usfirst.frc.team6500.robot.sensors.Vision;
 import org.usfirst.frc.team6500.robot.systems.DriveInput;
 import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Lift;
@@ -28,18 +27,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
-	double boost = 0.0;
 	double xspeed, yspeed, zspeed;
 	Speed speedX, speedY, speedZ;
 	
-	int autoMode = 0;
 	int teleopMode = 0;
 	SendableChooser<Integer> riskFactorSelector;
-	SendableChooser<Target> autoTargetSelector;
+	SendableChooser<Goal> autoTargetSelector;
 	SendableChooser<Position> autoStartSelector;
 	
-	boolean fieldOriented = false;
+	/**Makes the robot move forward relative to the starting position rather than the front of the robot.*/
+	final boolean fieldOriented = false;
 	
+	/**ArrayList which holds threads; used to kill them all when teleop begins so that the robot doesn't lock it up. Used in case of emergency.*/
 	public static ArrayList<Thread> hitList;
 	
 	/**
@@ -49,11 +48,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit()
 	{
+		//Startup methods to recognize and configure motors and encoders
 		Encoders.initializeEncoders();
 		Mecanum.initializeMecanum();
 		DriveInput.initializeInput();
 		Gyro.intializeGyro();
-		Vision.initializeVision();
 		Grabber.intializeGrabber();
 		Lift.initializeLift();
 		
@@ -63,13 +62,14 @@ public class Robot extends IterativeRobot {
 		//camera.setFPS(10);
 		camera.setResolution(240, 180); //640 = width, 480 = height
 		
-		autoTargetSelector = new SendableChooser<Target>();
+		//Sets up SmartDashboard menus for settings
+		autoTargetSelector = new SendableChooser<Goal>();
 		autoStartSelector = new SendableChooser<Position>();		
 		riskFactorSelector = new SendableChooser<Integer>();
 		
-		autoTargetSelector.addDefault("Switch", Target.hitSwitch);
-		autoTargetSelector.addObject("Autoline", Target.hitAutoLine);
-		autoTargetSelector.addObject("Scale", Target.hitScale);
+		autoTargetSelector.addDefault("Switch", Goal.hitSwitch);
+		autoTargetSelector.addObject("Autoline", Goal.hitAutoLine);
+		autoTargetSelector.addObject("Scale", Goal.hitScale);
 		
 		autoStartSelector.addDefault("Left", Position.left);
 		autoStartSelector.addObject("Middle", Position.middle);
@@ -93,11 +93,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit()
 	{
-		Target autoTarget = autoTargetSelector.getSelected();
-		
+		Goal autoTarget = autoTargetSelector.getSelected();
 		Position autoPos = autoStartSelector.getSelected();
 		int riskFactor = riskFactorSelector.getSelected();
 		
+		//Obtains data; found in the form of sequences of 'L's and 'R's to indicate where the friendly side of the switch and scale are.
 		String gameData;
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
         if(!(gameData.length() > 0))
@@ -106,8 +106,7 @@ public class Robot extends IterativeRobot {
         	return;
         }
         
-        
-        //Obtain data about this game
+        //Interprets data about this game
         char switchData = gameData.charAt(0);
         Position switchPos;
         if (switchData == 'L') { switchPos = Position.left; } else { switchPos = Position.right; }
@@ -116,21 +115,19 @@ public class Robot extends IterativeRobot {
         Position scalePos;
         if (scaleData == 'L') { scalePos = Position.left; } else { scalePos = Position.right; }
         
-        
-    	//if (gameData.equals("UUDDLRLRBASTART")) { new TheRoute(); return; }
-        
-        
-        AutoRoute route = new ForwardRoute(130.0, 0.5, this);
         double autoSpeed = Constants.AUTO_SPEED;
+        //Sets a default route
+        AutoRoute route = new AutoLine(autoSpeed, this);
         double sosososoSonicSpeed = 0.75;
         
         Mecanum.killMotors();
         Encoders.resetAllEncoders();
         Gyro.reset();
 		
-        //RISK FACTOR IS 9001!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        if (riskFactor == 9001)
+        //RISK FACTOR IS OVER 9000!!!
+        if (riskFactor > 9000)
         {
+        	//Take the ambitious route
         	route = new DoubleCube(sosososoSonicSpeed, Position.toBoolean(scalePos), this, !Position.toBoolean(switchPos));
         	route.run();
             
@@ -138,58 +135,11 @@ public class Robot extends IterativeRobot {
             //exterminateThreads();
         }
         
-        route = RouteMap2.getRoute(autoSpeed, this, autoPos, switchPos, scalePos, autoTarget);
-        
-//        switch(autoTarget)
-//        {
-//        case 1: //Switch
-//        	if (switchLeft && autoPos == 1)
-//        	{
-//        		System.out.println("Left Switch");
-//        		route = new ForwardSwitch(autoSpeed, true, this);
-//        	}
-//        	else if (!switchLeft && autoPos == 3)
-//        	{
-//        		System.out.println("Right Switch");
-//        		route = new ForwardSwitch(autoSpeed, false, this);
-//        	}
-//        	else
-//        	{
-//        		if (autoPos == 1) { System.out.println("Left Evade"); route = new EvadeSwitch(autoSpeed, true, this); }
-//        		else if (autoPos == 2) { System.out.println("Middle Forward"); route = new MiddleSwitch(autoSpeed, switchLeft, this); }
-//        		else { System.out.println("Right Evade"); route = new EvadeSwitch(autoSpeed, false, this); }
-//        	}
-//        	
-//        	break;
-//        case 2: //Autoline
-//        	System.out.println("Autoline");
-//        	route = new ForwardRoute(130.0, autoSpeed, this);
-//        	break;
-//        case 3: //Nothing
-//        	break;
-//        case 4: //Scale
-//        	if (autoPos == 1) { //Left
-//        		if (scaleLeft) { route = new ForwardScale(autoSpeed, true, this); }
-//        		else { //route = new OppositeScale(autoSpeed, true);
-//        		route = new ForwardRoute(130.0, 0.5, this);}
-//        	}
-//        	
-//        	
-//        	else if (autoPos == 2) { route = new AutoLine(autoSpeed, this); } //Middle
-////        	else if (autoPos == 2) { route = new CenterScale(autoSpeed, scaleLeft, this); }  //Extra middle for if we acutally use scale
-//        	
-//
-//        	else if (autoPos == 3) { //Right
-//        		if (scaleLeft) { //route = new OppositeScale(autoSpeed, false);
-//        		route = new ForwardRoute(130.0, 0.5, this);}
-//        		else { route = new ForwardScale(autoSpeed, false, this); }
-//        	}
-//        	
-//        	break;
-//        }
-        
+        //Determine the route if playing safely; prioritizes based on how close friendly targets are.
+        route = RouteMap.getRoute(autoSpeed, this, autoPos, switchPos, scalePos, autoTarget);
         route.run();
-    
+        
+        //Once the route is done, the init continues and kills all threads.
         exterminateThreads();
 	}
 
@@ -199,12 +149,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic()
 	{
-		
+		//Empty; this is basically a command bot for auto
 	}
 	
 	@Override
 	public void teleopInit()
 	{
+		//Stops threads if there are any running
 		System.out.println("Beginning teleop, gotta squash those threads");
 		exterminateThreads();
 		exterminateThreads();
@@ -236,7 +187,7 @@ public class Robot extends IterativeRobot {
 //			Mecanum.driveWheel(Constants.DRIVE_REARRIGHT, DriveInput.getThrottle(DriveInput.controllerR));
 //		}
 		
-		//Resets all of the encoders
+		//Resets all of the encoders, used for testing
 		if(DriveInput.getButton(11, DriveInput.controllerR))
 		{
 			Encoders.resetAllEncoders();
@@ -321,8 +272,6 @@ public class Robot extends IterativeRobot {
 		
 		double multiplier = DriveInput.getThrottle(DriveInput.controllerR);
 		
-		multiplier += boost;
-		
 		xspeed = speedX.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR), multiplier);
 		yspeed = speedY.calculateSpeed(-DriveInput.getAxis(Constants.INPUT_AXIS_Y, DriveInput.controllerR), multiplier);
 		zspeed = speedZ.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_Z, DriveInput.controllerR), multiplier);
@@ -336,13 +285,14 @@ public class Robot extends IterativeRobot {
 		//SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		//SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
 		//SmartDashboard.putNumber("Avg. Distance Forward", Encoders.getAverageDistanceForward());
-		SmartDashboard.putNumber("Avg. Distance Right", Encoders.getAverageDistanceRight());
+//		SmartDashboard.putNumber("Avg. Distance Right", Encoders.getAverageDistanceRight());
 		SmartDashboard.putNumber("Gyro", Gyro.getAngle() % 360);
 		
 		//SmartDashboard.putBoolean("channel a", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_A].get());
 		//SmartDashboard.putBoolean("channel b", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_B].get());
 	}
 	
+	/**Kills all the threads that are running to end autonomous actions.*/
 	public void exterminateThreads() {
 		for (int threadID = 0; threadID < hitList.size(); threadID++)
 		{

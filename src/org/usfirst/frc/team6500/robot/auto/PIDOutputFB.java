@@ -6,7 +6,7 @@ import org.usfirst.frc.team6500.robot.systems.Mecanum;
 import edu.wpi.first.wpilibj.PIDOutput;
 
 /**
- * PIDOutput for Y movement of drivetrain
+ * PIDOutput for forward/backward movement of drivetrain
  * 
  * @author Kyle
  *
@@ -17,6 +17,8 @@ public class PIDOutputFB implements PIDOutput {
 	public void pidWrite(double output) {
 		final double tolerance = 3.0;
 		final double correctionmultiplier = 10.0;
+		
+		//Corrects the angle of the robot while driving to reduce error from driving in some weird angle
 		double angle = Gyro.getAngle();
 		System.out.println("Angle is... " + angle);
 		if (angle > tolerance)

@@ -5,6 +5,10 @@ import org.usfirst.frc.team6500.robot.systems.Lift;
 
 import edu.wpi.first.wpilibj.Timer;
 
+/**A class containing utility methods for the grabber and lift. Not threaded individually.
+ * @author Kyle Miller, Thomas Dearth
+ * @see AutoUtilThread
+ */
 public class AutoUtils
 {
 	public static void liftToScale()
@@ -47,6 +51,8 @@ public class AutoUtils
 		Lift.stopLift();
 	}
 	
+	/**Brings the lift from the ground to the starting height.
+	 */
 	public static void resetLift()
 	{
 		Lift.raiseLift(1.00);

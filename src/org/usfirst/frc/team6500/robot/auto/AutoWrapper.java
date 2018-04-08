@@ -14,9 +14,8 @@ import org.usfirst.frc.team6500.robot.sensors.Gyro;
  */
 public class AutoWrapper
 {
-	/**
-	 * Move the robot approximately inches forward or backward at speed
-	 * 
+	/**Move the robot approximately some inches forward or backward at speed
+	 * @author Kyle Miller
 	 * @param inches How many inches to go forward or backward, backward is negative and positive is forward
 	 * @param speed How fast to move the robot
 	 */
@@ -26,7 +25,6 @@ public class AutoWrapper
 		Gyro.reset();
 		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_BACKWARDS); }
 		else { Encoders.setDirection(Constants.DIRECTION_FORWARD); }
-		//System.out.println("Encoders reset.");
 		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputFB(), inches, 2.5, -speed, speed, false, theRobot);
 		
 		Robot.hitList.add(autoTester);
@@ -67,9 +65,6 @@ public class AutoWrapper
 		inches = inches * 8 / 7;
 		Encoders.resetAllEncoders();
 		Gyro.reset();
-//		if (inches < speed)	{ Encoders.setDirection(Constants.DIRECTION_LEFT); }
-//		else { Encoders.setDirection(Constants.DIRECTION_RIGHT); }
-		//System.out.println("going right booooiiiiisss");
 		PIDWrapper autoTester = new PIDWrapper(1.0, 1.0, 1.0, new PIDInputDrive(), new PIDOutputLR(), inches * Constants.ENCODER_LR_MULTIPLIER, 2.5, -speed, speed, true, theRobot);
 		
 		Robot.hitList.add(autoTester);

@@ -7,8 +7,7 @@ import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * PIDSource for movement of drivetrain
+/**PIDSource for movement of drivetrain
  * 
  * @author Kyle
  *
@@ -27,6 +26,7 @@ public class PIDInputDrive implements PIDSource {
 	}
 
 	@Override
+	/**Updates the values displayed for the encoders and returns the current value of the robot's distance forward*/
 	public double pidGet() {
 		SmartDashboard.putNumber("FL", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
 		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
@@ -37,10 +37,7 @@ public class PIDInputDrive implements PIDSource {
 		return Encoders.getAverageDistanceForward();
 	}
 	
-	public double pidGetForward() {
-		return pidGet();
-	}
-	
+	/**Updates the values displayed for the encoders and returns the current value of the robot's distance right.*/
 	public double pidGetRight() {
 		SmartDashboard.putNumber("FL", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
 		SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));

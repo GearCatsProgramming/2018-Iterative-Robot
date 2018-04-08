@@ -4,6 +4,9 @@ import org.usfirst.frc.team6500.robot.Robot;
 import org.usfirst.frc.team6500.robot.auto.AutoRoute;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
+/**Defaut route used for crossing the auto line. Serves as a backup.
+ * @author Kyle Miller
+ */
 public class AutoLine implements AutoRoute
 {
 	private double inches, speed;

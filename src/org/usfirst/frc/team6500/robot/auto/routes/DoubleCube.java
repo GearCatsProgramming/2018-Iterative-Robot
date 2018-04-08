@@ -6,6 +6,10 @@ import org.usfirst.frc.team6500.robot.auto.AutoUtilThread;
 import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
+/**An ambitious plan to use TWO CUBES. Runs ForwardScale, then grabs another cube and uses it somehow.
+ * @author Kyle Miller
+ * @see ForwardScale
+ */
 public class DoubleCube implements AutoRoute {
 	private static double inches0 = 50.0 - 12.5;
 	private static double inches1 = 12.0;
@@ -19,6 +23,13 @@ public class DoubleCube implements AutoRoute {
 	
 	private boolean left, scaleNotSwitch;
 	
+	/**Creates the command. Use it with run();
+	 * 
+	 * @param speed The speed at which the robot goes
+	 * @param left Whether the robot starts on the left of the field
+	 * @param robot the robot doing it
+	 * @param scaleNotSwitch Puts the second cube on the scale if true
+	 */
 	public DoubleCube(double speed, boolean left, Robot robot, boolean scaleNotSwitch) {
 		if(left) { inches1 *= -1; degrees0 *= -1; }
 		
@@ -29,6 +40,8 @@ public class DoubleCube implements AutoRoute {
 		this.scaleNotSwitch = scaleNotSwitch;
 	}
 	
+	/**Activates the route.
+	 */
 	@Override
 	public void run() {
 		ForwardScale thing = new ForwardScale(speed, left, robot);

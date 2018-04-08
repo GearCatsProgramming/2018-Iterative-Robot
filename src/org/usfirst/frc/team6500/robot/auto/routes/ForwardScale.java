@@ -6,10 +6,13 @@ import org.usfirst.frc.team6500.robot.auto.AutoUtilThread;
 import org.usfirst.frc.team6500.robot.auto.AutoUtils;
 import org.usfirst.frc.team6500.robot.auto.AutoWrapper;
 
+/**Moves the robot to the scale directly in front of it
+ * @author Thomas Dearth, Kyle Miller
+ */
 public class ForwardScale implements AutoRoute
 {
 	private static double inches0 = 15.0;
-	private static double inches1 = 275.0;
+	private static double inches1 = 285.0;
 	private static double inches2 = -15.0;
 	
 	private static double degrees0 = -90.0;
@@ -31,12 +34,8 @@ public class ForwardScale implements AutoRoute
 	
 	@Override
 	public void run() {
-//		AutoWrapper.leftRight(inches0, speed, this.robot);
 		(new AutoUtilThread(AutoUtilThread.actionType.liftToScale)).start();
 		AutoWrapper.goForward(inches1, speed, this.robot);
-	//	AutoWrapper.leftRight(inches0, speed, this.robot);
-		
-//		AutoUtils.liftToScale();
 		
 		AutoWrapper.rotate(degrees0, speed, this.robot);
 		

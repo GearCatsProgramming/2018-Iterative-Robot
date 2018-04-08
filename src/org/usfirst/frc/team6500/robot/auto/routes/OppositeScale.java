@@ -16,7 +16,7 @@ public class OppositeScale implements AutoRoute
 	
 	private static double degrees0 = 90.0;
 	
-	private static final double fieldLength = 299.5;
+	private static final double fieldLength = 275.0;
 	
 	private double speed;
 	private boolean done;

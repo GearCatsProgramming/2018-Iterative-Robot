@@ -2,7 +2,11 @@ package org.usfirst.frc.team6500.robot.auto;
 
 import org.usfirst.frc.team6500.robot.Robot;
 
-public class AutoUtilThread extends Thread{
+/**Runs threaded version of AutoUtils to allow for concurrent driving and actions.
+ * @author Thomas Dearth
+ * @see {@link AutoUtils}, {@link AutoUtilThread.actionType}, {@link Thread}
+ */
+public class AutoUtilThread extends Thread {
 	private actionType type; 
 	
 	public AutoUtilThread(actionType type) {
@@ -24,11 +28,15 @@ public class AutoUtilThread extends Thread{
 			AutoUtils.ejectCube();
 		} else if(type == actionType.grabCube) {
 			AutoUtils.grabCube();
+		} else if(type == actionType.resetLift) {
+			AutoUtils.resetLift();
 		}
 	}
 	
+	/**An enum containing a list of actions which can be performed*/
 	public enum actionType {
 		liftToScale, liftToSwitch, ejectCube,
-		grabCube, lowerFromScale, lowerFromSwitch
+		grabCube, lowerFromScale, lowerFromSwitch,
+		resetLift
 	}
 }

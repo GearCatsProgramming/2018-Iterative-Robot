@@ -2,7 +2,6 @@ package org.usfirst.frc.team6500.robot;
 
 /**An enum listing where objects might be
  * @author Thomas Dearth
- * @since intricate stuff might be within our reach :O
  */
 public enum Position {
 	left, middle, right;
