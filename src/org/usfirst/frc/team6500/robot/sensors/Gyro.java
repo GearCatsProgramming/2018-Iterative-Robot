@@ -23,6 +23,8 @@ public class Gyro {
 		return ahrs.getAngle() % 360;
 	}
 
+	/**Resets the gryoscope such that the current position is 0 degrees.
+	 */
 	public static void reset() {
 		ahrs.reset();
 		ahrs.zeroYaw();
