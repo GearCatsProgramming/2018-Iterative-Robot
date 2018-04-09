@@ -8,7 +8,8 @@ import edu.wpi.first.wpilibj.PIDSource;
  * @see Thread
  */
 public class ManualPID {
-	private double integral, previous_error, setpoint;
+//	private double integral, previous_error;
+	private double setpoint;
 	private double pidCalc = 0;
 	private double acceptableError = 3;
 	private PIDSource source;
@@ -32,15 +33,15 @@ public class ManualPID {
 	
 	/**Makes the PID system adjust values. The core of the system.*/
 	public void PID() {
-		double error = setpoint - source.pidGet();
-		this.integral += (error*0.02);
-		double derivative = (error - this.previous_error) / 0.02;
+//		double error = setpoint - source.pidGet();
+//		this.integral += (error*0.02);
+//		double derivative = (error - this.previous_error) / 0.02;
 //		if(P*error + I*this.integral + D*derivative < maxChange) {
-			this.pidCalc = Constants.PID_P*error + Constants.PID_I*this.integral + Constants.PID_D*derivative;
+//			this.pidCalc = Constants.PID_P*error + Constants.PID_I*this.integral + Constants.PID_D*derivative;
 //		} else {
 //			this.pidCalc += maxChange;
 //		}
-		this.previous_error = error;
+//		this.previous_error = error;
 //		System.out.println(error +" "+ integral +" "+ derivative +" "+ pidCalc);
 	}
 	/**Gets the speed the robot is going at.

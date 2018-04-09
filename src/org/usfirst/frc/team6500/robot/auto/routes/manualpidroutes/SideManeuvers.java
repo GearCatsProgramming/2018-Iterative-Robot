@@ -19,7 +19,7 @@ public class SideManeuvers {
 		//Move to switch
 		PIDMoveCommand moveToSwitch = new PIDMoveCommand(130, 0, -90, leftField);
 		moveToSwitch.start();
-		Lift.raiseLift();
+		Lift.raiseLift(1.00);
 		PIDMoveCommand.wait(1.0);
 		Lift.stopLift();
 		PIDMoveCommand.holdYourHorses(moveToSwitch);
@@ -47,7 +47,7 @@ public class SideManeuvers {
 		//Move to outside
 		PIDMoveCommand moveToOutside = new PIDMoveCommand(180, 0, 90, leftField);
 		moveToOutside.start();
-		Lift.raiseLift();
+		Lift.raiseLift(1.00);
 		PIDMoveCommand.wait(1.0);
 		Lift.stopLift();
 		PIDMoveCommand.holdYourHorses(moveToOutside);
@@ -76,7 +76,7 @@ public class SideManeuvers {
 		//Move to scale
 		PIDMoveCommand moveToScale = new PIDMoveCommand(300, 0, 0, leftField);
 		moveToScale.start();
-		Lift.raiseLift();
+		Lift.raiseLift(1.00);
 		PIDMoveCommand.wait(1.0);
 		Lift.stopLift();
 		PIDMoveCommand.holdYourHorses(moveToScale);
@@ -109,7 +109,7 @@ public class SideManeuvers {
 		//Move to the scale
 		PIDMoveCommand moveToScale = new PIDMoveCommand(100, 200, 0, leftField);
 		moveToScale.start();
-		Lift.raiseLift();
+		Lift.raiseLift(1.00);
 		PIDMoveCommand.wait(1.0);
 		Lift.stopLift();
 		PIDMoveCommand.holdYourHorses(moveToScale);

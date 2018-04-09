@@ -18,8 +18,6 @@ import org.usfirst.frc.team6500.robot.systems.Grabber;
 import org.usfirst.frc.team6500.robot.systems.Lift;
 import org.usfirst.frc.team6500.robot.systems.Mecanum;
 
-import edu.wpi.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -58,9 +56,9 @@ public class Robot extends IterativeRobot {
 		
 		hitList = new ArrayList<Thread>();
 		
-		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+		//UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
 		//camera.setFPS(10);
-		camera.setResolution(240, 180); //640 = width, 480 = height
+		//camera.setResolution(240, 180); //640 = width, 480 = height
 		
 		//Sets up SmartDashboard menus for settings
 		autoTargetSelector = new SendableChooser<Goal>();
@@ -156,7 +154,7 @@ public class Robot extends IterativeRobot {
 	public void teleopInit()
 	{
 		//Stops threads if there are any running
-		System.out.println("Beginning teleop, gotta squash those threads");
+		System.out.println("Beginning teleop");
 		exterminateThreads();
 		exterminateThreads();
 		
@@ -170,6 +168,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic()
 	{
+		//Testing for individual wheels
 //		if (DriveInput.getButton(7, DriveInput.controllerR))
 //		{
 //			Mecanum.driveWheel(Constants.DRIVE_FRONTLEFT, DriveInput.getThrottle(DriveInput.controllerR));
@@ -188,19 +187,11 @@ public class Robot extends IterativeRobot {
 //		}
 		
 		//Resets all of the encoders, used for testing
-		if(DriveInput.getButton(11, DriveInput.controllerR))
-		{
-			Encoders.resetAllEncoders();
-		}
-		
-		//Vision Testing
-//		if (DriveInput.getButton(2, DriveInput.controllerR))
+//		if(DriveInput.getButton(11, DriveInput.controllerR))
 //		{
-//			System.out.println(Vision.getContourX());
-//			System.out.println(Vision.getContourY());
-//			System.out.println(Vision.getContourWidth());
-//			System.out.println(Vision.getContourHeight());
+//			Encoders.resetAllEncoders();
 //		}
+		
 		
 		if(teleopMode == 1) {		//Two-driver mode
 			//Code to grab/eject cubes
@@ -218,7 +209,7 @@ public class Robot extends IterativeRobot {
 			}
 			
 			
-			//Code to drive climber
+			//Code to drive lift
 			if (DriveInput.getButton(4, DriveInput.controllerL))
 			{
 				Lift.descend(0.65);
@@ -246,7 +237,7 @@ public class Robot extends IterativeRobot {
 			{
 				Grabber.killGrab();
 			}
-			//Code to drive climber
+			//Code to drive lift
 			if (DriveInput.getButton(6, DriveInput.controllerR))
 			{
 				Lift.raiseLift(0.90);
@@ -262,14 +253,6 @@ public class Robot extends IterativeRobot {
 		}
 		
 		
-		//Deprecated, limited speed to the base speed but isn't very effective with mecanum
-		/**
-		 * if (!DriveInput.getTrigger(DriveInput.controllerR))
-		 * {
-		 * 	multiplier *= Constants.SPEED_BASE;
-		 * }
-		**/
-		
 		double multiplier = DriveInput.getThrottle(DriveInput.controllerR);
 		
 		xspeed = speedX.calculateSpeed(DriveInput.getAxis(Constants.INPUT_AXIS_X, DriveInput.controllerR), multiplier);
@@ -279,17 +262,15 @@ public class Robot extends IterativeRobot {
 		if (!fieldOriented) { Mecanum.driveRobot(xspeed, yspeed, zspeed); }
 		else { Mecanum.driveRobotField(xspeed, yspeed, zspeed); }
 		
-		SmartDashboard.putNumber("Speed Multiplier", multiplier);
+		//Pushing information to SmartDashboard for debugging
+		//SmartDashboard.putNumber("Speed Multiplier", multiplier);
 		//SmartDashboard.putNumber("FL", Encoders.getDistance(Constants.ENCODER_FRONTLEFT));
 		//SmartDashboard.putNumber("FR", Encoders.getDistance(Constants.ENCODER_FRONTRIGHT));
 		//SmartDashboard.putNumber("RL", Encoders.getDistance(Constants.ENCODER_REARLEFT));
 		//SmartDashboard.putNumber("RR", Encoders.getDistance(Constants.ENCODER_REARRIGHT));
 		//SmartDashboard.putNumber("Avg. Distance Forward", Encoders.getAverageDistanceForward());
-//		SmartDashboard.putNumber("Avg. Distance Right", Encoders.getAverageDistanceRight());
-		SmartDashboard.putNumber("Gyro", Gyro.getAngle() % 360);
-		
-		//SmartDashboard.putBoolean("channel a", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_A].get());
-		//SmartDashboard.putBoolean("channel b", Encoders.encoderinputs[Constants.ENCODER_INPUT_RR_B].get());
+		//SmartDashboard.putNumber("Avg. Distance Right", Encoders.getAverageDistanceRight());
+		//SmartDashboard.putNumber("Gyro", Gyro.getAngle() % 360);
 	}
 	
 	/**Kills all the threads that are running to end autonomous actions.*/
@@ -298,8 +279,7 @@ public class Robot extends IterativeRobot {
 		{
 			Thread thread = hitList.get(threadID);
 			thread.interrupt();
-			//thread.stop();
-			System.out.println("Suck it");
+			//System.out.println("Suck it");
 		}
 	}
 }

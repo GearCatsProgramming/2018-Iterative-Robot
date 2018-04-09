@@ -20,16 +20,16 @@ public class PIDOutputFB implements PIDOutput {
 		
 		//Corrects the angle of the robot while driving to reduce error from driving in some weird angle
 		double angle = Gyro.getAngle();
-		System.out.println("Angle is... " + angle);
+		//System.out.println("Angle is... " + angle);
 		if (angle > tolerance)
 		{
 			angle = -Math.abs(angle / 360.0) * correctionmultiplier;
-			System.out.println("Correcting too far right... " + angle);
+			//System.out.println("Correcting too far right... " + angle);
 		}
 		else if (angle < -tolerance)
 		{
 			angle = Math.abs(angle / 360.0) * correctionmultiplier;
-			System.out.println("Correcting too far left... " + angle);
+			//System.out.println("Correcting too far left... " + angle);
 		}
 		else
 		{
